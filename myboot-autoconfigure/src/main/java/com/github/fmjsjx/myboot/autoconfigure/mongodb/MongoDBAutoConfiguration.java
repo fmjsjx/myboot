@@ -146,7 +146,7 @@ public class MongoDBAutoConfiguration {
         @Override
         public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
             this.registry = registry;
-            var bindResult = Binder.get(environment).bind("libcommons.mongodb", MongoDBProperties.class);
+            var bindResult = Binder.get(environment).bind(MongoDBProperties.CONFIG_PREFIX, MongoDBProperties.class);
             if (bindResult.isBound()) {
                 Optional.ofNullable(bindResult.get().getClients()).ifPresent(this::registerClients);
             }

@@ -1,60 +1,18 @@
 plugins {
-	id("org.springframework.boot") version "2.4.1"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
+    id("myboot.starter-conventions")
     id("myboot.publish-conventions")
-    `java`
 }
-
-repositories {
-    maven {
-        url = uri("https://maven.aliyun.com/repository/public/")
-    }
-	jcenter()
-}
-
-description = "MyBoot/Example"
 
 dependencies {
 
-	compileOnly("org.projectlombok:lombok")
-  	annotationProcessor("org.projectlombok:lombok")
-	implementation("org.slf4j:slf4j-api")
-	implementation(project(":myboot-starter-mongodb"))
-	implementation(project(":myboot-starter-redis"))
-	implementation("org.springframework.boot:spring-boot-starter") {
-	    exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
-	}
-	implementation("org.springframework.boot:spring-boot-starter-log4j2")
-	annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
-	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
-	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.mongodb:mongodb-driver-sync")
+    implementation("org.mongodb:mongodb-driver-reactivestreams")
+    implementation(group = "io.netty", name = "netty-transport-native-epoll", classifier = "linux-x86_64")
+    implementation(group = "io.netty", name = "netty-transport-native-kqueue", classifier = "osx-x86_64")
 
 }
 
-java {
-    withSourcesJar()
-	withJavadocJar()
-	toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
-tasks.compileJava {
-    options.encoding = "UTF-8"
-	options.release.set(11)
-}
-
-tasks.javadoc {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
-    }
-}
-
-tasks.test {
-    // Use junit platform for unit tests.
-    useJUnitPlatform()
-}
+description = "MyBoot/Starter MongoDB"
 
 publishing {
     publications {
@@ -69,7 +27,7 @@ publishing {
                 }
             }
             pom {
-                name.set("MyBoot/Example")
+                name.set("MyBoot/Starter MongoDB")
                 description.set("A boot library provides some additional extensions based on SpringBoot.")
                 url.set("https://github.com/fmjsjx/myboot")
                 licenses {
