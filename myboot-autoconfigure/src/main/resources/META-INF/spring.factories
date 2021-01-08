@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBAutoConfiguration,\
 com.github.fmjsjx.myboot.autoconfigure.redis.LettuceAutoConfiguration

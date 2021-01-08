@@ -1,4 +1,4 @@
-package com.github.fmjsjx.myboot.autoconfigure.redis;
+package com.github.fmjsjx.myboot.autoconfigure.mongodb;
 
 import java.util.Set;
 
@@ -8,14 +8,19 @@ import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Exclusion filter for RedisAutoConfiguration.
+ * Exclusion filter for MongoDBAutoConfiguration.
  */
 @Slf4j
-public class LettuceAutoConfigurationExclusionFilter implements AutoConfigurationImportFilter {
+public class MongoDBAutoConfigurationExclusionFilter implements AutoConfigurationImportFilter {
 
     private static final Set<String> classNames = Set.of(
-            "org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration",
-            "org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration");
+            "org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration",
+            "org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration",
+            "org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration",
+            "org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration",
+            "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
+            "org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration",
+            "org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration");
 
     @Override
     public boolean[] match(String[] autoConfigurationClasses, AutoConfigurationMetadata autoConfigurationMetadata) {
