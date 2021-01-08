@@ -85,7 +85,7 @@ public class LettuceAutoConfiguration {
         @Override
         public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
             this.registry = registry;
-            var bindResult = Binder.get(environment).bind("libcommons.redis.lettuce", LettuceProperties.class);
+            var bindResult = Binder.get(environment).bind(LettuceProperties.CONFIG_PREFIX, LettuceProperties.class);
             bindResult.ifBound(props -> {
                 if (props.getClient() != null) {
                     registerBeans(props.getClient());

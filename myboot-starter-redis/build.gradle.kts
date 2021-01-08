@@ -1,48 +1,16 @@
 plugins {
-    id("myboot.java-library-conventions")
+    id("myboot.starter-conventions")
     id("myboot.publish-conventions")
-}
-
-java {
-    registerFeature("redisSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-    registerFeature("mongodbSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
 }
 
 dependencies {
 
-    implementation("org.slf4j:slf4j-api")
-
-	compileOnly("org.projectlombok:lombok:1.18.16")
-    
-    api("org.springframework.boot:spring-boot-autoconfigure")
-    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure")
-	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
-	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    
-    "redisSupportApi"("io.lettuce:lettuce-core")
-    "redisSupportApi"("org.apache.commons:commons-pool2")
-    
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-sync")
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-    testImplementation("org.apache.logging.log4j:log4j-slf4j-impl")
+    implementation("io.lettuce:lettuce-core")
+    implementation("org.apache.commons:commons-pool2")
 
 }
 
-description = "MyBoot/AutoConfigure"
-
-tasks.test {
-    // Use junit platform for unit tests.
-    useJUnitPlatform()
-}
+description = "MyBoot/Starter REDIS"
 
 publishing {
     publications {
@@ -57,7 +25,7 @@ publishing {
                 }
             }
             pom {
-                name.set("MyBoot/AutoConfigure")
+                name.set("MyBoot/Starter REDIS")
                 description.set("A boot library provides some additional extensions based on SpringBoot.")
                 url.set("https://github.com/fmjsjx/myboot")
                 licenses {

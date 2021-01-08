@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active:
+    - dev
+
+logging:
+  level:
+    com.github.fmjsjx: debug
+

@@ -17,8 +17,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties("myboot.redis.lettuce")
+@ConfigurationProperties(LettuceProperties.CONFIG_PREFIX)
 public class LettuceProperties {
+    
+    static final String CONFIG_PREFIX = "myboot.redis.lettuce";
 
     /**
      * The client.

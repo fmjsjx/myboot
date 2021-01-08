@@ -1,43 +1,56 @@
 plugins {
-    id("myboot.java-library-conventions")
+	id("org.springframework.boot") version "2.4.1"
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
     id("myboot.publish-conventions")
+    `java`
 }
 
-java {
-    registerFeature("redisSupport") {
-        usingSourceSet(sourceSets["main"])
+repositories {
+    maven {
+        url = uri("https://maven.aliyun.com/repository/public/")
     }
-    registerFeature("mongodbSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
+	jcenter()
 }
+
+description = "MyBoot/Example"
 
 dependencies {
 
-    implementation("org.slf4j:slf4j-api")
-
-	compileOnly("org.projectlombok:lombok:1.18.16")
-    
-    api("org.springframework.boot:spring-boot-autoconfigure")
-    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure")
+	compileOnly("org.projectlombok:lombok")
+  	annotationProcessor("org.projectlombok:lombok")
+	implementation("org.slf4j:slf4j-api")
+	implementation(project(":myboot-starter-redis"))
+	implementation("org.springframework.boot:spring-boot-starter") {
+	    exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+	}
+	implementation("org.springframework.boot:spring-boot-starter-log4j2")
+	annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
 	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    
-    "redisSupportApi"("io.lettuce:lettuce-core")
-    "redisSupportApi"("org.apache.commons:commons-pool2")
-    
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-sync")
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-    testImplementation("org.apache.logging.log4j:log4j-slf4j-impl")
+//    implementation("org.mongodb:mongodb-driver-sync")
+//    implementation("org.mongodb:mongodb-driver-reactivestreams")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
 }
 
-description = "MyBoot/AutoConfigure"
+java {
+    withSourcesJar()
+	withJavadocJar()
+	toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+tasks.compileJava {
+    options.encoding = "UTF-8"
+	options.release.set(11)
+}
+
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
+}
 
 tasks.test {
     // Use junit platform for unit tests.
@@ -57,7 +70,7 @@ publishing {
                 }
             }
             pom {
-                name.set("MyBoot/AutoConfigure")
+                name.set("MyBoot/Example")
                 description.set("A boot library provides some additional extensions based on SpringBoot.")
                 url.set("https://github.com/fmjsjx/myboot")
                 licenses {

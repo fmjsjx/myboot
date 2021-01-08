@@ -1,0 +1,10 @@
+myboot:
+  redis:
+    lettuce:
+      client:
+        connections:
+        - name: test
+          uri: redis://10.7.125.116:6379/2
+        - name: hello
+          uri: redis://10.7.125.116:6379/3
+          type: pubsub
