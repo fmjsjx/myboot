@@ -3,10 +3,7 @@ plugins {
 }
 
 repositories {
-    maven {
-        url = uri("https://maven.aliyun.com/repository/public/")
-    }
-	jcenter()
+    jcenter()
 }
 
 dependencies {
@@ -16,7 +13,7 @@ dependencies {
 	api(platform("com.github.fmjsjx:libcommon-bom:1.0.0.M1"))
 
     constraints {
-        api("io.lettuce:lettuce-core:6.0.1.RELEASE")
+        api("io.lettuce:lettuce-core:6.0.2.RELEASE")
     }
 
 }
