@@ -23,3 +23,8 @@ myboot:
         - name: hello
           uri: redis://10.7.125.116:6379/3
           type: pubsub
+        pools:
+        - name: blocking
+          uri: redis://10.7.125.116:6379/4
+          mode: sync
+          

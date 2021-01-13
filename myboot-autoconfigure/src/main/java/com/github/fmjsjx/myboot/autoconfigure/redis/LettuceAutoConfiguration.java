@@ -17,14 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import com.github.fmjsjx.myboot.autoconfigure.redis.LettuceProperties.RedisClientProperties;
-import com.github.fmjsjx.myboot.autoconfigure.redis.LettuceProperties.RedisClusterClientProperties;
-import com.github.fmjsjx.myboot.autoconfigure.redis.LettuceProperties.RedisConnectionCodec;
-import com.github.fmjsjx.myboot.autoconfigure.redis.LettuceProperties.RedisConnectionProperties;
-import com.github.fmjsjx.myboot.autoconfigure.redis.LettuceProperties.RedisConnectionType;
-import com.github.fmjsjx.myboot.autoconfigure.redis.LettuceProperties.RedisPoolMode;
-import com.github.fmjsjx.myboot.autoconfigure.redis.LettuceProperties.RedisPoolProperties;
-
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -196,16 +188,16 @@ public class LettuceAutoConfiguration {
             }
             var uri = createUri(properties);
             var codec = getRedisCodec(properties.getCodec());
-            if (properties.getMode() == RedisPoolMode.NO_BLOCKING) {
+            if (properties.getMode() == RedisPoolMode.ASYNC) {
                 var config = buildBoundedPoolConfig(properties);
                 var beanDefinition = BeanDefinitionBuilder
                         .genericBeanDefinition(AsyncPool.class,
-                                () -> AsyncConnectionPoolSupport
-                                        .createBoundedObjectPool(() -> client.connectAsync(codec, uri), config))
+                                () -> AsyncConnectionPoolSupport.createBoundedObjectPool(
+                                        () -> client.connectAsync(codec, uri), config, properties.isWrapConnections()))
                         .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                 registry.registerBeanDefinition(beanName, beanDefinition);
             } else {
-                GenericPoolRegistry.registerGenericPoolBean(registry, clientBeanName, client, properties, beanName, uri,
+                CommonsPoolRegistry.registerCommonsPoolBean(registry, clientBeanName, client, properties, beanName, uri,
                         codec);
             }
         }
