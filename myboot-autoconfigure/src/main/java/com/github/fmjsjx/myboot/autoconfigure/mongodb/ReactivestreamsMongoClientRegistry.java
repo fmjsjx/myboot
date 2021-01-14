@@ -37,7 +37,8 @@ class ReactivestreamsMongoClientRegistry {
                 var bean = Optional.ofNullable(db.getBeanName()).orElseGet(() -> db.getId() + "MongoDatabase");
                 var definition = BeanDefinitionBuilder.genericBeanDefinition(MongoDatabase.class)
                         .setFactoryMethodOnBean("getDatabase", beanName).addConstructorArgValue(dbname)
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setPrimary(db.isPrimary()).getBeanDefinition();
+                        .setScope(BeanDefinition.SCOPE_SINGLETON).setPrimary(db.isPrimary()).addDependsOn(beanName)
+                        .getBeanDefinition();
                 log.debug("Register reactivestreams mongo database bean definition '{}' >>> {}", beanName, definition);
                 registry.registerBeanDefinition(bean, definition);
             });
