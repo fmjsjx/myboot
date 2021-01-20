@@ -1,4 +1,4 @@
-package com.github.fmjsjx.myboot.autoconfigure.kafka;
+package com.github.fmjsjx.myboot.autoconfigure.aliyunons;
 
 import java.util.List;
 
@@ -9,22 +9,23 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Configuration properties class for Kafka.
+ * The configuration properties class for ALIYUN ONS.
  */
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties(KafkaProperties.CONFIG_PREFIX)
-public class KafkaProperties {
+@ConfigurationProperties(AliyunOnsProperties.CONFIG_PREFIX)
+public class AliyunOnsProperties {
 
-    static final String CONFIG_PREFIX = "myboot.kafka";
+    static final String CONFIG_PREFIX = "myboot.aliyun-ons";
 
     /**
-     * The producers.
+     * Producers.
      */
     private List<ProducerProperties> producers;
+
     /**
-     * The consumers.
+     * Consumers.
      */
     private List<ConsumerProperties> consumers;
 

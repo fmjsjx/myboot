@@ -16,6 +16,12 @@ java {
     registerFeature("pulsarSupport") {
         usingSourceSet(sourceSets["main"])
     }
+    registerFeature("aliyunonsSupport") {
+        usingSourceSet(sourceSets["main"])
+    }
+    registerFeature("rocketmqSupport") {
+        usingSourceSet(sourceSets["main"])
+    }
 }
 
 dependencies {
@@ -37,12 +43,18 @@ dependencies {
     
     "mongodbSupportApi"("org.mongodb:mongodb-driver-sync")
     "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")
-    "mongodbSupportApi"(group = "io.netty", name = "netty-transport-native-epoll", classifier = "linux-x86_64")
-    "mongodbSupportApi"(group = "io.netty", name = "netty-transport-native-kqueue", classifier = "osx-x86_64")
     
     "kafkaSupportApi"("org.apache.kafka:kafka-clients")
     
     "pulsarSupportApi"("org.apache.pulsar:pulsar-client")
+    
+    "aliyunonsSupportApi"("com.aliyun.openservices:ons-client")
+    
+    "rocketmqSupportApi"("org.apache.rocketmq:rocketmq-client") {
+        exclude(group = "io.netty", module = "netty-all")
+        exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
+    }
+    "rocketmqSupportApi"("io.netty:netty-handler")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
 

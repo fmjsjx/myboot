@@ -22,23 +22,33 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import com.github.fmjsjx.libcommon.util.StringUtil;
-import com.github.fmjsjx.myboot.autoconfigure.kafka.KafkaProperties.ConsumerProperties;
-import com.github.fmjsjx.myboot.autoconfigure.kafka.KafkaProperties.ProducerProperties;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Auto-configuration class for Kafka.
+ */
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(KafkaProperties.class)
 @ConditionalOnClass({ KafkaProducer.class, KafkaConsumer.class })
 public class KafkaAutoConfiguration {
 
+    /**
+     * Returns new {@link KafkaRegistryProcessor} instance.
+     * 
+     * @return new {@code KafkaRegisteryProcessor} instance
+     */
     @Bean
-    public static KafkaRegisteryProcessor kafkaRegisteryProcessor() {
-        return new KafkaRegisteryProcessor();
+    public static KafkaRegistryProcessor kafkaRegistryProcessor() {
+        return new KafkaRegistryProcessor();
     }
 
-    public static class KafkaRegisteryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
+    /**
+     * Registry processor for Kafka.
+     */
+    public static class KafkaRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
+
         private Environment environment;
         private BeanDefinitionRegistry registry;
 

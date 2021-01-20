@@ -11,11 +11,16 @@ dependencies {
 	api(platform("org.springframework.boot:spring-boot-dependencies:2.4.1"))
 	// libcommon
 	api(platform("com.github.fmjsjx:libcommon-bom:1.0.0.M5"))
+	// netty
+	api(platform("io.netty:netty-bom:4.1.58.Final"))
+	// rocketmq
+	api(platform("org.apache.rocketmq:rocketmq-all:4.8.0"))
 
     constraints {
         api("io.lettuce:lettuce-core:6.0.2.RELEASE")
         api("org.apache.kafka:kafka-clients:2.7.0")
         api("org.apache.pulsar:pulsar-client:2.7.0")
+        api("com.aliyun.openservices:ons-client:1.8.7.3.Final")
     }
 
 }

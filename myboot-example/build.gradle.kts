@@ -6,9 +6,6 @@ plugins {
 }
 
 repositories {
-    maven {
-        url = uri("https://maven.aliyun.com/repository/public/")
-    }
 	jcenter()
 }
 
@@ -29,6 +26,11 @@ dependencies {
 	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	
+	implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "linux-aarch_64")
+    implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "linux-x86_64")
+    implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "osx-x86_64")
+    implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "windows-x86_64")
 
 }
 
