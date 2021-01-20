@@ -23,6 +23,8 @@ import org.springframework.core.env.Environment;
 
 import com.github.fmjsjx.libcommon.util.StringUtil;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -47,6 +49,7 @@ public class KafkaAutoConfiguration {
     /**
      * Registry processor for Kafka.
      */
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class KafkaRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
 
         private Environment environment;

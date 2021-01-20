@@ -30,6 +30,8 @@ import com.aliyun.openservices.ons.api.order.OrderProducer;
 import com.aliyun.openservices.ons.api.transaction.LocalTransactionChecker;
 import com.aliyun.openservices.ons.api.transaction.TransactionProducer;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -54,6 +56,7 @@ public class AliyunOnsAutoConfiguration {
     /**
      * Registry processor class for ALIYUN-ONS.
      */
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class OnsRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
 
         private Environment environment;

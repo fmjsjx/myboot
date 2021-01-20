@@ -27,7 +27,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -128,6 +130,8 @@ public class MongoDBAutoConfiguration {
     /**
      * Registry processor for MongoDB.
      */
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class MongoDBRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
 
         private Environment environment;

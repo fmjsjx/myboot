@@ -22,19 +22,32 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import com.github.fmjsjx.myboot.autoconfigure.pulsar.PulsarProperties.PulsarClientProperties;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+/**
+ * Auto-Configuration class for Pulsar.
+ */
 @Configuration
 @EnableConfigurationProperties(PulsarProperties.class)
 @ConditionalOnClass(PulsarClient.class)
 public class PulsarAutoConfiguration {
 
+    /**
+     * Returns new {@link PulsarRegistryProcessor} instance.
+     * 
+     * @return new {@code PulsarRegistryProcessor} instance
+     */
     @Bean
-    public static PulsarRegisteryProcessor pulsarRegisteryProcessor() {
-        return new PulsarRegisteryProcessor();
+    public static PulsarRegistryProcessor pulsarRegistryProcessor() {
+        return new PulsarRegistryProcessor();
     }
 
-    private static class PulsarRegisteryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
+    /**
+     * Registry processor for Pulsar.
+     */
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class PulsarRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
 
         private Environment environment;
         private BeanDefinitionRegistry registry;
