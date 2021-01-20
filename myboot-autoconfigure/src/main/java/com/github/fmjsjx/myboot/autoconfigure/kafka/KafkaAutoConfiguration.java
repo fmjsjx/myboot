@@ -55,7 +55,7 @@ public class KafkaAutoConfiguration {
         @Override
         public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
             this.registry = registry;
-            var bindResult = Binder.get(environment).bind("libcommons.kafka", KafkaProperties.class);
+            var bindResult = Binder.get(environment).bind(KafkaProperties.CONFIG_PREFIX, KafkaProperties.class);
             if (bindResult.isBound()) {
                 var kafkaProperties = bindResult.get();
                 Optional.ofNullable(kafkaProperties.getProducers())

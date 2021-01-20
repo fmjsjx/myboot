@@ -19,8 +19,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties("libcommons.kafka")
+@ConfigurationProperties(KafkaProperties.CONFIG_PREFIX)
 public class KafkaProperties {
+    
+    public static final String CONFIG_PREFIX = "myboot.kafka";
 
     private List<ProducerProperties> producers;
     private List<ConsumerProperties> consumers;

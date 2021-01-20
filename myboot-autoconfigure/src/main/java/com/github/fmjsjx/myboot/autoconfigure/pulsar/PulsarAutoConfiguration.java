@@ -52,7 +52,7 @@ public class PulsarAutoConfiguration {
         @Override
         public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
             this.registry = registry;
-            var bindResult = Binder.get(environment).bind("libcommons.pulsar", PulsarProperties.class);
+            var bindResult = Binder.get(environment).bind(PulsarProperties.CONFIG_PREFIX, PulsarProperties.class);
             if (bindResult.isBound()) {
                 var properties = bindResult.get();
                 if (properties.getClients() != null) {

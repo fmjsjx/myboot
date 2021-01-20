@@ -15,8 +15,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@ConfigurationProperties("libcommons.pulsar")
+@ConfigurationProperties(PulsarProperties.CONFIG_PREFIX)
 public class PulsarProperties {
+    
+    public static final String CONFIG_PREFIX = "libcommons.pulsar";
 
     private List<PulsarClientProperties> clients;
 
