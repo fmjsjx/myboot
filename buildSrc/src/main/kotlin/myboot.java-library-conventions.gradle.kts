@@ -14,6 +14,8 @@ dependencies {
 
     constraints {
         api("io.lettuce:lettuce-core:6.0.2.RELEASE")
+        api("org.apache.kafka:kafka-clients:2.7.0")
+        api("org.apache.pulsar:pulsar-client:2.7.0")
     }
 
 }

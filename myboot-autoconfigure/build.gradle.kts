@@ -10,6 +10,12 @@ java {
     registerFeature("mongodbSupport") {
         usingSourceSet(sourceSets["main"])
     }
+    registerFeature("kafkaSupport") {
+        usingSourceSet(sourceSets["main"])
+    }
+    registerFeature("pulsarSupport") {
+        usingSourceSet(sourceSets["main"])
+    }
 }
 
 dependencies {
@@ -22,6 +28,8 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-autoconfigure")
 	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+	
+	implementation("com.github.fmjsjx:libcommon-util")
     
     "redisSupportApi"("io.lettuce:lettuce-core")
     "redisSupportApi"("org.apache.commons:commons-pool2")
@@ -31,6 +39,10 @@ dependencies {
     "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")
     "mongodbSupportApi"(group = "io.netty", name = "netty-transport-native-epoll", classifier = "linux-x86_64")
     "mongodbSupportApi"(group = "io.netty", name = "netty-transport-native-kqueue", classifier = "osx-x86_64")
+    
+    "kafkaSupportApi"("org.apache.kafka:kafka-clients")
+    
+    "pulsarSupportApi"("org.apache.pulsar:pulsar-client")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
 
