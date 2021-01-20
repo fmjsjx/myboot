@@ -13,16 +13,32 @@ public enum RedisPoolMode {
      * <p>
      * Using {@link GenericObjectPool}.
      */
-    SYNC,
+    SYNC(false),
     /**
      * Mode for Synchronous Connection Pooling.
      * <p>
      * Using {@link SoftReferenceObjectPool}.
      */
-    SYNC_SOFT_REFERENCE,
+    SYNC_SOFT_REFERENCE(false),
     /**
      * Mode for Asynchronous Connection Pooling.
      */
-    ASYNC
+    ASYNC(true),
+    /**
+     * Mode for Asynchronous Connection Pooling.
+     * <p>
+     * Using {@link AsyncPoolPlus}.
+     */
+    ASYNC_PLUS(true),;
+
+    private final boolean async;
+
+    private RedisPoolMode(boolean async) {
+        this.async = async;
+    }
+
+    boolean isAsync() {
+        return async;
+    }
 
 }

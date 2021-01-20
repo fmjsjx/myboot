@@ -29,9 +29,6 @@ import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.sentinel.api.StatefulRedisSentinelConnection;
-import io.lettuce.core.support.AsyncConnectionPoolSupport;
-import io.lettuce.core.support.AsyncPool;
-import io.lettuce.core.support.BoundedPoolConfig;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -188,33 +185,13 @@ public class LettuceAutoConfiguration {
             }
             var uri = createUri(properties);
             var codec = getRedisCodec(properties.getCodec());
-            if (properties.getMode() == RedisPoolMode.ASYNC) {
-                var config = buildBoundedPoolConfig(properties);
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(AsyncPool.class,
-                                () -> AsyncConnectionPoolSupport.createBoundedObjectPool(
-                                        () -> client.connectAsync(codec, uri), config, properties.isWrapConnections()))
-                        .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
-                registry.registerBeanDefinition(beanName, beanDefinition);
+            if (properties.getMode().isAsync()) {
+                AsyncPoolRegistry.registerAsyncPoolBean(registry, clientBeanName, client, properties, beanName, uri,
+                        codec);
             } else {
                 CommonsPoolRegistry.registerCommonsPoolBean(registry, clientBeanName, client, properties, beanName, uri,
                         codec);
             }
-        }
-
-        private static final BoundedPoolConfig buildBoundedPoolConfig(RedisPoolProperties properties) {
-            var builder = BoundedPoolConfig.builder();
-            if (properties.getMaxTotal() > 0) {
-                builder.maxTotal(properties.getMaxTotal());
-            }
-            if (properties.getMaxIdle() > 0) {
-                builder.maxIdle(properties.getMaxIdle());
-            }
-            if (properties.getMinIdle() > 0) {
-                builder.minIdle(properties.getMinIdle());
-            }
-            var config = builder.build();
-            return config;
         }
 
         private void registerBeans(RedisClusterClientProperties properties) {

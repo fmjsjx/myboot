@@ -25,6 +25,7 @@ dependencies {
     
     "redisSupportApi"("io.lettuce:lettuce-core")
     "redisSupportApi"("org.apache.commons:commons-pool2")
+    "redisSupportApi"("com.github.fmjsjx:libcommon-redis")
     
     "mongodbSupportApi"("org.mongodb:mongodb-driver-sync")
     "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")

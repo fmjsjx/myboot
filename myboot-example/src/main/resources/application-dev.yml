@@ -3,14 +3,14 @@ myboot:
     clients:
     - name: sync
       primary: true
-      uri: mongodb://10.7.125.140:27017
+      uri: mongodb://localhost:27017
       databases:
       - name: test
         id: syncTest
         primary: true
     - name: reactivestreams
       driver: reactivestreams
-      uri: mongodb://10.7.125.140:27017
+      uri: mongodb://localhost:27017
       databases:
       - name: test
         id: reactivestreamsTest
@@ -19,12 +19,19 @@ myboot:
       client:
         connections:
         - name: test
-          uri: redis://10.7.125.116:6379/2
+          uri: redis://localhost:6379/2
         - name: hello
-          uri: redis://10.7.125.116:6379/3
+          uri: redis://localhost:6379/3
           type: pubsub
         pools:
         - name: blocking
-          uri: redis://10.7.125.116:6379/4
+          uri: redis://localhost:6379/4
           mode: sync
+        - name: noblocking
+          uri: redis://localhost:6379/5
+          mode: async
+        - name: noblockingPlus
+          uri: redis://localhost:6379/6
+          mode: async-plus
+          wrap-connections: false
           

@@ -7,6 +7,7 @@ dependencies {
 
     implementation("io.lettuce:lettuce-core")
     implementation("org.apache.commons:commons-pool2")
+    implementation("com.github.fmjsjx:libcommon-redis")
 
 }
 
