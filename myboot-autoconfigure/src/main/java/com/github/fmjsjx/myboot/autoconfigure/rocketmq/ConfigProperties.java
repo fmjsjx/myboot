@@ -1,10 +1,9 @@
-package com.github.fmjsjx.myboot.autoconfigure.aliyunons;
+package com.github.fmjsjx.myboot.autoconfigure.rocketmq;
 
-import com.aliyun.openservices.ons.api.MQType;
-import com.aliyun.openservices.ons.api.impl.rocketmq.ONSChannel;
+import org.apache.rocketmq.client.AccessChannel;
 
 /**
- * An interface defines common getters for configuration properties.
+ * An interface defines commons getters for configuration properties.
  */
 public interface ConfigProperties {
 
@@ -18,7 +17,8 @@ public interface ConfigProperties {
     /**
      * The bean name.
      * <p>
-     * The default is {@code "${name}ONSConsumer"} or {@code "${name}ONSProducer"}.
+     * The default value is {@code "${name}RocketMQConsumer"} or
+     * {@code "${name}RocketMQProducer"}
      * 
      * @return the bean name
      */
@@ -53,24 +53,17 @@ public interface ConfigProperties {
     String getSecretToken();
 
     /**
-     * The ONS channel.
+     * The access channel.
      * 
-     * @return the ONS channel
+     * @return the access channel
      */
-    ONSChannel getOnsChannel();
+    AccessChannel getAccessChannel();
 
     /**
-     * the group id.
+     * The group id.
      * 
      * @return the group id
      */
     String getGroupId();
-
-    /**
-     * the MQ type.
-     * 
-     * @return the MQ type
-     */
-    MQType getMqType();
 
 }

@@ -3,4 +3,5 @@ com.github.fmjsjx.myboot.autoconfigure.aliyunons.AliyunOnsAutoConfiguration,\
 com.github.fmjsjx.myboot.autoconfigure.kafka.KafkaAutoConfiguration,\
 com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBAutoConfiguration,\
 com.github.fmjsjx.myboot.autoconfigure.pulsar.PulsarAutoConfiguration,\
-com.github.fmjsjx.myboot.autoconfigure.redis.LettuceAutoConfiguration\
+com.github.fmjsjx.myboot.autoconfigure.redis.LettuceAutoConfiguration,\
+com.github.fmjsjx.myboot.autoconfigure.rocketmq.RocketMQAutoConfiguration\
