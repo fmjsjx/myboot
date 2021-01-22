@@ -5,11 +5,24 @@ plugins {
 
 dependencies {
 
-    api("org.apache.pulsar:pulsar-client")
+    api("com.github.fmjsjx:libcommon-rocketmq")
+    api("org.apache.rocketmq:rocketmq-client") {
+        exclude(group = "io.netty", module = "netty-all")
+        exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
+    }
+    api("org.apache.rocketmq:rocketmq-acl")
+    api("io.netty:netty-handler")
+    
+    implementation(group = "io.netty", name = "netty-transport-native-epoll", classifier = "linux-x86_64")
+    implementation(group = "io.netty", name = "netty-transport-native-kqueue", classifier = "osx-x86_64")
+    implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "linux-aarch_64")
+    implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "linux-x86_64")
+    implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "osx-x86_64")
+    implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "windows-x86_64")
 
 }
 
-description = "MyBoot/Starter Pulsar"
+description = "MyBoot/Starter RocketMQ"
 
 publishing {
     publications {
@@ -24,7 +37,7 @@ publishing {
                 }
             }
             pom {
-                name.set("MyBoot/Starter Pulsar")
+                name.set("MyBoot/Starter RocketMQ")
                 description.set("A boot library provides some additional extensions based on SpringBoot.")
                 url.set("https://github.com/fmjsjx/myboot")
                 licenses {

@@ -5,7 +5,8 @@ plugins {
 
 dependencies {
 
-    api("org.apache.pulsar:pulsar-client")
+    api("com.github.fmjsjx:libcommon-aliyunons")
+    api("com.aliyun.openservices:ons-client")
 
 }
 

@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
 
-    implementation("org.apache.kafka:kafka-clients")
+    api("org.apache.kafka:kafka-clients")
 
 }
 

@@ -5,8 +5,8 @@ plugins {
 
 dependencies {
 
-    implementation("org.mongodb:mongodb-driver-sync")
-    implementation("org.mongodb:mongodb-driver-reactivestreams")
+    api("org.mongodb:mongodb-driver-sync")
+    api("org.mongodb:mongodb-driver-reactivestreams")
     implementation(group = "io.netty", name = "netty-transport-native-epoll", classifier = "linux-x86_64")
     implementation(group = "io.netty", name = "netty-transport-native-kqueue", classifier = "osx-x86_64")
 
