@@ -16,7 +16,6 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     implementation("org.slf4j:slf4j-api")
-    implementation(project(":myboot-autoconfigure"))
     implementation(project(":myboot-starter-mongodb"))
     implementation(project(":myboot-starter-redis"))
     implementation("org.springframework.boot:spring-boot-starter") {

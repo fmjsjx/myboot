@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-	implementation(project(":myboot-autoconfigure"))
+	api(project(":myboot-autoconfigure"))
 }
