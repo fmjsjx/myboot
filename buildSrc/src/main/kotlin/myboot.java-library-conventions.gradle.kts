@@ -17,7 +17,6 @@ dependencies {
 	api(platform("org.apache.rocketmq:rocketmq-all:4.8.0"))
 
     constraints {
-        implementation("org.projectlombok:lombok:1.18.16")
         api("io.lettuce:lettuce-core:6.0.2.RELEASE")
         api("org.apache.kafka:kafka-clients:2.7.0")
         api("org.apache.pulsar:pulsar-client:2.7.0")

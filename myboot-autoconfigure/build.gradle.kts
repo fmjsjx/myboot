@@ -28,8 +28,8 @@ dependencies {
 
     implementation("org.slf4j:slf4j-api")
 
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
+	compileOnly("org.projectlombok:lombok:1.18.16")
+	annotationProcessor("org.projectlombok:lombok:1.18.16")
     
     api("org.springframework.boot:spring-boot-autoconfigure")
 	
