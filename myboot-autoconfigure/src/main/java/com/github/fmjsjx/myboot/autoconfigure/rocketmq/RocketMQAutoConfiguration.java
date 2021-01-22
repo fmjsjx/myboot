@@ -45,7 +45,7 @@ public class RocketMQAutoConfiguration {
      * @return new {@code RocketMQRegisteryProcessor} instance
      */
     @Bean
-    public static RocketMQRegistryProcessor onsRegistryProcessor() {
+    public static RocketMQRegistryProcessor rocketMQRegistryProcessor() {
         return new RocketMQRegistryProcessor();
     }
 

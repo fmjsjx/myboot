@@ -34,4 +34,11 @@ myboot:
           uri: redis://localhost:6379/6
           mode: async-plus
           wrap-connections: false
-          
+  aliyun-ons:
+    consumers:
+    - name: test
+      namesrv-addr: http://onsaddr.mq-internet-access.mq-internet.aliyuncs.com:80
+      group-id: GID_test
+      access-key: AccessKey
+      secret-key: SecretKey
+      consume-thread-nums: 24
