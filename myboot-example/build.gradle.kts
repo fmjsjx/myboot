@@ -16,8 +16,9 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     implementation("org.slf4j:slf4j-api")
-    api(project(":myboot-starter-mongodb"))
-    api(project(":myboot-starter-redis"))
+    implementation(project(":myboot-autoconfigure"))
+    implementation(project(":myboot-starter-mongodb"))
+    implementation(project(":myboot-starter-redis"))
     implementation("org.springframework.boot:spring-boot-starter") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
