@@ -31,9 +31,6 @@ dependencies {
 	compileOnly("org.projectlombok:lombok:1.18.16")
     
     api("org.springframework.boot:spring-boot-autoconfigure")
-    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure")
-	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
-	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	
 	implementation("com.github.fmjsjx:libcommon-util")
     
