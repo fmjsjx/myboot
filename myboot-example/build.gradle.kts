@@ -14,7 +14,7 @@ description = "MyBoot/Example"
 dependencies {
 
 	// libcommon
-	api(platform("com.github.fmjsjx:libcommon-bom:1.0.0.M6"))
+	implementation(platform("com.github.fmjsjx:libcommon-bom:1.0.0.M6"))
 	
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
