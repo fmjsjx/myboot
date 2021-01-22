@@ -1,12 +1,6 @@
 plugins {
-	id("org.springframework.boot") version "2.4.1"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
+	id("myboot.java-library-conventions")
     id("myboot.publish-conventions")
-    `java-library`
-}
-
-repositories {
-	jcenter()
 }
 
 description = "MyBoot/Example"
