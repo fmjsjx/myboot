@@ -28,15 +28,14 @@ dependencies {
 
     implementation("org.slf4j:slf4j-api")
 
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
     
     api("org.springframework.boot:spring-boot-autoconfigure")
-    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-	
-	implementation("com.github.fmjsjx:libcommon-util")
+    
+    implementation("com.github.fmjsjx:libcommon-util")
     
     "redisSupportApi"("io.lettuce:lettuce-core")
     "redisSupportApi"("org.apache.commons:commons-pool2")
@@ -75,9 +74,9 @@ tasks.test {
 
 publishing {
     publications {
-    	create<MavenPublication>("mavenJava") {
-        	from(components["java"])
-        	versionMapping {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            versionMapping {
                 usage("java-api") {
                     fromResolutionOf("runtimeClasspath")
                 }
@@ -111,7 +110,7 @@ publishing {
                     developerConnection.set("scm:git:https://github.com/fmjsjx/myboot.git")
                 }
             }
-    	}
+        }
     }
 }
 

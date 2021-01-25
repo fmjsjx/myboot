@@ -6,7 +6,7 @@ plugins {
 description = "MyBoot/BOM"
 
 dependencies {
-	constraints {
+    constraints {
         api(project(":myboot-autoconfigure"))
         api(project(":myboot-example"))
         api(project(":myboot-starter-aliyunons"))
@@ -20,8 +20,8 @@ dependencies {
 
 publishing {
     publications {
-    	create<MavenPublication>("mavenJava") {
-        	from(components["javaPlatform"])
+        create<MavenPublication>("mavenJava") {
+            from(components["javaPlatform"])
             pom {
                 name.set("MyBoot/BOM")
                 description.set("A boot library provides some additional extensions based on SpringBoot.")
@@ -48,7 +48,7 @@ publishing {
                     developerConnection.set("scm:git:https://github.com/fmjsjx/myboot.git")
                 }
             }
-    	}
+        }
     }
 }
 

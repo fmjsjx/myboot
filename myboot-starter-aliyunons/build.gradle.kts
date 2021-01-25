@@ -5,8 +5,8 @@ plugins {
 
 dependencies {
 
-    api("com.github.fmjsjx:libcommon-aliyunons")
     api("com.aliyun.openservices:ons-client")
+    api("com.github.fmjsjx:libcommon-aliyunons")
 
 }
 
@@ -14,9 +14,9 @@ description = "MyBoot/Starter Pulsar"
 
 publishing {
     publications {
-    	create<MavenPublication>("mavenJava") {
-        	from(components["java"])
-        	versionMapping {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            versionMapping {
                 usage("java-api") {
                     fromResolutionOf("runtimeClasspath")
                 }
@@ -50,7 +50,7 @@ publishing {
                     developerConnection.set("scm:git:https://github.com/fmjsjx/myboot.git")
                 }
             }
-    	}
+        }
     }
 }
 

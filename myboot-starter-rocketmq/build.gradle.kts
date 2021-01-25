@@ -5,13 +5,13 @@ plugins {
 
 dependencies {
 
-    api("com.github.fmjsjx:libcommon-rocketmq")
     api("org.apache.rocketmq:rocketmq-client") {
         exclude(group = "io.netty", module = "netty-all")
         exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
     }
     api("org.apache.rocketmq:rocketmq-acl")
     api("io.netty:netty-handler")
+    api("com.github.fmjsjx:libcommon-rocketmq")
     
     implementation(group = "io.netty", name = "netty-transport-native-epoll", classifier = "linux-x86_64")
     implementation(group = "io.netty", name = "netty-transport-native-kqueue", classifier = "osx-x86_64")
@@ -26,9 +26,9 @@ description = "MyBoot/Starter RocketMQ"
 
 publishing {
     publications {
-    	create<MavenPublication>("mavenJava") {
-        	from(components["java"])
-        	versionMapping {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            versionMapping {
                 usage("java-api") {
                     fromResolutionOf("runtimeClasspath")
                 }
@@ -62,7 +62,7 @@ publishing {
                     developerConnection.set("scm:git:https://github.com/fmjsjx/myboot.git")
                 }
             }
-    	}
+        }
     }
 }
 
