@@ -11,7 +11,7 @@ dependencies {
     api(platform("org.springframework.boot:spring-boot-dependencies:2.4.2"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.4.2"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:1.0.0.M8"))
+    api(platform("com.github.fmjsjx:libcommon-bom:1.0.0.Final"))
     // netty
     api(platform("io.netty:netty-bom:4.1.58.Final"))
     // ALIYUN ONS
