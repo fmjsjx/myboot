@@ -99,12 +99,12 @@ public class MongoDBAutoConfiguration {
                     var threadFactory = new DefaultThreadFactory("mongodb-stream", true);
                     if (isNettyNativeAvailable("io.netty.channel.epoll.Epoll")) {
                         var eventLoopGroup = nativeEventLoopGroup(
-                                "io.netty.channel.epoll.EpollEventLoopGroup.EpollEventLoopGroup", threadFactory);
+                                "io.netty.channel.epoll.EpollEventLoopGroup", threadFactory);
                         nettyLibrary = new NettyLibrary(eventLoopGroup,
                                 socketChannelClass("io.netty.channel.epoll.EpollSocketChannel"));
                     } else if (isNettyNativeAvailable("io.netty.channel.kqueue.KQueue")) {
                         var eventLoopGroup = nativeEventLoopGroup(
-                                "io.netty.channel.kqueue.KQueueEventLoopGroup.KQueueEventLoopGroup", threadFactory);
+                                "io.netty.channel.kqueue.KQueueEventLoopGroup", threadFactory);
                         nettyLibrary = new NettyLibrary(eventLoopGroup,
                                 socketChannelClass("io.netty.channel.kqueue.KQueueSocketChannel"));
                     } else {
