@@ -2,6 +2,7 @@ package com.github.fmjsjx.myboot.autoconfigure.http.route;
 
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 @EnableConfigurationProperties(RouterProperties.class)
 public class RouterAutoConfiguration {
 
+    /**
+     * The {@code @Bean} method for {@link Router}.
+     * 
+     * @param properties  the router properties
+     * @param beanFactory the bean factory
+     * @return a {@code Router}
+     */
     @Bean(destroyMethod = "close")
+    @ConditionalOnMissingBean
     public Router router(RouterProperties properties, ListableBeanFactory beanFactory) {
         var router = new Router();
         var beans = beanFactory.getBeansWithAnnotation(RouteController.class);
