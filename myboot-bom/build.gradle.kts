@@ -9,6 +9,7 @@ dependencies {
     constraints {
         api(project(":myboot-autoconfigure"))
         api(project(":myboot-example"))
+        api(project(":myboot-starter-http-router"))
         api(project(":myboot-starter-aliyunons"))
         api(project(":myboot-starter-kafka"))
         api(project(":myboot-starter-mongodb"))
