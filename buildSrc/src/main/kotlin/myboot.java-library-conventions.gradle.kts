@@ -11,21 +11,23 @@ repositories {
 
 dependencies {
     // spring boot
-    api(platform("org.springframework.boot:spring-boot-dependencies:2.4.3"))
-    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.4.3"))
+    api(platform("org.springframework.boot:spring-boot-dependencies:2.5.2"))
+    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.5.2"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:1.0.2.Final"))
+    api(platform("com.github.fmjsjx:libcommon-bom:2.2.0"))
+    // libnetty
+    api(platform("com.github.fmjsjx:libnetty-bom:2.1.1"))
     // netty
-    api(platform("io.netty:netty-bom:4.1.59.Final"))
+    api(platform("io.netty:netty-bom:4.1.65.Final"))
     // ALIYUN ONS
-    api(platform("com.aliyun.openservices:ons-client:1.8.7.3.Final"))
+    api(platform("com.aliyun.openservices:ons-client:1.8.8.Final"))
     // rocketmq
-    api(platform("org.apache.rocketmq:rocketmq-all:4.8.0"))
+    api(platform("org.apache.rocketmq:rocketmq-all:4.9.0"))
 
     constraints {
-        api("io.lettuce:lettuce-core:6.0.2.RELEASE")
-        api("org.apache.kafka:kafka-clients:2.7.0")
-        api("org.apache.pulsar:pulsar-client:2.7.0")
+        api("io.lettuce:lettuce-core:6.1.3.RELEASE")
+        api("org.apache.kafka:kafka-clients:2.8.0")
+        api("org.apache.pulsar:pulsar-client:2.8.0")
     }
 
 }

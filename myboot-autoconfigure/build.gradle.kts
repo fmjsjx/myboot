@@ -4,6 +4,9 @@ plugins {
 }
 
 java {
+    registerFeature("httpServerSupport") {
+        usingSourceSet(sourceSets["main"])
+    }
     registerFeature("redisSupport") {
         usingSourceSet(sourceSets["main"])
     }
@@ -30,26 +33,28 @@ dependencies {
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    
+
     api("org.springframework.boot:spring-boot-autoconfigure")
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    
+
     implementation("com.github.fmjsjx:libcommon-util")
-    
+
+    "httpServerSupportApi"("com.github.fmjsjx:libnetty-http-server")
+
     "redisSupportApi"("io.lettuce:lettuce-core")
     "redisSupportApi"("org.apache.commons:commons-pool2")
     "redisSupportApi"("com.github.fmjsjx:libcommon-redis")
-    
+
     "mongodbSupportApi"("org.mongodb:mongodb-driver-sync")
     "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")
-    
+
     "kafkaSupportApi"("org.apache.kafka:kafka-clients")
-    
+
     "pulsarSupportApi"("org.apache.pulsar:pulsar-client")
-    
+
     "aliyunonsSupportApi"("com.aliyun.openservices:ons-client")
-    
+
     "rocketmqSupportApi"("org.apache.rocketmq:rocketmq-client") {
         exclude(group = "io.netty", module = "netty-all")
         exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")

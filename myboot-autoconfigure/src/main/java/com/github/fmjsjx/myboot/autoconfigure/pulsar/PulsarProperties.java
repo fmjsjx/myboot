@@ -17,7 +17,7 @@ import lombok.ToString;
 @ConfigurationProperties(PulsarProperties.CONFIG_PREFIX)
 public class PulsarProperties {
 
-    static final String CONFIG_PREFIX = "libcommons.pulsar";
+    static final String CONFIG_PREFIX = "myboot.pulsar";
 
     /**
      * The clients.

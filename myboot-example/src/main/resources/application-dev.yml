@@ -1,4 +1,7 @@
 myboot:
+  http:
+    router:
+      auto-init: true
   mongodb:
     clients:
     - name: sync
