@@ -11,18 +11,18 @@ repositories {
 
 dependencies {
     // spring boot
-    api(platform("org.springframework.boot:spring-boot-dependencies:2.5.4"))
-    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.5.4"))
+    api(platform("org.springframework.boot:spring-boot-dependencies:2.5.6"))
+    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.5.6"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:2.5.0"))
+    api(platform("com.github.fmjsjx:libcommon-bom:2.5.2"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:2.2.6"))
+    api(platform("com.github.fmjsjx:libnetty-bom:2.2.7"))
     // netty
-    api(platform("io.netty:netty-bom:4.1.67.Final"))
+    api(platform("io.netty:netty-bom:4.1.69.Final"))
     // ALIYUN ONS
-    api(platform("com.aliyun.openservices:ons-client:1.8.8.1.Final"))
+    api(platform("com.aliyun.openservices:ons-client:2.0.0.Final"))
     // rocketmq
-    api(platform("org.apache.rocketmq:rocketmq-all:4.9.1"))
+    api(platform("org.apache.rocketmq:rocketmq-all:4.9.2"))
 
     constraints {
         api("io.lettuce:lettuce-core:6.1.5.RELEASE")
