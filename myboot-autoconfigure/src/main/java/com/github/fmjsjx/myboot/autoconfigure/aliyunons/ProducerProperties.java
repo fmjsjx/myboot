@@ -5,7 +5,6 @@ import java.time.Duration;
 import org.springframework.lang.NonNull;
 
 import com.aliyun.openservices.ons.api.MQType;
-import com.aliyun.openservices.ons.api.impl.rocketmq.ONSChannel;
 import com.aliyun.openservices.ons.api.transaction.LocalTransactionChecker;
 
 import lombok.Getter;
@@ -31,8 +30,6 @@ public class ProducerProperties implements ConfigProperties {
     private String secretKey;
 
     private String secretToken;
-
-    private ONSChannel onsChannel;
 
     private MQType mqType;
 

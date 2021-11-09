@@ -1,7 +1,6 @@
 package com.github.fmjsjx.myboot.autoconfigure.aliyunons;
 
 import com.aliyun.openservices.ons.api.MQType;
-import com.aliyun.openservices.ons.api.impl.rocketmq.ONSChannel;
 
 /**
  * An interface defines common getters for configuration properties.
@@ -51,13 +50,6 @@ public interface ConfigProperties {
      * @return the secret token
      */
     String getSecretToken();
-
-    /**
-     * The ONS channel.
-     * 
-     * @return the ONS channel
-     */
-    ONSChannel getOnsChannel();
 
     /**
      * the group id.

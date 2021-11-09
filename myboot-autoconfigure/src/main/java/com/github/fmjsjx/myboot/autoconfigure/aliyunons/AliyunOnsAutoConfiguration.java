@@ -153,9 +153,6 @@ public class AliyunOnsAutoConfiguration {
             if (config.getSecretToken() != null) {
                 properties.setProperty(PropertyKeyConst.SecurityToken, config.getSecretToken());
             }
-            if (config.getOnsChannel() != null) {
-                properties.setProperty(PropertyKeyConst.OnsChannel, config.getOnsChannel().name());
-            }
             if (config.getMqType() != null) {
                 properties.setProperty(PropertyKeyConst.MQType, config.getMqType().name());
             }

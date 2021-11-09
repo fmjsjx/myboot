@@ -6,8 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.util.unit.DataSize;
 
 import com.aliyun.openservices.ons.api.MQType;
-import com.aliyun.openservices.ons.api.impl.rocketmq.ONSChannel;
-import com.aliyun.openservices.shade.com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
+import com.aliyun.openservices.ons.shaded.org.apache.rocketmq.client.consumer.MessageModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +31,6 @@ public class ConsumerProperties implements ConfigProperties {
     private String secretKey;
 
     private String secretToken;
-    private ONSChannel onsChannel;
     private MQType mqType;
     /**
      * The consumer type.
