@@ -11,14 +11,14 @@ repositories {
 
 dependencies {
     // spring boot
-    api(platform("org.springframework.boot:spring-boot-dependencies:2.5.6"))
-    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.5.6"))
+    api(platform("org.springframework.boot:spring-boot-dependencies:2.6.0"))
+    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.6.0"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:2.5.2"))
+    api(platform("com.github.fmjsjx:libcommon-bom:2.5.3"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:2.2.7"))
+    api(platform("com.github.fmjsjx:libnetty-bom:2.2.8"))
     // netty
-    api(platform("io.netty:netty-bom:4.1.69.Final"))
+    api(platform("io.netty:netty-bom:4.1.70.Final"))
     // ALIYUN ONS
     api(platform("com.aliyun.openservices:ons-client:2.0.0.Final"))
     // rocketmq
