@@ -29,6 +29,8 @@ dependencies {
         api("org.apache.kafka:kafka-clients:3.0.0")
         api("org.apache.pulsar:pulsar-client:2.8.1")
     }
+    // log4j2
+    implementation(platform("org.apache.logging.log4j:log4j-bom:2.15.0"))
 
 }
 
