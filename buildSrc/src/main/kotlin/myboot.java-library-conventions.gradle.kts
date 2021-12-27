@@ -11,14 +11,14 @@ repositories {
 
 dependencies {
     // spring boot
-    api(platform("org.springframework.boot:spring-boot-dependencies:2.6.0"))
-    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.6.0"))
+    api(platform("org.springframework.boot:spring-boot-dependencies:2.6.2"))
+    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.6.2"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:2.5.3"))
+    api(platform("com.github.fmjsjx:libcommon-bom:2.5.4"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:2.2.8"))
+    api(platform("com.github.fmjsjx:libnetty-bom:2.2.9"))
     // netty
-    api(platform("io.netty:netty-bom:4.1.70.Final"))
+    api(platform("io.netty:netty-bom:4.1.72.Final"))
     // ALIYUN ONS
     api(platform("com.aliyun.openservices:ons-client:2.0.0.Final"))
     // rocketmq
@@ -30,7 +30,7 @@ dependencies {
         api("org.apache.pulsar:pulsar-client:2.8.1")
     }
     // log4j2
-    implementation(platform("org.apache.logging.log4j:log4j-bom:2.15.0"))
+    implementation(platform("org.apache.logging.log4j:log4j-bom:2.17.0"))
 
 }
 
