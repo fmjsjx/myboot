@@ -11,8 +11,8 @@ repositories {
 
 dependencies {
     // spring boot
-    api(platform("org.springframework.boot:spring-boot-dependencies:2.6.2"))
-    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.6.2"))
+    api(platform("org.springframework.boot:spring-boot-dependencies:2.6.3"))
+    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:2.6.3"))
     // libcommon
     api(platform("com.github.fmjsjx:libcommon-bom:2.5.5"))
     // libnetty
