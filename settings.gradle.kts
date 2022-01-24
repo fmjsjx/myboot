@@ -1,3 +1,9 @@
+pluginManagement {
+    repositories {
+        maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
+    }
+}
+
 rootProject.name = "myboot"
 include(":myboot-autoconfigure")
 include(":myboot-bom")
