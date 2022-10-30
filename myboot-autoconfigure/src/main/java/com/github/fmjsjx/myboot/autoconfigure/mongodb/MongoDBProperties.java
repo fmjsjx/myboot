@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.lang.NonNull;
 import org.springframework.util.unit.DataSize;
 
@@ -31,6 +32,7 @@ public class MongoDBProperties {
     /**
      * The {@code MongoDB} clients.
      */
+    @NestedConfigurationProperty
     private List<MongoClientProperties> clients;
 
     /**
@@ -94,6 +96,7 @@ public class MongoDBProperties {
          * <p>
          * Can't be set with {@code uri}.
          */
+        @NestedConfigurationProperty
         private List<ServerHost> hosts;
         /**
          * The authentication mechanisms.
@@ -160,6 +163,7 @@ public class MongoDBProperties {
          * <p>
          * Can't be set with {@code uri}.
          */
+        @NestedConfigurationProperty
         private PoolProperties pool;
         /**
          * The frequency that the cluster monitor attempts to reach each server.
@@ -182,20 +186,24 @@ public class MongoDBProperties {
          * <p>
          * Can't be set with {@code uri}.
          */
+        @NestedConfigurationProperty
         private SocketProperties socket;
         /**
          * All settings for connecting to MongoDB via SSL.
          * <p>
          * Can't be set with {@code uri}.
          */
+        @NestedConfigurationProperty
         private SslProperties ssl;
         /**
          * The compressor list.
          */
+        @NestedConfigurationProperty
         private List<CompressorProperties> compressorList;
         /**
          * The database list.
          */
+        @NestedConfigurationProperty
         private List<DatabaseProperties> databases;
 
     }

@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Configuration properties class for Kafka.
@@ -22,10 +23,12 @@ public class KafkaProperties {
     /**
      * The producers.
      */
+    @NestedConfigurationProperty
     private List<ProducerProperties> producers;
     /**
      * The consumers.
      */
+    @NestedConfigurationProperty
     private List<ConsumerProperties> consumers;
 
 }

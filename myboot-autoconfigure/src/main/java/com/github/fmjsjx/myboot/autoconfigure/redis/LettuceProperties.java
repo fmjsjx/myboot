@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Properties class for {@code REDIS/Lettuce}.
@@ -23,11 +24,13 @@ public class LettuceProperties {
     /**
      * The client.
      */
+    @NestedConfigurationProperty
     private RedisClientProperties client;
 
     /**
      * The cluster clients.
      */
+    @NestedConfigurationProperty
     private List<RedisClusterClientProperties> clusterClients = Collections.emptyList();
 
 }

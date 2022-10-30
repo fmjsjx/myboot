@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.lang.NonNull;
 
 import lombok.Getter;
@@ -53,6 +54,7 @@ public class PulsarClientProperties {
      * <p>
      * If present, the field {@code authParamsString} will be ignored.
      */
+    @NestedConfigurationProperty
     private Map<String, String> authParams;
     /**
      * Operation timeout.
