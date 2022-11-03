@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Configuration properties class for Pulsar.
@@ -23,7 +22,6 @@ public class PulsarProperties {
     /**
      * The clients.
      */
-    @NestedConfigurationProperty
     private List<PulsarClientProperties> clients;
 
 }

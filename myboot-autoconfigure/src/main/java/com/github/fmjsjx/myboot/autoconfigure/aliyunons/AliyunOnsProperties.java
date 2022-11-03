@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * The configuration properties class for ALIYUN ONS.
@@ -23,13 +22,11 @@ public class AliyunOnsProperties {
     /**
      * Producers.
      */
-    @NestedConfigurationProperty
     private List<ProducerProperties> producers;
 
     /**
      * Consumers.
      */
-    @NestedConfigurationProperty
     private List<ConsumerProperties> consumers;
 
 }

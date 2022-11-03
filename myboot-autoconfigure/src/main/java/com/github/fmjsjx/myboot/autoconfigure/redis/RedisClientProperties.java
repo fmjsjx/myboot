@@ -6,7 +6,6 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Properties class for {@code REDIS/Lettuce} client.
@@ -36,13 +35,11 @@ public class RedisClientProperties {
     /**
      * The connections.
      */
-    @NestedConfigurationProperty
     private List<RedisConnectionProperties> connections = Collections.emptyList();
 
     /**
      * The pools.
      */
-    @NestedConfigurationProperty
     private List<RedisPoolProperties> pools = Collections.emptyList();
 
 }

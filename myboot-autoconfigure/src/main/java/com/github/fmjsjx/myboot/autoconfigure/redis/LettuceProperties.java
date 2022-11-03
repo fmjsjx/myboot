@@ -30,7 +30,6 @@ public class LettuceProperties {
     /**
      * The cluster clients.
      */
-    @NestedConfigurationProperty
     private List<RedisClusterClientProperties> clusterClients = Collections.emptyList();
 
 }

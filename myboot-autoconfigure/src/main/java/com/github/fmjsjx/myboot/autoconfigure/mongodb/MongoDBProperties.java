@@ -32,7 +32,6 @@ public class MongoDBProperties {
     /**
      * The {@code MongoDB} clients.
      */
-    @NestedConfigurationProperty
     private List<MongoClientProperties> clients;
 
     /**
@@ -96,7 +95,6 @@ public class MongoDBProperties {
          * <p>
          * Can't be set with {@code uri}.
          */
-        @NestedConfigurationProperty
         private List<ServerHost> hosts;
         /**
          * The authentication mechanisms.
@@ -198,12 +196,10 @@ public class MongoDBProperties {
         /**
          * The compressor list.
          */
-        @NestedConfigurationProperty
         private List<CompressorProperties> compressorList;
         /**
          * The database list.
          */
-        @NestedConfigurationProperty
         private List<DatabaseProperties> databases;
 
     }
