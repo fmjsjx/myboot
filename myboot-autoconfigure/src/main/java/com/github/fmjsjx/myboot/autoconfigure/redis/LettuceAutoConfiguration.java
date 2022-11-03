@@ -2,6 +2,8 @@ package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import java.util.Optional;
 
+import io.lettuce.core.RedisCredentials;
+import io.lettuce.core.StaticCredentialsProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -154,14 +156,8 @@ public class LettuceAutoConfiguration {
             }
             var redisUri = RedisURI.create(properties.getHost(), properties.getPort());
             redisUri.setDatabase(properties.getDb());
-            var password = properties.getPassword();
-            if (password != null && !password.isBlank()) {
-                redisUri.setPassword((CharSequence) password.trim());
-                var username = properties.getUsername();
-                if (username != null && !username.isBlank()) {
-                    redisUri.setUsername(username);
-                }
-            }
+            var credentials = RedisCredentials.just(properties.getUsername(), properties.getPassword());
+            redisUri.setCredentialsProvider(new StaticCredentialsProvider(credentials));
             return redisUri;
         }
 
@@ -223,14 +219,8 @@ public class LettuceAutoConfiguration {
                 return RedisURI.create(uri);
             }
             var redisUri = RedisURI.create(properties.getHost(), properties.getPort());
-            var password = properties.getPassword();
-            if (password != null && !password.isBlank()) {
-                redisUri.setPassword((CharSequence) password.trim());
-                var username = properties.getUsername();
-                if (username != null && !username.isBlank()) {
-                    redisUri.setUsername(username);
-                }
-            }
+            var credentials = RedisCredentials.just(properties.getUsername(), properties.getPassword());
+            redisUri.setCredentialsProvider(new StaticCredentialsProvider(credentials));
             return redisUri;
         }
 
