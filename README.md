@@ -5,7 +5,7 @@ A boot library provides some additional extensions based on SpringBoot.
 每个release版本都将发布至[Maven中央仓库](https://repo1.maven.org/maven2/)
 ### 添加Maven依赖
 `pom.xml`
-```xml
+```
 ...
   <dependencyManagement>
     <dependencies>
@@ -14,7 +14,7 @@ A boot library provides some additional extensions based on SpringBoot.
       <dependency>
         <groupId>com.github.fmjsjx</groupId>
         <artifactId>myboot-bom</artifactId>
-        <version>1.1.12</version>
+        <version>2.0.0</version>
       </dependency>
       ...
     </dependencies>
@@ -46,7 +46,7 @@ A boot library provides some additional extensions based on SpringBoot.
 ### 添加Gradle依赖
 
 #### Groovy DSL
-```groovy
+```
 ...
 repositories {
     mavenCentral
@@ -54,7 +54,7 @@ repositories {
 
 dependencies {
     // 版本控制
-    implementation platform('com.github.fmjsjx:myboot-bom:1.1.12')
+    implementation platform('com.github.fmjsjx:myboot-bom:2.0.0')
     // REDIS
     implementation('com.github.fmjsjx:myboot-starter-redis') {
         // 移除同步连接池依赖
@@ -67,7 +67,7 @@ dependencies {
 ...
 ```
 #### Kotlin DSL
-```kotlin
+```
 ...
 repositories {
     mavenCentral()
@@ -75,7 +75,7 @@ repositories {
 
 dependencies {
     // 版本控制
-    implementation(platform("com.github.fmjsjx:myboot-bom:1.1.12"))
+    implementation(platform("com.github.fmjsjx:myboot-bom:2.0.0"))
     // REDIS
     implementation("com.github.fmjsjx:myboot-starter-redis") {
         // 移除同步连接池依赖
