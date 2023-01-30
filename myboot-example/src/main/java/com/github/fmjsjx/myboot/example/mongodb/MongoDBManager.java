@@ -14,6 +14,9 @@ import com.mongodb.client.MongoDatabase;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
+/**
+ * MongoDB manager.
+ */
 @Slf4j
 @Service
 public class MongoDBManager {
@@ -28,6 +31,9 @@ public class MongoDBManager {
     @Qualifier("reactivestreamsTestMongoDatabase")
     private com.mongodb.reactivestreams.client.MongoDatabase reactivestreamsTestMongoDatabase;
 
+    /**
+     * Initialize method.
+     */
     @PostConstruct
     public void init() {
         log.debug("Sync Test: {}", syncTestMongoDatabase);

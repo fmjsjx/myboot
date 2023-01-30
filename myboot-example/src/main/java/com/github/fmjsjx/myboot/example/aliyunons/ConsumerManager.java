@@ -11,6 +11,9 @@ import com.aliyun.openservices.ons.api.Consumer;
 
 import io.netty.util.CharsetUtil;
 
+/**
+ * Consumer Manager component.
+ */
 @Component
 public class ConsumerManager {
 
@@ -19,6 +22,9 @@ public class ConsumerManager {
     @Qualifier("testONSConsumer")
     private Consumer testONSConsumer;
 
+    /**
+     * Initialize method.
+     */
     @PostConstruct
     public void init() {
         testONSConsumer.subscribe("TOPIC", "*", (message, context) -> {
