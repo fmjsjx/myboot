@@ -22,7 +22,7 @@ public class LettuceAutoConfigurationExclusionFilter implements AutoConfiguratio
         boolean[] matches = new boolean[autoConfigurationClasses.length];
         for (int i = 0; i < matches.length; i++) {
             var className = autoConfigurationClasses[i];
-            boolean exclude = className == null ? false : classNames.contains(className);
+            boolean exclude = className != null && classNames.contains(className);
             matches[i] = !exclude;
             if (exclude) {
                 log.debug("Exclude AutoConfigurationName >>> {}", className);

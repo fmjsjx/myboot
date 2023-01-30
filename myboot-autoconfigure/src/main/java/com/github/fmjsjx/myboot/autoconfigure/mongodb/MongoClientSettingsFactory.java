@@ -47,9 +47,7 @@ class MongoClientSettingsFactory {
             var userName = config.getUsername();
             var source = Optional.ofNullable(config.getAuthdb()).orElse("admin");
             var password = config.getPassword();
-            if (userName != null) {
-                builder.credential(createCredential(mechanism, userName, source, password));
-            } else if (mechanism != null) {
+            if (userName != null || mechanism != null) {
                 builder.credential(createCredential(mechanism, userName, source, password));
             }
         }
@@ -124,20 +122,14 @@ class MongoClientSettingsFactory {
     private static MongoCredential createCredential(AuthenticationMechanism mechanism, String userName, String source,
             char[] password) {
         if (mechanism != null) {
-            switch (mechanism) {
-            case GSSAPI:
-                return MongoCredential.createGSSAPICredential(userName);
-            case MONGODB_X509:
-                return MongoCredential.createMongoX509Credential(userName);
-            case PLAIN:
-                return MongoCredential.createPlainCredential(userName, source, password);
-            case SCRAM_SHA_1:
-                return MongoCredential.createScramSha1Credential(userName, source, password);
-            case SCRAM_SHA_256:
-                return MongoCredential.createScramSha256Credential(userName, source, password);
-            case MONGODB_AWS:
-                return MongoCredential.createAwsCredential(userName, password);
-            }
+            return switch (mechanism) {
+                case GSSAPI -> MongoCredential.createGSSAPICredential(userName);
+                case MONGODB_X509 -> MongoCredential.createMongoX509Credential(userName);
+                case PLAIN -> MongoCredential.createPlainCredential(userName, source, password);
+                case SCRAM_SHA_1 -> MongoCredential.createScramSha1Credential(userName, source, password);
+                case SCRAM_SHA_256 -> MongoCredential.createScramSha256Credential(userName, source, password);
+                case MONGODB_AWS -> MongoCredential.createAwsCredential(userName, password);
+            };
         }
         return MongoCredential.createCredential(userName, source, password);
     }

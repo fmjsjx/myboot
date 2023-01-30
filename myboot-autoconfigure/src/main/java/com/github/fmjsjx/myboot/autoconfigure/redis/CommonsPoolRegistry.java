@@ -18,14 +18,11 @@ class CommonsPoolRegistry {
     static void registerCommonsPoolBean(BeanDefinitionRegistry registry, String clientBeanName, RedisClient client,
             RedisPoolProperties properties, String beanName, RedisURI uri, RedisCodec<?, ?> codec) {
         switch (properties.getMode()) {
-        case SYNC:
-            registerGenericObjectPoolBean(registry, clientBeanName, client, properties, beanName, uri, codec);
-            break;
-        case ASYNC:
-            registerSoftReferencePoolBean(registry, clientBeanName, client, properties, beanName, uri, codec);
-            break;
-        default:
-            throw new BeanCreationException(beanName, "Unsupported mode `" + properties.getMode() + "`");
+            case SYNC ->
+                    registerGenericObjectPoolBean(registry, clientBeanName, client, properties, beanName, uri, codec);
+            case ASYNC ->
+                    registerSoftReferencePoolBean(registry, clientBeanName, client, properties, beanName, uri, codec);
+            default -> throw new BeanCreationException(beanName, "Unsupported mode `" + properties.getMode() + "`");
         }
     }
 

@@ -14,6 +14,7 @@ import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.support.AsyncPool;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Slf4j
 @Service
 public class RedisManager {

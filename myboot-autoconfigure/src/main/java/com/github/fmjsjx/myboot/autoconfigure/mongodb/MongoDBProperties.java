@@ -354,19 +354,11 @@ public class MongoDBProperties {
          * @return a {@code MongoCompressor}.
          */
         MongoCompressor toMongoCompressor() {
-            MongoCompressor compressor;
-            switch (algorithm) {
-            default:
-            case SNAPPY:
-                compressor = MongoCompressor.createSnappyCompressor();
-                break;
-            case ZLIB:
-                compressor = MongoCompressor.createZlibCompressor();
-                break;
-            case ZSTD:
-                compressor = MongoCompressor.createZstdCompressor();
-                break;
-            }
+            MongoCompressor compressor = switch (algorithm) {
+                case SNAPPY -> MongoCompressor.createSnappyCompressor();
+                case ZLIB -> MongoCompressor.createZlibCompressor();
+                case ZSTD -> MongoCompressor.createZstdCompressor();
+            };
             if (level != null) {
                 compressor = compressor.withProperty(MongoCompressor.LEVEL, level);
             }

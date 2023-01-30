@@ -18,10 +18,12 @@ import reactor.core.publisher.Flux;
 @Service
 public class MongoDBManager {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     @Qualifier("syncTestMongoDatabase")
     private MongoDatabase syncTestMongoDatabase;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     @Qualifier("reactivestreamsTestMongoDatabase")
     private com.mongodb.reactivestreams.client.MongoDatabase reactivestreamsTestMongoDatabase;
