@@ -3,6 +3,7 @@ package com.github.fmjsjx.myboot.autoconfigure.mongodb;
 import java.time.Duration;
 import java.util.List;
 
+import org.bson.UuidRepresentation;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.lang.NonNull;
@@ -86,66 +87,46 @@ public class MongoDBProperties {
         private String uri;
         /**
          * The host name from which to lookup SRV record for the seed list.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private String srvHost;
         /**
          * The seed list of hosts for the cluster.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private List<ServerHost> hosts;
         /**
          * The authentication mechanisms.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private AuthenticationMechanism authMechanism;
         /**
          * The user name.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private String username;
         /**
          * The password.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private char[] password;
         /**
          * The database where the user is defined.
          * <p>
          * The default is {@code "admin"}.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private String authdb;
         /**
          * The cluster connection mode.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private ClusterConnectionMode clusterConnectionMode;
         /**
          * The required replica set name.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private String requiredReplicaSetName;
         /**
          * The required cluster type.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private ClusterType requiredClusterType;
         /**
          * The local threshold.
          * <p>
          * The default is {@code 15ms}.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private Duration localThreshold;
         /**
@@ -153,13 +134,10 @@ public class MongoDBProperties {
          * <p>
          * The default is {@code 30s}.
          * <p>
-         * Can't be set with {@code uri}.
          */
         private Duration serverSelectionTimeout;
         /**
          * All settings that relate to the pool of connections to a MongoDB server.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         @NestedConfigurationProperty
         private PoolProperties pool;
@@ -167,32 +145,46 @@ public class MongoDBProperties {
          * The frequency that the cluster monitor attempts to reach each server.
          * <p>
          * The default is {@code 10s}.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private Duration heartbeatFrequency;
         /**
          * The minimum heartbeat frequency.
          * <p>
          * The default is {@code 500ms}.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         private Duration minHeartbeatFrequency;
         /**
          * All socket settings used for connections to a MongoDB server.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         @NestedConfigurationProperty
         private SocketProperties socket;
         /**
          * All settings for connecting to MongoDB via SSL.
-         * <p>
-         * Can't be set with {@code uri}.
          */
         @NestedConfigurationProperty
         private SslProperties ssl;
+        /**
+         * The logical name of the application. The application name may be used by the client to identify the
+         * application to the server, for use in server logs, slow query logs, and profile collection.
+         *
+         * @since 2.x
+         */
+        private String applicationName;
+        /**
+         * The UUID representation to use when encoding instances of {@link java.util.UUID} and when decoding BSON
+         * binary values with subtype of 3.
+         * <p>
+         * The default is {@link UuidRepresentation#UNSPECIFIED}, If your application stores UUID values in MongoDB,
+         * you must set this value to the desired representation. New applications should prefer
+         * {@link UuidRepresentation#STANDARD}, while existing Java applications should prefer
+         * {@link UuidRepresentation#JAVA_LEGACY}. Applications wishing to interoperate with existing Python or .NET
+         * applications should prefer {@link UuidRepresentation#PYTHON_LEGACY} or
+         * {@link UuidRepresentation#C_SHARP_LEGACY}, respectively. Applications that do not store UUID values in
+         * MongoDB don't need to set this value.
+         *
+         * @since 2.x
+         */
+        private UuidRepresentation uuidRepresentation;
         /**
          * The compressor list.
          */
