@@ -9,6 +9,9 @@ import com.github.fmjsjx.libnetty.http.server.middleware.Router;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Test router.
+ */
 @Slf4j
 @Component
 public class TestRouter {

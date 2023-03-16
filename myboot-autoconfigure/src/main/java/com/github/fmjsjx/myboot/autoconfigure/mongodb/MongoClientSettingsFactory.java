@@ -28,31 +28,30 @@ class MongoClientSettingsFactory {
 
     static MongoClientSettings create(MongoClientProperties config) {
         var builder = MongoClientSettings.builder();
-        if (config.getUri() != null) {
-            builder.applyConnectionString(new ConnectionString(config.getUri()));
-        } else {
-            builder.applyToClusterSettings(b -> apply(b, config)) // cluster
-                    .applyToConnectionPoolSettings(b -> apply(b, config.getPool())) // pool
-                    .applyToServerSettings(b -> apply(b, config)) // server
-                    .applyToSocketSettings(b -> apply(b, config.getSocket())) // socket
-                    .applyToSslSettings(b -> apply(b, config.getSsl())); // SSL
-            // compressor list
-            Optional.ofNullable(config.getCompressorList()).filter(l -> l.size() > 0).ifPresent(list -> {
-                var cl = list.stream().map(CompressorProperties::toMongoCompressor).collect(Collectors.toList());
-                log.debug("Set compressor list >>> {}", cl);
-                builder.compressorList(cl);
-            });
-            // credential
-            var mechanism = config.getAuthMechanism();
-            var userName = config.getUsername();
-            var source = Optional.ofNullable(config.getAuthdb()).orElse("admin");
-            var password = config.getPassword();
-            if (userName != null) {
-                builder.credential(createCredential(mechanism, userName, source, password));
-            } else if (mechanism != null) {
-                builder.credential(createCredential(mechanism, userName, source, password));
-            }
+        // application name
+        Optional.ofNullable(config.getApplicationName()).ifPresent(builder::applicationName);
+        // compressor list
+        Optional.ofNullable(config.getCompressorList()).filter(l -> l.size() > 0).ifPresent(list -> {
+            var cl = list.stream().map(CompressorProperties::toMongoCompressor).collect(Collectors.toList());
+            log.debug("Set compressor list >>> {}", cl);
+            builder.compressorList(cl);
+        });
+        // uuid representation
+        Optional.ofNullable(config.getUuidRepresentation()).ifPresent(builder::uuidRepresentation);
+        builder.applyToClusterSettings(b -> apply(b, config)) // cluster
+                .applyToConnectionPoolSettings(b -> apply(b, config.getPool())) // pool
+                .applyToServerSettings(b -> apply(b, config)) // server
+                .applyToSocketSettings(b -> apply(b, config.getSocket())) // socket
+                .applyToSslSettings(b -> apply(b, config.getSsl())); // SSL
+        // credential
+        var mechanism = config.getAuthMechanism();
+        var userName = config.getUsername();
+        var source = Optional.ofNullable(config.getAuthdb()).orElse("admin");
+        if (userName != null || mechanism != null) {
+            builder.credential(createCredential(mechanism, userName, source, config.getPassword()));
         }
+        // uri
+        Optional.ofNullable(config.getUri()).map(ConnectionString::new).ifPresent(builder::applyConnectionString);
         if (config.isUseNetty()) {
             var library = MongoDBAutoConfiguration.getNettyLibrary();
             var sff = NettyStreamFactoryFactory.builder().eventLoopGroup(library.getEventLoopGroup())
@@ -124,20 +123,14 @@ class MongoClientSettingsFactory {
     private static MongoCredential createCredential(AuthenticationMechanism mechanism, String userName, String source,
             char[] password) {
         if (mechanism != null) {
-            switch (mechanism) {
-            case GSSAPI:
-                return MongoCredential.createGSSAPICredential(userName);
-            case MONGODB_X509:
-                return MongoCredential.createMongoX509Credential(userName);
-            case PLAIN:
-                return MongoCredential.createPlainCredential(userName, source, password);
-            case SCRAM_SHA_1:
-                return MongoCredential.createScramSha1Credential(userName, source, password);
-            case SCRAM_SHA_256:
-                return MongoCredential.createScramSha256Credential(userName, source, password);
-            case MONGODB_AWS:
-                return MongoCredential.createAwsCredential(userName, password);
-            }
+            return switch (mechanism) {
+                case GSSAPI -> MongoCredential.createGSSAPICredential(userName);
+                case MONGODB_X509 -> MongoCredential.createMongoX509Credential(userName);
+                case PLAIN -> MongoCredential.createPlainCredential(userName, source, password);
+                case SCRAM_SHA_1 -> MongoCredential.createScramSha1Credential(userName, source, password);
+                case SCRAM_SHA_256 -> MongoCredential.createScramSha256Credential(userName, source, password);
+                case MONGODB_AWS -> MongoCredential.createAwsCredential(userName, password);
+            };
         }
         return MongoCredential.createCredential(userName, source, password);
     }

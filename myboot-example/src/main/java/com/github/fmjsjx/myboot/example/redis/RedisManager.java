@@ -14,6 +14,10 @@ import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.support.AsyncPool;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Redis manager.
+ */
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Slf4j
 @Service
 public class RedisManager {
@@ -38,8 +42,13 @@ public class RedisManager {
     @Qualifier("noblockingPlusRedisPool")
     private AsyncPoolPlus<String, String, StatefulRedisConnection<String, String>> noblockingPlusRedisPool;
 
+    /**
+     * Initialize method.
+     *
+     * @throws Exception if any error occurs
+     */
     @PostConstruct
-    public void test() throws Exception {
+    public void init() throws Exception {
         log.debug("test connection: {}", testRedisConnection);
         log.debug("hello connection: {}", helloRedisConnection);
         log.debug("GET test: {}", testRedisConnection.sync().get("test"));

@@ -99,47 +99,43 @@ public class AliyunOnsAutoConfiguration {
                         String.valueOf(config.getCheckImmunityTime().toSeconds()));
             }
             switch (config.getType()) {
-            default:
-            case NORMAL: {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(Producer.class, () -> ONSFactory.createProducer(properties))
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setInitMethodName("start")
-                        .setDestroyMethodName("shutdown").getBeanDefinition();
-                log.debug("Register Aliyun Ons Producer {}: {}", beanName, beanDefinition);
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            }
-                break;
-            case ORDER: {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(OrderProducer.class, () -> ONSFactory.createOrderProducer(properties))
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setInitMethodName("start")
-                        .setDestroyMethodName("shutdown").getBeanDefinition();
-                log.debug("Register Aliyun Ons OrderProducer {}: {}", beanName, beanDefinition);
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            }
-                break;
-            case TRANSACTION: {
-                if (config.getTransactionCheckerClass() == null) {
-                    throw new NoSuchElementException("libcommons.aliyun-ons." + name + ".transaction-checker-class");
+                case NORMAL -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(Producer.class, () -> ONSFactory.createProducer(properties))
+                            .setScope(BeanDefinition.SCOPE_SINGLETON).setInitMethodName("start")
+                            .setDestroyMethodName("shutdown").getBeanDefinition();
+                    log.debug("Register Aliyun Ons Producer {}: {}", beanName, beanDefinition);
+                    registry.registerBeanDefinition(beanName, beanDefinition);
                 }
-                Class<? extends LocalTransactionChecker> transactionCheckerClass = config.getTransactionCheckerClass();
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(TransactionProducer.class,
-                                () -> ONSFactory.createTransactionProducer(properties,
-                                        newInstance(transactionCheckerClass)))
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setInitMethodName("start")
-                        .setDestroyMethodName("shutdown").getBeanDefinition();
-                log.debug("Register Aliyun Ons TransactionProducer {}: {}", beanName, beanDefinition);
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            }
-                break;
+                case ORDER -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(OrderProducer.class, () -> ONSFactory.createOrderProducer(properties))
+                            .setScope(BeanDefinition.SCOPE_SINGLETON).setInitMethodName("start")
+                            .setDestroyMethodName("shutdown").getBeanDefinition();
+                    log.debug("Register Aliyun Ons OrderProducer {}: {}", beanName, beanDefinition);
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
+                case TRANSACTION -> {
+                    if (config.getTransactionCheckerClass() == null) {
+                        throw new NoSuchElementException("libcommons.aliyun-ons." + name + ".transaction-checker-class");
+                    }
+                    Class<? extends LocalTransactionChecker> transactionCheckerClass = config.getTransactionCheckerClass();
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(TransactionProducer.class,
+                                    () -> ONSFactory.createTransactionProducer(properties,
+                                            newInstance(transactionCheckerClass)))
+                            .setScope(BeanDefinition.SCOPE_SINGLETON).setInitMethodName("start")
+                            .setDestroyMethodName("shutdown").getBeanDefinition();
+                    log.debug("Register Aliyun Ons TransactionProducer {}: {}", beanName, beanDefinition);
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
             }
 
         }
 
         private <T> T newInstance(Class<? extends T> clazz) {
             try {
-                return (T) clazz.getDeclaredConstructor().newInstance();
+                return clazz.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
@@ -192,57 +188,52 @@ public class AliyunOnsAutoConfiguration {
                 properties.setProperty(PropertyKeyConst.MaxCachedMessageSizeInMiB, String.valueOf(mib));
             }
             switch (config.getType()) {
-            default:
-            case NORMAL: {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(Consumer.class, () -> ONSFactory.createConsumer(properties))
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
-                log.debug("Register Aliyun Ons Consumer {}: {}", beanName, beanDefinition);
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            }
-                break;
-            case BATCH: {
-                var consumeMessageBatchMaxSize = 32;
-                if (config.getConsumeMessageBatchMaxSize() != null) {
-                    var size = config.getConsumeMessageBatchMaxSize().intValue();
-                    consumeMessageBatchMaxSize = Math.max(Math.min(32, size), 1);
+                case NORMAL -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(Consumer.class, () -> ONSFactory.createConsumer(properties))
+                            .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
+                    log.debug("Register Aliyun Ons Consumer {}: {}", beanName, beanDefinition);
+                    registry.registerBeanDefinition(beanName, beanDefinition);
                 }
-                properties.setProperty(PropertyKeyConst.ConsumeMessageBatchMaxSize,
-                        String.valueOf(consumeMessageBatchMaxSize));
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(BatchConsumer.class, () -> ONSFactory.createBatchConsumer(properties))
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
-                log.debug("Register Aliyun Ons BatchConsumer {}: {}", beanName, beanDefinition);
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            }
-                break;
-            case ORDERED: {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(OrderConsumer.class, () -> ONSFactory.createOrderedConsumer(properties))
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
-                log.debug("Register Aliyun Ons OrderConsumer {}: {}", beanName, beanDefinition);
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            }
-                break;
-            case PULL: {
-                if (config.getAutoCommit() != null) {
-                    properties.setProperty(PropertyKeyConst.AUTO_COMMIT, config.getAutoCommit().toString());
+                case BATCH -> {
+                    var consumeMessageBatchMaxSize = 32;
+                    if (config.getConsumeMessageBatchMaxSize() != null) {
+                        var size = config.getConsumeMessageBatchMaxSize().intValue();
+                        consumeMessageBatchMaxSize = Math.max(Math.min(32, size), 1);
+                    }
+                    properties.setProperty(PropertyKeyConst.ConsumeMessageBatchMaxSize,
+                            String.valueOf(consumeMessageBatchMaxSize));
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(BatchConsumer.class, () -> ONSFactory.createBatchConsumer(properties))
+                            .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
+                    log.debug("Register Aliyun Ons BatchConsumer {}: {}", beanName, beanDefinition);
+                    registry.registerBeanDefinition(beanName, beanDefinition);
                 }
-                if (config.getAutoCommitInterval() != null) {
-                    properties.setProperty(PropertyKeyConst.AUTO_COMMIT_INTERVAL_MILLIS,
-                            String.valueOf(config.getAutoCommitInterval().toMillis()));
+                case ORDERED -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(OrderConsumer.class, () -> ONSFactory.createOrderedConsumer(properties))
+                            .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
+                    log.debug("Register Aliyun Ons OrderConsumer {}: {}", beanName, beanDefinition);
+                    registry.registerBeanDefinition(beanName, beanDefinition);
                 }
-                if (config.getPollTimeout() != null) {
-                    properties.setProperty(PropertyKeyConst.POLL_TIMEOUT_MILLIS,
-                            String.valueOf(config.getPollTimeout().toMillis()));
+                case PULL -> {
+                    if (config.getAutoCommit() != null) {
+                        properties.setProperty(PropertyKeyConst.AUTO_COMMIT, config.getAutoCommit().toString());
+                    }
+                    if (config.getAutoCommitInterval() != null) {
+                        properties.setProperty(PropertyKeyConst.AUTO_COMMIT_INTERVAL_MILLIS,
+                                String.valueOf(config.getAutoCommitInterval().toMillis()));
+                    }
+                    if (config.getPollTimeout() != null) {
+                        properties.setProperty(PropertyKeyConst.POLL_TIMEOUT_MILLIS,
+                                String.valueOf(config.getPollTimeout().toMillis()));
+                    }
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(PullConsumer.class, () -> ONSFactory.createPullConsumer(properties))
+                            .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
+                    log.debug("Register Aliyun Ons PullConsumer {}: {}", beanName, beanDefinition);
+                    registry.registerBeanDefinition(beanName, beanDefinition);
                 }
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(PullConsumer.class, () -> ONSFactory.createPullConsumer(properties))
-                        .setScope(BeanDefinition.SCOPE_SINGLETON).setDestroyMethodName("shutdown").getBeanDefinition();
-                log.debug("Register Aliyun Ons PullConsumer {}: {}", beanName, beanDefinition);
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            }
-                break;
             }
         }
 

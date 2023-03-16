@@ -15,9 +15,9 @@ dependencies {
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:2.9.0"))
+    api(platform("com.github.fmjsjx:libcommon-bom:3.0.0"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:2.7.0"))
+    api(platform("com.github.fmjsjx:libnetty-bom:3.0.0"))
     // netty
     api(platform("io.netty:netty-bom:4.1.87.Final"))
     // ALIYUN ONS
@@ -42,17 +42,19 @@ dependencies {
 
 }
 
+val javaVersion = 17
+
 java {
     withSourcesJar()
     withJavadocJar()
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 }
 
 tasks.compileJava {
     options.encoding = "UTF-8"
-    options.release.set(11)
+    options.release.set(javaVersion)
 }
 
 tasks.javadoc {

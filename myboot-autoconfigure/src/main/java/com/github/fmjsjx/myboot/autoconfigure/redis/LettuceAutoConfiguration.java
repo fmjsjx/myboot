@@ -162,15 +162,11 @@ public class LettuceAutoConfiguration {
         }
 
         private static final RedisCodec<?, ?> getRedisCodec(RedisConnectionCodec codec) {
-            switch (codec) {
-            case ASCII:
-                return StringCodec.ASCII;
-            case BYTE_ARRAY:
-                return ByteArrayCodec.INSTANCE;
-            default:
-            case UTF8:
-                return StringCodec.UTF8;
-            }
+            return switch (codec) {
+                case ASCII -> StringCodec.ASCII;
+                case BYTE_ARRAY -> ByteArrayCodec.INSTANCE;
+                default -> StringCodec.UTF8;
+            };
         }
 
         private void registerPoolBean(RedisClient client, RedisPoolProperties properties) throws BeansException {

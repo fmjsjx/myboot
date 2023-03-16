@@ -12,12 +12,21 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
+/**
+ * Test controller
+ */
 @RouteController
 public class TestController {
 
     private static final ByteBuf OK = Unpooled
             .unreleasableBuffer(ByteBufAllocator.DEFAULT.buffer(2, 2).writeBytes("ok".getBytes()).asReadOnly());
 
+    /**
+     * GET /api/test
+     *
+     * @param ctx http request context
+     * @return result
+     */
     @HttpGet("/api/test")
     public CompletionStage<HttpResult> test(HttpRequestContext ctx) {
         return ctx.simpleRespond(HttpResponseStatus.OK, OK.duplicate(), 2, HttpRequestContext.TEXT_PLAIN_UTF8);
