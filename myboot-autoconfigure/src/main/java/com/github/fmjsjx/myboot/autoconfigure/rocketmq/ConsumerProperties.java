@@ -4,7 +4,7 @@ import java.time.Duration;
 
 import org.apache.rocketmq.client.AccessChannel;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
+import org.apache.rocketmq.remoting.protocol.heartbeat.MessageModel;
 import org.springframework.lang.NonNull;
 
 import lombok.Getter;
@@ -80,7 +80,7 @@ public class ConsumerProperties implements ConfigProperties {
     private Duration suspendTime;
 
     /**
-     * The consume from where enumeration.
+     * The {@link ConsumeFromWhere} enumeration.
      */
     private ConsumeFromWhere consumeFromWhere;
 
