@@ -5,23 +5,20 @@ A boot library provides some additional extensions based on SpringBoot.
 每个release版本都将发布至[Maven中央仓库](https://repo1.maven.org/maven2/)
 ### 添加Maven依赖
 `pom.xml`
-```
-...
+```xml
+<pom>
   <dependencyManagement>
     <dependencies>
-      ...
       <!-- 版本控制 -->
       <dependency>
         <groupId>com.github.fmjsjx</groupId>
         <artifactId>myboot-bom</artifactId>
-        <version>2.0.0</version>
+        <version>3.0.0</version>
       </dependency>
-      ...
     </dependencies>
   </dependencyManagement>
-...
+
   <dependencies>
-    ...
     <!-- REDIS -->
     <dependency>
       <groupId>com.github.fmjsjx</groupId>
@@ -38,23 +35,21 @@ A boot library provides some additional extensions based on SpringBoot.
       <groupId>com.github.fmjsjx</groupId>
       <artifactId>myboot-starter-mongodb</artifactId>
     </dependency>
-    ...
   </dependencies>
-...
+</pom>
 ```
 
 ### 添加Gradle依赖
 
 #### Groovy DSL
-```
-...
+```groovy
 repositories {
     mavenCentral
 }
 
 dependencies {
     // 版本控制
-    implementation platform('com.github.fmjsjx:myboot-bom:2.0.0')
+    implementation platform('com.github.fmjsjx:myboot-bom:3.0.0')
     // REDIS
     implementation('com.github.fmjsjx:myboot-starter-redis') {
         // 移除同步连接池依赖
@@ -62,20 +57,18 @@ dependencies {
     }
     // MongoDB
     compileOnly 'com.github.fmjsjx:myboot-starter-mongodb'
-    ...
 }
-...
 ```
+
 #### Kotlin DSL
-```
-...
+```kotlin
 repositories {
     mavenCentral()
 }
 
 dependencies {
     // 版本控制
-    implementation(platform("com.github.fmjsjx:myboot-bom:2.0.0"))
+    implementation(platform("com.github.fmjsjx:myboot-bom:3.0.0"))
     // REDIS
     implementation("com.github.fmjsjx:myboot-starter-redis") {
         // 移除同步连接池依赖
@@ -83,7 +76,5 @@ dependencies {
     }
     // MongoDB
     compileOnly("com.github.fmjsjx:myboot-starter-mongodb")
-    ...
 }
-...
 ```
