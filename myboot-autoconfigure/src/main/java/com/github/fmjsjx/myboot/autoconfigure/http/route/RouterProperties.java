@@ -27,4 +27,36 @@ public class RouterProperties {
      */
     private boolean autoInit;
 
+    /**
+     * Call {@link Router#routingPolicy(Router.RoutingPolicy) to set the routing policy}.
+     *
+     * <p>
+     * The default value is {@code simple}.
+     *
+     * @since 3.1
+     */
+    private RoutingPolicy routingPolicy;
+
+    /**
+     * Enumeration of routing policies.
+     *
+     * @since 3.1
+     */
+    public enum RoutingPolicy {
+
+        /**
+         * {@code auto}
+         */
+        AUTO,
+        /**
+         * {@code simple}
+         */
+        SIMPLE,
+        /**
+         * {@code tree-map}
+         */
+        TREE_MAP
+
+    }
+
 }
