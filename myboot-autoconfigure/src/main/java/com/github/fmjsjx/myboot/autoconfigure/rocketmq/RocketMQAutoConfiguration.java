@@ -180,10 +180,10 @@ public class RocketMQAutoConfiguration {
                 }
                 if (config.getSecretToken() != null) {
                     producer = new TransactionMQProducer(groupId,
-                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey, config.getSecretKey())));
+                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey, config.getSecretToken())));
                 } else {
                     producer = new TransactionMQProducer(groupId,
-                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey, config.getSecretKey())));
+                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey)));
                 }
             } else {
                 producer = new TransactionMQProducer(groupId);
