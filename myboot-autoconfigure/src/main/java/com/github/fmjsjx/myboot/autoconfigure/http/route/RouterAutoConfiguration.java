@@ -34,6 +34,15 @@ public class RouterAutoConfiguration {
     @ConditionalOnMissingBean
     public Router router(RouterProperties properties, ListableBeanFactory beanFactory) {
         var router = new Router();
+        var policy = properties.getRoutingPolicy();
+        if (policy == null) {
+            policy = RouterProperties.RoutingPolicy.AUTO;
+        }
+        switch (policy) {
+            case AUTO -> router.routingPolicy(null);
+            case SIMPLE -> router.routingPolicy(Router.RoutingPolicy.SIMPLE);
+            case TREE_MAP -> router.routingPolicy(Router.RoutingPolicy.TREE_MAP);
+        }
         var beans = beanFactory.getBeansWithAnnotation(RouteController.class);
         log.debug("Route controller beans: {}", beans);
         beans.values().forEach(router::register);
