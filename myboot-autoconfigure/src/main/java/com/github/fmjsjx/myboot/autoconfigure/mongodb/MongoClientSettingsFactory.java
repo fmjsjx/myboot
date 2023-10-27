@@ -14,12 +14,7 @@ import com.mongodb.AuthenticationMechanism;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
-import com.mongodb.connection.ClusterSettings;
-import com.mongodb.connection.ConnectionPoolSettings;
-import com.mongodb.connection.ServerSettings;
-import com.mongodb.connection.SocketSettings;
-import com.mongodb.connection.SslSettings;
-import com.mongodb.connection.netty.NettyStreamFactoryFactory;
+import com.mongodb.connection.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,10 +49,10 @@ class MongoClientSettingsFactory {
         Optional.ofNullable(config.getUri()).map(ConnectionString::new).ifPresent(builder::applyConnectionString);
         if (config.isUseNetty()) {
             var library = MongoDBAutoConfiguration.getNettyLibrary();
-            var sff = NettyStreamFactoryFactory.builder().eventLoopGroup(library.getEventLoopGroup())
+            var transportSettings = TransportSettings.nettyBuilder().eventLoopGroup(library.getEventLoopGroup())
                     .socketChannelClass(library.getSocketChannelClass()).build();
-            log.debug("Set MongoClient NettyStreamFactoryFactory >>> {}", sff);
-            builder.streamFactoryFactory(sff);
+            log.debug("Set MongoClient NettyTransportSettings >>> {}", transportSettings);
+            builder.transportSettings(transportSettings);
         }
         return builder.build();
     }
