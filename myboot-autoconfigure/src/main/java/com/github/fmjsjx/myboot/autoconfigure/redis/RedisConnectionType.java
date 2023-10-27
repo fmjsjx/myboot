@@ -16,6 +16,10 @@ public enum RedisConnectionType {
     /**
      * SENTINEL connection.
      */
-    SENTINEL
+    SENTINEL,
+    /**
+     * MasterReplica connection.
+     */
+    MASTER_REPLICA,
 
 }

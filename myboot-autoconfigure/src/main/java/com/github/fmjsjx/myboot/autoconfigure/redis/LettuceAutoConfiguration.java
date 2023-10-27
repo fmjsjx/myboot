@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import io.lettuce.core.RedisCredentials;
 import io.lettuce.core.StaticCredentialsProvider;
+import io.lettuce.core.masterreplica.MasterReplica;
+import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -129,23 +131,37 @@ public class LettuceAutoConfiguration {
                     .orElseGet(() -> properties.getName() + "RedisConnection");
             var uri = createUri(properties);
             var codec = getRedisCodec(properties.getCodec());
-            if (properties.getType() == RedisConnectionType.NORMAL) {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(StatefulRedisConnection.class, () -> client.connect(codec, uri))
-                        .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            } else if (properties.getType() == RedisConnectionType.PUBSUB) {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(StatefulRedisPubSubConnection.class,
-                                () -> client.connectPubSub(codec, uri))
-                        .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            } else if (properties.getType() == RedisConnectionType.SENTINEL) {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(StatefulRedisSentinelConnection.class,
-                                () -> client.connectSentinel(codec, uri))
-                        .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
-                registry.registerBeanDefinition(beanName, beanDefinition);
+            if (properties.getType() == null) {
+                properties.setType(RedisConnectionType.NORMAL);
+            }
+            switch (properties.getType()) {
+                case NORMAL -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(StatefulRedisConnection.class, () -> client.connect(codec, uri))
+                            .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
+                case PUBSUB -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(StatefulRedisPubSubConnection.class,
+                                    () -> client.connectPubSub(codec, uri))
+                            .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
+                case SENTINEL -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(StatefulRedisSentinelConnection.class,
+                                    () -> client.connectSentinel(codec, uri))
+                            .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
+                case MASTER_REPLICA -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(StatefulRedisMasterReplicaConnection.class,
+                                    () -> MasterReplica.connect(client, codec, uri))
+                            .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
             }
         }
 
@@ -224,19 +240,25 @@ public class LettuceAutoConfiguration {
                 RedisConnectionProperties properties) {
             var beanName = properties.getName() + "RedisClusterConnection";
             var codec = getRedisCodec(properties.getCodec());
-            if (properties.getType() == RedisConnectionType.NORMAL) {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(StatefulRedisClusterConnection.class, () -> client.connect(codec))
-                        .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            } else if (properties.getType() == RedisConnectionType.PUBSUB) {
-                var beanDefinition = BeanDefinitionBuilder
-                        .genericBeanDefinition(StatefulRedisClusterPubSubConnection.class,
-                                () -> client.connectPubSub(codec))
-                        .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
-                registry.registerBeanDefinition(beanName, beanDefinition);
-            } else if (properties.getType() == RedisConnectionType.SENTINEL) {
-                throw new IllegalArgumentException("SENTINEL is unsupported in RedisCluster");
+            if (properties.getType() == null) {
+                properties.setType(RedisConnectionType.NORMAL);
+            }
+            switch (properties.getType()) {
+                case NORMAL -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(StatefulRedisClusterConnection.class, () -> client.connect(codec))
+                            .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
+                case PUBSUB -> {
+                    var beanDefinition = BeanDefinitionBuilder
+                            .genericBeanDefinition(StatefulRedisClusterPubSubConnection.class,
+                                    () -> client.connectPubSub(codec))
+                            .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
+                    registry.registerBeanDefinition(beanName, beanDefinition);
+                }
+                case SENTINEL, MASTER_REPLICA ->
+                        throw new IllegalArgumentException(properties.getType() + "is unsupported in RedisCluster");
             }
         }
 
