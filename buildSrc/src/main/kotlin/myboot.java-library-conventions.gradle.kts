@@ -11,26 +11,26 @@ repositories {
 
 dependencies {
     // spring boot
-    val springBootVersion = "3.1.5"
+    val springBootVersion = "3.2.0"
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:3.6.0"))
+    api(platform("com.github.fmjsjx:libcommon-bom:3.6.1"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:3.3.0"))
+    api(platform("com.github.fmjsjx:libnetty-bom:3.4.0"))
     // netty
-    api(platform("io.netty:netty-bom:4.1.100.Final"))
+    api(platform("io.netty:netty-bom:4.1.104.Final"))
     // ALIYUN ONS
     api(platform("com.aliyun.openservices:ons-client:2.0.6.Final"))
     // rocketmq
     api(platform("org.apache.rocketmq:rocketmq-all:5.1.4"))
 
     constraints {
-        api("io.lettuce:lettuce-core:6.2.6.RELEASE")
-        api("org.apache.kafka:kafka-clients:3.6.0")
+        api("io.lettuce:lettuce-core:6.3.0.RELEASE")
+        api("org.apache.kafka:kafka-clients:3.6.1")
         api("org.apache.pulsar:pulsar-client:3.1.1")
         // MongoDB
-        val mongodbVersion = "4.11.0"
+        val mongodbVersion = "4.11.1"
         api("org.mongodb:bson:$mongodbVersion")
         api("org.mongodb:mongodb-driver-core:$mongodbVersion")
         api("org.mongodb:mongodb-driver-sync:$mongodbVersion")
@@ -38,7 +38,7 @@ dependencies {
         api("org.mongodb:mongodb-driver-legacy:$mongodbVersion")
     }
     // log4j2
-    implementation(platform("org.apache.logging.log4j:log4j-bom:2.21.1"))
+    implementation(platform("org.apache.logging.log4j:log4j-bom:2.22.0"))
 
 }
 
