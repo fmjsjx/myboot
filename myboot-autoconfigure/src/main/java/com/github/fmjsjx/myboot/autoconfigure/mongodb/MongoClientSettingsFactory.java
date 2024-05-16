@@ -115,8 +115,9 @@ class MongoClientSettingsFactory {
 
     }
 
+    @SuppressWarnings("UnnecessaryDefault")
     private static MongoCredential createCredential(AuthenticationMechanism mechanism, String userName, String source,
-            char[] password) {
+                                                    char[] password) {
         if (mechanism != null) {
             return switch (mechanism) {
                 case GSSAPI -> MongoCredential.createGSSAPICredential(userName);
@@ -125,6 +126,8 @@ class MongoClientSettingsFactory {
                 case SCRAM_SHA_1 -> MongoCredential.createScramSha1Credential(userName, source, password);
                 case SCRAM_SHA_256 -> MongoCredential.createScramSha256Credential(userName, source, password);
                 case MONGODB_AWS -> MongoCredential.createAwsCredential(userName, password);
+                case MONGODB_OIDC -> MongoCredential.createOidcCredential(userName);
+                default -> throw new UnsupportedOperationException("unsupported mechanism " + mechanism);
             };
         }
         return MongoCredential.createCredential(userName, source, password);
