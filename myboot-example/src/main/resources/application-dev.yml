@@ -2,7 +2,7 @@ myboot:
   http:
     router:
       auto-init: true
-      routing-policy: true
+      routing-policy: auto
   mongodb:
     clients:
     - name: sync

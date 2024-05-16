@@ -52,6 +52,7 @@ public class RocketMQAutoConfiguration {
     /**
      * Registry processor for RocketMQ.
      */
+    @SuppressWarnings("deprecation")
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class RocketMQRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
 
@@ -145,6 +146,9 @@ public class RocketMQAutoConfiguration {
             if (config.getNamespace() != null) {
                 producer.setNamespace(config.getNamespace());
             }
+            if (config.getNamespaceV2() != null) {
+                producer.setNamespaceV2(config.getNamespaceV2());
+            }
             if (config.getAccessChannel() != null) {
                 producer.setAccessChannel(config.getAccessChannel());
             }
@@ -211,32 +215,16 @@ public class RocketMQAutoConfiguration {
         }
 
         private MQPushConsumer initPushConsumer(String name, ConsumerProperties config) {
-            DefaultMQPushConsumer consumer;
-            if (config.getAccessKey() != null || config.getSecretKey() != null) {
-                var accessKey = config.getAccessKey();
-                var secretKey = config.getSecretKey();
-                if (accessKey == null) {
-                    throw new NoSuchElementException("libcommons.rocketmq." + name + ".access-key");
-                }
-                if (secretKey == null) {
-                    throw new NoSuchElementException("libcommons.rocketmq." + name + ".secret-key");
-                }
-                if (config.getSecretToken() != null) {
-                    consumer = new DefaultMQPushConsumer(
-                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey, config.getSecretKey())));
-                } else {
-                    consumer = new DefaultMQPushConsumer(
-                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey)));
-                }
-            } else {
-                consumer = new DefaultMQPushConsumer();
-            }
+            DefaultMQPushConsumer consumer = getDefaultMQPushConsumer(name, config);
             consumer.setNamesrvAddr(config.getNamesrvAddr());
             if (config.getAccessChannel() != null) {
                 consumer.setAccessChannel(config.getAccessChannel());
             }
             if (config.getNamespace() != null) {
                 consumer.setNamespace(config.getNamespace());
+            }
+            if (config.getNamespaceV2() != null) {
+                consumer.setNamespaceV2(config.getNamespaceV2());
             }
             consumer.setConsumerGroup(config.getGroupId());
             if (config.getMessageModel() != null) {
@@ -259,6 +247,30 @@ public class RocketMQAutoConfiguration {
             }
             if (config.getConsumeFromWhere() != null) {
                 consumer.setConsumeFromWhere(config.getConsumeFromWhere());
+            }
+            return consumer;
+        }
+
+        private static DefaultMQPushConsumer getDefaultMQPushConsumer(String name, ConsumerProperties config) {
+            DefaultMQPushConsumer consumer;
+            if (config.getAccessKey() != null || config.getSecretKey() != null) {
+                var accessKey = config.getAccessKey();
+                var secretKey = config.getSecretKey();
+                if (accessKey == null) {
+                    throw new NoSuchElementException("libcommons.rocketmq." + name + ".access-key");
+                }
+                if (secretKey == null) {
+                    throw new NoSuchElementException("libcommons.rocketmq." + name + ".secret-key");
+                }
+                if (config.getSecretToken() != null) {
+                    consumer = new DefaultMQPushConsumer(
+                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey, config.getSecretKey())));
+                } else {
+                    consumer = new DefaultMQPushConsumer(
+                            new AclClientRPCHook(new SessionCredentials(accessKey, secretKey)));
+                }
+            } else {
+                consumer = new DefaultMQPushConsumer();
             }
             return consumer;
         }
@@ -290,6 +302,9 @@ public class RocketMQAutoConfiguration {
             }
             if (config.getNamespace() != null) {
                 consumer.setNamespace(config.getNamespace());
+            }
+            if (config.getNamespaceV2() != null) {
+                consumer.setNamespaceV2(config.getNamespaceV2());
             }
             if (config.getMessageModel() != null) {
                 consumer.setMessageModel(config.getMessageModel());
