@@ -43,8 +43,17 @@ public class ConsumerProperties implements ConfigProperties {
 
     /**
      * The namespace.
+     *
+     * @deprecated please use {@link #namespaceV2} instead
      */
+    @Deprecated
     private String namespace;
+    /**
+     * The namespace v2.
+     *
+     * @since 3.2.3
+     */
+    private String namespaceV2;
 
     @NonNull
     private String groupId;
