@@ -11,15 +11,15 @@ repositories {
 
 dependencies {
     // spring boot
-    val springBootVersion = "3.2.5"
+    val springBootVersion = "3.2.6"
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:3.8.0"))
+    api(platform("com.github.fmjsjx:libcommon-bom:3.8.1"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:3.6.0"))
+    api(platform("com.github.fmjsjx:libnetty-bom:3.7.1"))
     // netty
-    api(platform("io.netty:netty-bom:4.1.109.Final"))
+    api(platform("io.netty:netty-bom:4.1.110.Final"))
     // ALIYUN ONS
     api(platform("com.aliyun.openservices:ons-client:2.0.7.Final"))
     // rocketmq
