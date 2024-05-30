@@ -39,7 +39,7 @@ public class KafkaAutoConfiguration {
     /**
      * Returns new {@link KafkaRegistryProcessor} instance.
      * 
-     * @return new {@code KafkaRegisteryProcessor} instance
+     * @return new {@code KafkaRegistryProcessor} instance
      */
     @Bean
     public static KafkaRegistryProcessor kafkaRegistryProcessor() {
