@@ -3,68 +3,6 @@ plugins {
     id("myboot.publish-conventions")
 }
 
-sourceSets {
-    create("httpServerSupport") {
-        java {
-            srcDir("src/http-server/java")
-        }
-    }
-    create("redisSupport") {
-        java {
-            srcDir("src/redis/java")
-        }
-    }
-    create("mongodbSupport") {
-        java {
-            srcDir("src/mongodb/java")
-        }
-    }
-    create("kafkaSupport") {
-        java {
-            srcDir("src/kafka/java")
-        }
-    }
-    create("pulsarSupport") {
-        java {
-            srcDir("src/pulsar/java")
-        }
-    }
-    create("aliyunonsSupport") {
-        java {
-            srcDir("src/aliyunons/java")
-        }
-    }
-    create("rocketmqSupport") {
-        java {
-            srcDir("src/rocketmq/java")
-        }
-    }
-}
-
-java {
-    registerFeature("httpServerSupport") {
-        usingSourceSet(sourceSets["httpServerSupport"])
-    }
-    registerFeature("redisSupport") {
-        usingSourceSet(sourceSets["redisSupport"])
-    }
-    registerFeature("mongodbSupport") {
-        usingSourceSet(sourceSets["mongodbSupport"])
-    }
-    registerFeature("kafkaSupport") {
-        usingSourceSet(sourceSets["kafkaSupport"])
-    }
-    registerFeature("pulsarSupport") {
-        usingSourceSet(sourceSets["pulsarSupport"])
-    }
-    registerFeature("aliyunonsSupport") {
-        usingSourceSet(sourceSets["aliyunonsSupport"])
-    }
-    registerFeature("rocketmqSupport") {
-        usingSourceSet(sourceSets["rocketmqSupport"])
-    }
-}
-
 dependencies {
 
     implementation("org.slf4j:slf4j-api")
@@ -78,27 +16,27 @@ dependencies {
 
     implementation("com.github.fmjsjx:libcommon-util")
 
-    "httpServerSupportApi"("com.github.fmjsjx:libnetty-http-server")
+    compileOnly("com.github.fmjsjx:libnetty-http-server")
 
-    "redisSupportApi"("io.lettuce:lettuce-core")
-    "redisSupportApi"("org.apache.commons:commons-pool2")
-    "redisSupportApi"("com.github.fmjsjx:libcommon-redis")
+    compileOnly("io.lettuce:lettuce-core")
+    compileOnly("org.apache.commons:commons-pool2")
+    compileOnly("com.github.fmjsjx:libcommon-redis")
 
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-sync")
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")
+    compileOnly("org.mongodb:mongodb-driver-sync")
+    compileOnly("org.mongodb:mongodb-driver-reactivestreams")
 
-    "kafkaSupportApi"("org.apache.kafka:kafka-clients")
+    compileOnly("org.apache.kafka:kafka-clients")
 
-    "pulsarSupportApi"("org.apache.pulsar:pulsar-client")
+    compileOnly("org.apache.pulsar:pulsar-client")
 
-    "aliyunonsSupportApi"("com.aliyun.openservices:ons-client")
+    compileOnly("com.aliyun.openservices:ons-client")
 
-    "rocketmqSupportApi"("org.apache.rocketmq:rocketmq-client") {
+    compileOnly("org.apache.rocketmq:rocketmq-client") {
         exclude(group = "io.netty", module = "netty-all")
         exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
     }
-    "rocketmqSupportApi"("org.apache.rocketmq:rocketmq-acl")
-    "rocketmqSupportApi"("io.netty:netty-handler")
+    compileOnly("org.apache.rocketmq:rocketmq-acl")
+    compileOnly("io.netty:netty-handler")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
