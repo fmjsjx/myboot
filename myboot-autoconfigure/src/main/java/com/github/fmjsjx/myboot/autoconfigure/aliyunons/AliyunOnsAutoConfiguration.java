@@ -46,7 +46,7 @@ public class AliyunOnsAutoConfiguration {
     /**
      * Returns new {@link OnsRegistryProcessor} instance.
      * 
-     * @return new {@code OnsRegisteryProcessor} instance
+     * @return new {@code OnsRegistryProcessor} instance
      */
     @Bean
     public static OnsRegistryProcessor onsRegistryProcessor() {
