@@ -3,27 +3,65 @@ plugins {
     id("myboot.publish-conventions")
 }
 
+sourceSets {
+    create("httpServerSupport") {
+        java {
+            srcDir("src/http-server/java")
+        }
+    }
+    create("redisSupport") {
+        java {
+            srcDir("src/redis/java")
+        }
+    }
+    create("mongodbSupport") {
+        java {
+            srcDir("src/mongodb/java")
+        }
+    }
+    create("kafkaSupport") {
+        java {
+            srcDir("src/kafka/java")
+        }
+    }
+    create("pulsarSupport") {
+        java {
+            srcDir("src/pulsar/java")
+        }
+    }
+    create("aliyunonsSupport") {
+        java {
+            srcDir("src/aliyunons/java")
+        }
+    }
+    create("rocketmqSupport") {
+        java {
+            srcDir("src/rocketmq/java")
+        }
+    }
+}
+
 java {
     registerFeature("httpServerSupport") {
-        usingSourceSet(sourceSets["main"])
+        usingSourceSet(sourceSets["httpServerSupport"])
     }
     registerFeature("redisSupport") {
-        usingSourceSet(sourceSets["main"])
+        usingSourceSet(sourceSets["redisSupport"])
     }
     registerFeature("mongodbSupport") {
-        usingSourceSet(sourceSets["main"])
+        usingSourceSet(sourceSets["mongodbSupport"])
     }
     registerFeature("kafkaSupport") {
-        usingSourceSet(sourceSets["main"])
+        usingSourceSet(sourceSets["kafkaSupport"])
     }
     registerFeature("pulsarSupport") {
-        usingSourceSet(sourceSets["main"])
+        usingSourceSet(sourceSets["pulsarSupport"])
     }
     registerFeature("aliyunonsSupport") {
-        usingSourceSet(sourceSets["main"])
+        usingSourceSet(sourceSets["aliyunonsSupport"])
     }
     registerFeature("rocketmqSupport") {
-        usingSourceSet(sourceSets["main"])
+        usingSourceSet(sourceSets["rocketmqSupport"])
     }
 }
 
