@@ -72,7 +72,7 @@ dependencies {
 
 description = "MyBoot/AutoConfigure"
 
-tasks.test {
+tasks.withType<Test> {
     // Use junit platform for unit tests.
     useJUnitPlatform()
 }
