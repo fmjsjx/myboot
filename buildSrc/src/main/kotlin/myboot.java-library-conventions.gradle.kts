@@ -15,9 +15,9 @@ dependencies {
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:3.9.0"))
+    api(platform("com.github.fmjsjx:libcommon-bom:3.9.1"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:3.7.3"))
+    api(platform("com.github.fmjsjx:libnetty-bom:3.7.4"))
     // ALIYUN ONS
     api(platform("com.aliyun.openservices:ons-client:2.0.7.Final"))
     // rocketmq
