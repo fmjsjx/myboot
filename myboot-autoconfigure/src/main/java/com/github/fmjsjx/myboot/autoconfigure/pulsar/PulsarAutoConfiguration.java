@@ -91,6 +91,7 @@ public class PulsarAutoConfiguration {
                             .setDestroyMethodName("close").getBeanDefinition());
         }
 
+        @SuppressWarnings("deprecation")
         void configClientBuilder(PulsarClientProperties config, String beanName, ClientBuilder builder) {
             Optional.ofNullable(config.getServiceUrl()).ifPresent(builder::serviceUrl);
             Optional.ofNullable(config.getListenerName()).ifPresent(builder::listenerName);
@@ -121,8 +122,8 @@ public class PulsarAutoConfiguration {
             Optional.of(config.getTlsTrustStoreType()).ifPresent(builder::tlsTrustStoreType);
             Optional.of(config.getTlsTrustStorePath()).ifPresent(builder::tlsTrustStorePath);
             Optional.of(config.getTlsTrustStorePassword()).ifPresent(builder::tlsTrustStorePassword);
-            Optional.of(config.getTlsCiphers()).filter(s -> s.size() > 0).ifPresent(builder::tlsCiphers);
-            Optional.of(config.getTlsProtocols()).filter(s -> s.size() > 0).ifPresent(builder::tlsProtocols);
+            Optional.of(config.getTlsCiphers()).filter(s -> !s.isEmpty()).ifPresent(builder::tlsCiphers);
+            Optional.of(config.getTlsProtocols()).filter(s -> !s.isEmpty()).ifPresent(builder::tlsProtocols);
             Optional.of(config.getConcurrentLookupRequest()).ifPresent(builder::maxConcurrentLookupRequests);
             Optional.of(config.getMaxLookupRequest()).ifPresent(builder::maxLookupRequests);
             Optional.of(config.getMaxLookupRedirects()).ifPresent(builder::maxLookupRedirects);
