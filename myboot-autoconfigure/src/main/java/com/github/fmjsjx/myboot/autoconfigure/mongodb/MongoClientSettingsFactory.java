@@ -21,6 +21,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class MongoClientSettingsFactory {
 
+    private static boolean hasNetty() {
+        try {
+            Class.forName("io.netty.channel.EventLoopGroup.EventLoopGroup");
+            Class.forName("io.netty.channel.socket.SocketChannel");
+            Class.forName("io.netty.util.concurrent.DefaultThreadFactory");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     static MongoClientSettings create(MongoClientProperties config) {
         var builder = MongoClientSettings.builder();
         // application name
@@ -47,7 +58,7 @@ class MongoClientSettingsFactory {
         }
         // uri
         Optional.ofNullable(config.getUri()).map(ConnectionString::new).ifPresent(builder::applyConnectionString);
-        if (config.isUseNetty()) {
+        if (config.isUseNetty() && hasNetty()) {
             var library = MongoDBAutoConfiguration.getNettyLibrary();
             var transportSettings = TransportSettings.nettyBuilder().eventLoopGroup(library.getEventLoopGroup())
                     .socketChannelClass(library.getSocketChannelClass()).build();

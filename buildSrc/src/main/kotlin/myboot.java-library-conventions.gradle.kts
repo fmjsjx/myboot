@@ -11,23 +11,23 @@ repositories {
 
 dependencies {
     // spring boot
-    val springBootVersion = "3.4.1"
+    val springBootVersion = "3.4.4"
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:3.10.0"))
+    api(platform("com.github.fmjsjx:libcommon-bom:3.12.1"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:3.7.5"))
+    api(platform("com.github.fmjsjx:libnetty-bom:3.8.0"))
     // ALIYUN ONS
-    api(platform("com.aliyun.openservices:ons-client:2.0.7.Final"))
+    api(platform("com.aliyun.openservices:ons-client:2.0.8.Final"))
     // rocketmq
-    api(platform("org.apache.rocketmq:rocketmq-all:5.3.1"))
+    api(platform("org.apache.rocketmq:rocketmq-all:5.3.2"))
 
     constraints {
-        api("org.apache.kafka:kafka-clients:3.9.0")
-        api("org.apache.pulsar:pulsar-client:4.0.1")
+        api("org.apache.kafka:kafka-clients:4.0.0")
+        api("org.apache.pulsar:pulsar-client:4.0.4")
         // MongoDB
-        val mongodbVersion = "5.2.1"
+        val mongodbVersion = "5.4.0"
         api("org.mongodb:bson:$mongodbVersion")
         api("org.mongodb:mongodb-driver-core:$mongodbVersion")
         api("org.mongodb:mongodb-driver-sync:$mongodbVersion")
