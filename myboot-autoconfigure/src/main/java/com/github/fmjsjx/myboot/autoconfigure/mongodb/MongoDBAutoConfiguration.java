@@ -23,9 +23,7 @@ import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.MongoCli
 import com.mongodb.MongoClientSettings;
 
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -92,23 +90,62 @@ public class MongoDBAutoConfiguration {
         }
     }
 
+    @SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
+    private static <T extends EventLoopGroup> T ioEventLoopGroup(String handleClassName, ThreadFactory threadFactory) {
+        try {
+            var factoryClass = Class.forName("io.netty.channel.IoHandlerFactory");
+            var clazz = Class.forName(handleClassName);
+            var factory = clazz.getMethod("newFactory").invoke(null);
+            var eventLoopClass = (Class<T>) Class.forName("io.netty.channel.MultiThreadIoEventLoopGroup");
+            var constructor = eventLoopClass.getConstructor(ThreadFactory.class, factoryClass);
+            return constructor.newInstance(threadFactory, factory);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     static NettyLibrary getNettyLibrary() {
         if (nettyLibrary == null) {
             synchronized (NETTY_LIBRARY_LOCK) {
                 if (nettyLibrary == null) {
                     var threadFactory = new DefaultThreadFactory("mongodb-stream", true);
-                    if (isNettyNativeAvailable("io.netty.channel.epoll.Epoll")) {
-                        var eventLoopGroup = nativeEventLoopGroup(
-                                "io.netty.channel.epoll.EpollEventLoopGroup", threadFactory);
+                    if (isNettyNativeAvailable("io.netty.channel.uring.IoUring")) {
+                        var eventLoopGroup = ioEventLoopGroup(
+                                "io.netty.channel.uring.IoUringIoHandler", threadFactory);
+                        nettyLibrary = new NettyLibrary(eventLoopGroup,
+                                socketChannelClass("io.netty.channel.uring.IoUringSocketChannel"));
+                    } else if (isNettyNativeAvailable("io.netty.channel.epoll.Epoll")) {
+                        EventLoopGroup eventLoopGroup;
+                        try {
+                            eventLoopGroup = ioEventLoopGroup(
+                                    "io.netty.channel.epoll.EpollIoHandler", threadFactory);
+                        } catch (Exception e) {
+                            eventLoopGroup = nativeEventLoopGroup(
+                                    "io.netty.channel.epoll.EpollEventLoopGroup", threadFactory);
+                        }
                         nettyLibrary = new NettyLibrary(eventLoopGroup,
                                 socketChannelClass("io.netty.channel.epoll.EpollSocketChannel"));
                     } else if (isNettyNativeAvailable("io.netty.channel.kqueue.KQueue")) {
-                        var eventLoopGroup = nativeEventLoopGroup(
-                                "io.netty.channel.kqueue.KQueueEventLoopGroup", threadFactory);
+                        EventLoopGroup eventLoopGroup;
+                        try {
+                            eventLoopGroup = ioEventLoopGroup(
+                                    "io.netty.channel.kqueue.KQueueIoHandler", threadFactory);
+                        } catch (Exception e) {
+                            eventLoopGroup = nativeEventLoopGroup(
+                                    "io.netty.channel.kqueue.KQueueEventLoopGroup", threadFactory);
+                        }
                         nettyLibrary = new NettyLibrary(eventLoopGroup,
                                 socketChannelClass("io.netty.channel.kqueue.KQueueSocketChannel"));
                     } else {
-                        nettyLibrary = new NettyLibrary(new NioEventLoopGroup(threadFactory), NioSocketChannel.class);
+                        EventLoopGroup eventLoopGroup;
+                        try {
+                            eventLoopGroup = ioEventLoopGroup(
+                                    "io.netty.channel.nio.NioIoHandler", threadFactory);
+                        } catch (Exception e) {
+                            eventLoopGroup = nativeEventLoopGroup(
+                                    "io.netty.channel.nio.NioEventLoopGroup", threadFactory);
+                        }
+                        nettyLibrary = new NettyLibrary(eventLoopGroup, socketChannelClass("io.netty.channel.nio.NioSocketChannel"));
                     }
                 }
             }
