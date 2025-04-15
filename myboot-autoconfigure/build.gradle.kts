@@ -3,30 +3,6 @@ plugins {
     id("myboot.publish-conventions")
 }
 
-java {
-    registerFeature("httpServerSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-    registerFeature("redisSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-    registerFeature("mongodbSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-    registerFeature("kafkaSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-    registerFeature("pulsarSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-    registerFeature("aliyunonsSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-    registerFeature("rocketmqSupport") {
-        usingSourceSet(sourceSets["main"])
-    }
-}
-
 dependencies {
 
     implementation("org.slf4j:slf4j-api")
@@ -40,27 +16,27 @@ dependencies {
 
     implementation("com.github.fmjsjx:libcommon-util")
 
-    "httpServerSupportApi"("com.github.fmjsjx:libnetty-http-server")
+    compileOnlyApi("com.github.fmjsjx:libnetty-http-server")
 
-    "redisSupportApi"("io.lettuce:lettuce-core")
-    "redisSupportApi"("org.apache.commons:commons-pool2")
-    "redisSupportApi"("com.github.fmjsjx:libcommon-redis")
+    compileOnlyApi("io.lettuce:lettuce-core")
+    compileOnlyApi("org.apache.commons:commons-pool2")
+    compileOnlyApi("com.github.fmjsjx:libcommon-redis")
 
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-sync")
-    "mongodbSupportApi"("org.mongodb:mongodb-driver-reactivestreams")
+    compileOnlyApi("org.mongodb:mongodb-driver-sync")
+    compileOnlyApi("org.mongodb:mongodb-driver-reactivestreams")
 
-    "kafkaSupportApi"("org.apache.kafka:kafka-clients")
+    compileOnlyApi("org.apache.kafka:kafka-clients")
 
-    "pulsarSupportApi"("org.apache.pulsar:pulsar-client")
+    compileOnlyApi("org.apache.pulsar:pulsar-client")
 
-    "aliyunonsSupportApi"("com.aliyun.openservices:ons-client")
+    compileOnlyApi("com.aliyun.openservices:ons-client")
 
-    "rocketmqSupportApi"("org.apache.rocketmq:rocketmq-client") {
+    compileOnlyApi("org.apache.rocketmq:rocketmq-client") {
         exclude(group = "io.netty", module = "netty-all")
         exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
     }
-    "rocketmqSupportApi"("org.apache.rocketmq:rocketmq-acl")
-    "rocketmqSupportApi"("io.netty:netty-handler")
+    compileOnlyApi("org.apache.rocketmq:rocketmq-acl")
+    compileOnlyApi("io.netty:netty-handler")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
