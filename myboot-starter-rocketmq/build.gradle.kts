@@ -9,7 +9,7 @@ dependencies {
         exclude(group = "io.netty", module = "netty-all")
         exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
     }
-    api("org.apache.rocketmq:rocketmq-acl")
+//    api("org.apache.rocketmq:rocketmq-acl:5.3.2")
     api("io.netty:netty-handler")
     api("com.github.fmjsjx:libcommon-rocketmq")
     
