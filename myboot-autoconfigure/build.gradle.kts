@@ -35,7 +35,7 @@ dependencies {
         exclude(group = "io.netty", module = "netty-all")
         exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
     }
-    compileOnlyApi("org.apache.rocketmq:rocketmq-acl")
+//    compileOnlyApi("org.apache.rocketmq:rocketmq-acl:5.3.2")
     compileOnlyApi("io.netty:netty-handler")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
