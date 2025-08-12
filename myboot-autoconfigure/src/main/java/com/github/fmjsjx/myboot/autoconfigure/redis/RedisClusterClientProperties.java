@@ -1,6 +1,7 @@
 package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.lang.NonNull;
 
@@ -25,6 +26,14 @@ public class RedisClusterClientProperties extends RedisClientProperties {
      * The REDIS URI.
      */
     private URI uri;
+    /**
+     * The REDIS URI list.
+     * <p>
+     * If exists, the {@code uri} parameter will be ignored.
+     *
+     * @since 3.5
+     */
+    private List<URI> uris;
     /**
      * Weather this cluster client is primary or not.
      */
