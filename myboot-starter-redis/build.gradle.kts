@@ -6,7 +6,7 @@ plugins {
 dependencies {
 
     api("io.lettuce:lettuce-core")
-    api("org.apache.commons:commons-pool2")
+    compileOnlyApi("org.apache.commons:commons-pool2")
     api("com.github.fmjsjx:libcommon-redis")
 
 }

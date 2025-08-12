@@ -37,7 +37,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * Auto configuration class for {@code REDIS/Lettuce}.
+ * Auto-Configuration class for {@code REDIS/Lettuce}.
  */
 @Configuration
 @ConditionalOnClass(RedisClient.class)
@@ -48,10 +48,10 @@ public class LettuceAutoConfiguration {
     /**
      * Returns a new {@link LettuceRegistryProcessor} instance.
      * 
-     * @return a new {@code LettuceRegisteryProcessor} instance
+     * @return a new {@code LettuceRegistryProcessor} instance
      */
     @Bean
-    public static final LettuceRegistryProcessor lettuceRegisteryProcessor() {
+    public static final LettuceRegistryProcessor lettuceRegistryProcessor() {
         return new LettuceRegistryProcessor();
     }
 
@@ -88,8 +88,8 @@ public class LettuceAutoConfiguration {
         }
 
         private void registerBeans(RedisClientProperties properties) throws BeansException {
-            if (properties instanceof RedisClusterClientProperties) {
-                registerBeans((RedisClusterClientProperties) properties);
+            if (properties instanceof RedisClusterClientProperties clusterClientProperties) {
+                registerBeans(clusterClientProperties);
             } else {
                 var client = registerClientBean(properties);
                 if (properties.getConnections().size() == 1) {
@@ -210,10 +210,16 @@ public class LettuceAutoConfiguration {
             if (properties.getComputationThreads() > 0) {
                 builder.computationThreadPoolSize(properties.getComputationThreads());
             }
-            RedisURI uri = createUri(properties);
             String name = properties.getName();
             String beanName = name + "RedisClusterClient";
-            RedisClusterClient client = RedisClusterClient.create(builder.build(), uri);
+            RedisClusterClient client;
+            if (properties.getUris() != null && !properties.getUris().isEmpty()) {
+                var uris =  properties.getUris().stream().map(RedisURI::create).toList();
+                client = RedisClusterClient.create(builder.build(), uris);
+            } else {
+                var uri = createUri(properties);
+                client = RedisClusterClient.create(builder.build(), uri);
+            }
             registry.registerBeanDefinition(beanName,
                     BeanDefinitionBuilder.genericBeanDefinition(RedisClusterClient.class, () -> client)
                             .setDestroyMethodName("shutdown").setPrimary(properties.isPrimary()).getBeanDefinition());
