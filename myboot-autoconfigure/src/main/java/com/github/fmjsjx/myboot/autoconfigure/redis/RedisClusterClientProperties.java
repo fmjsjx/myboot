@@ -3,8 +3,6 @@ package com.github.fmjsjx.myboot.autoconfigure.redis;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.lang.NonNull;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +18,6 @@ public class RedisClusterClientProperties extends RedisClientProperties {
     /**
      * The name of the {@code REDIS/Lettuce} cluster client
      */
-    @NonNull
     private String name;
     /**
      * The REDIS URI.

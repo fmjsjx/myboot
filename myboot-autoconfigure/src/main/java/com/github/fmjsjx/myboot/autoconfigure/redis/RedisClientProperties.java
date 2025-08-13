@@ -20,7 +20,7 @@ public class RedisClientProperties {
      * <p>
      * or <code>"${name}RedisClusterClient"</code> for cluster client.
      */
-    private String beanName = "redisClient";
+    private String beanName;
 
     /**
      * The number of IO threads.
