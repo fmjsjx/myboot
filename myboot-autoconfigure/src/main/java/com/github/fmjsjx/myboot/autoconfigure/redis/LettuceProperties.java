@@ -1,6 +1,5 @@
 package com.github.fmjsjx.myboot.autoconfigure.redis;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,6 +29,6 @@ public class LettuceProperties {
     /**
      * The cluster clients.
      */
-    private List<RedisClusterClientProperties> clusterClients = Collections.emptyList();
+    private List<RedisClusterClientProperties> clusterClients = List.of();
 
 }

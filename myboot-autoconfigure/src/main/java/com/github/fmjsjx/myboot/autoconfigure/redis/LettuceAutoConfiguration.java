@@ -2,8 +2,10 @@ package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import java.util.Optional;
 
+import com.github.fmjsjx.libcommon.util.StringUtil;
 import io.lettuce.core.RedisCredentials;
 import io.lettuce.core.StaticCredentialsProvider;
+import io.lettuce.core.cluster.RedisClusterURIUtil;
 import io.lettuce.core.masterreplica.MasterReplica;
 import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
 import org.springframework.beans.BeansException;
@@ -81,15 +83,15 @@ public class LettuceAutoConfiguration {
             var bindResult = Binder.get(environment).bind(LettuceProperties.CONFIG_PREFIX, LettuceProperties.class);
             bindResult.ifBound(props -> {
                 if (props.getClient() != null) {
-                    registerBeans(props.getClient());
+                    registerClusterClientBean(props.getClient());
                 }
-                props.getClusterClients().forEach(this::registerBeans);
+                props.getClusterClients().forEach(this::registerClusterClientBean);
             });
         }
 
-        private void registerBeans(RedisClientProperties properties) throws BeansException {
+        private void registerClusterClientBean(RedisClientProperties properties) throws BeansException {
             if (properties instanceof RedisClusterClientProperties clusterClientProperties) {
-                registerBeans(clusterClientProperties);
+                registerClusterClientBean(clusterClientProperties);
             } else {
                 var client = registerClientBean(properties);
                 if (properties.getConnections().size() == 1) {
@@ -118,7 +120,11 @@ public class LettuceAutoConfiguration {
                 builder.computationThreadPoolSize(properties.getComputationThreads());
             }
             var client = RedisClient.create(builder.build());
-            clientBeanName = properties.getBeanName();
+            if (StringUtil.isBlank(properties.getBeanName())) {
+                clientBeanName = "redisClient";
+            } else {
+                clientBeanName = properties.getBeanName();
+            }
             registry.registerBeanDefinition(clientBeanName,
                     BeanDefinitionBuilder.genericBeanDefinition(RedisClient.class, () -> client).setPrimary(true)
                             .setDestroyMethodName("shutdown").getBeanDefinition());
@@ -202,7 +208,7 @@ public class LettuceAutoConfiguration {
             }
         }
 
-        private void registerBeans(RedisClusterClientProperties properties) {
+        private void registerClusterClientBean(RedisClusterClientProperties properties) {
             ClientResources.Builder builder = ClientResources.builder();
             if (properties.getIoThreads() > 0) {
                 builder.ioThreadPoolSize(properties.getIoThreads());
@@ -210,12 +216,20 @@ public class LettuceAutoConfiguration {
             if (properties.getComputationThreads() > 0) {
                 builder.computationThreadPoolSize(properties.getComputationThreads());
             }
-            String name = properties.getName();
-            String beanName = name + "RedisClusterClient";
+            String beanName;
+            if (StringUtil.isNotBlank(properties.getBeanName())) {
+                beanName = properties.getBeanName();
+            } else if (StringUtil.isNotBlank(properties.getName())) {
+                beanName = properties.getName() + "RedisClusterClient";
+            } else {
+                beanName = "redisClusterClient";
+            }
             RedisClusterClient client;
             if (properties.getUris() != null && !properties.getUris().isEmpty()) {
                 var uris =  properties.getUris().stream().map(RedisURI::create).toList();
                 client = RedisClusterClient.create(builder.build(), uris);
+            } else if (properties.getUri() != null) {
+                client = RedisClusterClient.create(builder.build(), RedisClusterURIUtil.toRedisURIs(properties.getUri()));
             } else {
                 var uri = createUri(properties);
                 client = RedisClusterClient.create(builder.build(), uri);
