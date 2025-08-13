@@ -1,11 +1,14 @@
 package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
 
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Properties class for {@code REDIS/Lettuce} cluster client.
@@ -61,5 +64,53 @@ public class RedisClusterClientProperties extends RedisClientProperties {
      * Can't be set with {@code uri}.
      */
     private String password;
+
+    /**
+     * The topology refresh options.
+     *
+     * @since 3.5
+     */
+    @NestedConfigurationProperty
+    private TopologyRefreshProperties topologyRefresh;
+
+    /**
+     * Properties class for topology refresh options of the redis cluster client.
+     *
+     * @author MJ Fang
+     * @since 3.5
+     */
+    @Getter
+    @Setter
+    @ToString
+    public static class TopologyRefreshProperties {
+
+        /**
+         * Whether regular cluster topology updates are updated.
+         * <p>
+         * The default is {@code false}.
+         */
+        private boolean periodicRefreshEnabled;
+        /**
+         * Period between the regular cluster topology updates.
+         * <p>
+         * The default is {@code 60s}.
+         */
+        private Duration refreshPeriod;
+        /**
+         * The array of the enabled adaptive topology refresh triggers.
+         */
+        private ClusterTopologyRefreshOptions.RefreshTrigger[] adaptiveRefreshTriggers;
+        /**
+         * Weather enables all adaptive topology refresh triggers ot not.
+         * <p>
+         * The default is {@code false}
+         */
+        private boolean enableAllAdaptiveRefreshTriggers;
+        /**
+         * Set the timeout for adaptive topology updates.
+         */
+        private Duration adaptiveRefreshTriggersTimeout;
+
+    }
 
 }

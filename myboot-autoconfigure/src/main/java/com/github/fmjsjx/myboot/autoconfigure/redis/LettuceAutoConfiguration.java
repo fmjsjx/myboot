@@ -5,6 +5,8 @@ import java.util.Optional;
 import com.github.fmjsjx.libcommon.util.StringUtil;
 import io.lettuce.core.RedisCredentials;
 import io.lettuce.core.StaticCredentialsProvider;
+import io.lettuce.core.cluster.ClusterClientOptions;
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.cluster.RedisClusterURIUtil;
 import io.lettuce.core.masterreplica.MasterReplica;
 import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
@@ -49,7 +51,7 @@ public class LettuceAutoConfiguration {
 
     /**
      * Returns a new {@link LettuceRegistryProcessor} instance.
-     * 
+     *
      * @return a new {@code LettuceRegistryProcessor} instance
      */
     @Bean
@@ -83,29 +85,25 @@ public class LettuceAutoConfiguration {
             var bindResult = Binder.get(environment).bind(LettuceProperties.CONFIG_PREFIX, LettuceProperties.class);
             bindResult.ifBound(props -> {
                 if (props.getClient() != null) {
-                    registerClusterClientBean(props.getClient());
+                    registerClientBeans(props.getClient());
                 }
-                props.getClusterClients().forEach(this::registerClusterClientBean);
+                props.getClusterClients().forEach(this::registerClusterClientBeans);
             });
         }
 
-        private void registerClusterClientBean(RedisClientProperties properties) throws BeansException {
-            if (properties instanceof RedisClusterClientProperties clusterClientProperties) {
-                registerClusterClientBean(clusterClientProperties);
-            } else {
-                var client = registerClientBean(properties);
-                if (properties.getConnections().size() == 1) {
-                    properties.getConnections().get(0).setPrimary(true);
-                }
-                for (var connectionProperties : properties.getConnections()) {
-                    registerConnectionBean(client, connectionProperties);
-                }
-                if (properties.getPools().size() == 1) {
-                    properties.getPools().get(0).setPrimary(true);
-                }
-                for (var poolProperties : properties.getPools()) {
-                    registerPoolBean(client, poolProperties);
-                }
+        private void registerClientBeans(RedisClientProperties properties) throws BeansException {
+            var client = registerClientBean(properties);
+            if (properties.getConnections().size() == 1) {
+                properties.getConnections().get(0).setPrimary(true);
+            }
+            for (var connectionProperties : properties.getConnections()) {
+                registerConnectionBean(client, connectionProperties);
+            }
+            if (properties.getPools().size() == 1) {
+                properties.getPools().get(0).setPrimary(true);
+            }
+            for (var poolProperties : properties.getPools()) {
+                registerPoolBean(client, poolProperties);
             }
         }
 
@@ -208,7 +206,7 @@ public class LettuceAutoConfiguration {
             }
         }
 
-        private void registerClusterClientBean(RedisClusterClientProperties properties) {
+        private void registerClusterClientBeans(RedisClusterClientProperties properties) {
             ClientResources.Builder builder = ClientResources.builder();
             if (properties.getIoThreads() > 0) {
                 builder.ioThreadPoolSize(properties.getIoThreads());
@@ -226,13 +224,42 @@ public class LettuceAutoConfiguration {
             }
             RedisClusterClient client;
             if (properties.getUris() != null && !properties.getUris().isEmpty()) {
-                var uris =  properties.getUris().stream().map(RedisURI::create).toList();
+                var uris = properties.getUris().stream().map(RedisURI::create).toList();
                 client = RedisClusterClient.create(builder.build(), uris);
             } else if (properties.getUri() != null) {
                 client = RedisClusterClient.create(builder.build(), RedisClusterURIUtil.toRedisURIs(properties.getUri()));
             } else {
                 var uri = createUri(properties);
                 client = RedisClusterClient.create(builder.build(), uri);
+            }
+            if (properties.getTopologyRefresh() != null) {
+                var optionsBuilder = ClusterTopologyRefreshOptions.builder();
+                var topologyRefresh = properties.getTopologyRefresh();
+                var anySetup = false;
+                if (topologyRefresh.isPeriodicRefreshEnabled()) {
+                    anySetup = true;
+                    if (topologyRefresh.getRefreshPeriod() != null && topologyRefresh.getRefreshPeriod().toNanos() > 0) {
+                        optionsBuilder.enablePeriodicRefresh(topologyRefresh.getRefreshPeriod());
+                    } else {
+                        optionsBuilder.enablePeriodicRefresh();
+                    }
+                }
+                if (topologyRefresh.isEnableAllAdaptiveRefreshTriggers()) {
+                    anySetup = true;
+                    optionsBuilder.enableAllAdaptiveRefreshTriggers();
+                } else if (topologyRefresh.getAdaptiveRefreshTriggers() != null && topologyRefresh.getAdaptiveRefreshTriggers().length > 0) {
+                    anySetup = true;
+                    optionsBuilder.enableAdaptiveRefreshTrigger(topologyRefresh.getAdaptiveRefreshTriggers());
+                }
+                if (topologyRefresh.getAdaptiveRefreshTriggersTimeout() != null && topologyRefresh.getAdaptiveRefreshTriggersTimeout().toNanos() > 0) {
+                    anySetup = true;
+                    optionsBuilder.adaptiveRefreshTriggersTimeout(topologyRefresh.getAdaptiveRefreshTriggersTimeout());
+                }
+                if (anySetup) {
+                    client.setOptions(ClusterClientOptions.builder(client.getOptions())
+                            .topologyRefreshOptions(optionsBuilder.build())
+                            .build());
+                }
             }
             registry.registerBeanDefinition(beanName,
                     BeanDefinitionBuilder.genericBeanDefinition(RedisClusterClient.class, () -> client)
@@ -257,8 +284,9 @@ public class LettuceAutoConfiguration {
         }
 
         private void registerConnectionBean(String clientBeanName, RedisClusterClient client,
-                RedisConnectionProperties properties) {
-            var beanName = properties.getName() + "RedisClusterConnection";
+                                            RedisConnectionProperties properties) {
+            var beanName = Optional.ofNullable(properties.getBeanName())
+                    .orElseGet(() -> properties.getName() + "RedisClusterConnection");
             var codec = getRedisCodec(properties.getCodec());
             if (properties.getType() == null) {
                 properties.setType(RedisConnectionType.NORMAL);
@@ -278,7 +306,7 @@ public class LettuceAutoConfiguration {
                     registry.registerBeanDefinition(beanName, beanDefinition);
                 }
                 case SENTINEL, MASTER_REPLICA ->
-                        throw new IllegalArgumentException(properties.getType() + "is unsupported in RedisCluster");
+                    throw new IllegalArgumentException(properties.getType() + "is unsupported in RedisCluster");
             }
         }
 
