@@ -35,12 +35,16 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The auto-configuration class for ALIYUN ONS.
+ * The Auto-Configuration class for ALIYUN ONS.
+ *
+ * @deprecated Deprecated since 3.6 and may be removed in future version.
  */
 @Slf4j
 @Configuration
 @ConditionalOnClass(ONSFactory.class)
 @EnableConfigurationProperties(AliyunOnsProperties.class)
+@Deprecated(since = "3.6", forRemoval = true)
+@SuppressWarnings({"removal", "DeprecatedIsStillUsed"})
 public class AliyunOnsAutoConfiguration {
 
     /**
@@ -198,7 +202,7 @@ public class AliyunOnsAutoConfiguration {
                 case BATCH -> {
                     var consumeMessageBatchMaxSize = 32;
                     if (config.getConsumeMessageBatchMaxSize() != null) {
-                        var size = config.getConsumeMessageBatchMaxSize().intValue();
+                        var size = config.getConsumeMessageBatchMaxSize();
                         consumeMessageBatchMaxSize = Math.max(Math.min(32, size), 1);
                     }
                     properties.setProperty(PropertyKeyConst.ConsumeMessageBatchMaxSize,

@@ -10,11 +10,15 @@ import lombok.ToString;
 
 /**
  * The configuration properties class for ALIYUN ONS.
+ *
+ * @deprecated Deprecated since 3.6 and may be removed in future version.
  */
 @Getter
 @Setter
 @ToString
 @ConfigurationProperties(AliyunOnsProperties.CONFIG_PREFIX)
+@Deprecated(since = "3.6", forRemoval = true)
+@SuppressWarnings("removal")
 public class AliyunOnsProperties {
 
     static final String CONFIG_PREFIX = "myboot.aliyun-ons";
