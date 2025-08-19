@@ -4,7 +4,10 @@ import org.apache.rocketmq.client.AccessChannel;
 
 /**
  * An interface defines commons getters for configuration properties.
+ *
+ * @deprecated Deprecated since 3.6 and may be removed in future version.
  */
+@Deprecated(since = "3.6", forRemoval = true)
 public interface ConfigProperties {
 
     /**

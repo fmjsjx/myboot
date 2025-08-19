@@ -32,11 +32,15 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Auto-Configuration class for RocketMQ.
+ *
+ * @deprecated Deprecated since 3.6 and may be removed in future version.
  */
 @Slf4j
 @Configuration
 @ConditionalOnClass(AclClientRPCHook.class)
 @EnableConfigurationProperties(RocketMQProperties.class)
+@Deprecated(since = "3.6", forRemoval = true)
+@SuppressWarnings({"removal", "DeprecatedIsStillUsed"})
 public class RocketMQAutoConfiguration {
 
     /**
@@ -52,7 +56,6 @@ public class RocketMQAutoConfiguration {
     /**
      * Registry processor for RocketMQ.
      */
-    @SuppressWarnings("deprecation")
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class RocketMQRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
 

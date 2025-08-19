@@ -13,10 +13,14 @@ import lombok.ToString;
 
 /**
  * Properties class for consumer.
+ *
+ * @deprecated Deprecated since 3.6 and may be removed in future version.
  */
 @Getter
 @Setter
 @ToString
+@Deprecated(since = "3.6", forRemoval = true)
+@SuppressWarnings("removal")
 public class ConsumerProperties implements ConfigProperties {
 
     @NonNull
