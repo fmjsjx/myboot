@@ -2,11 +2,11 @@ package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import java.net.URI;
 
-import org.springframework.lang.NonNull;
-
+import com.github.fmjsjx.libcommon.redis.core.RedisConnectionAdapter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.lang.NonNull;
 
 /**
  * Properties class for {@code REDIS/Lettuce} connection.
@@ -79,5 +79,12 @@ public class RedisConnectionProperties {
      * Default is utf8
      */
     private RedisConnectionCodec codec = RedisConnectionCodec.UTF8;
+
+    /**
+     * Weather fill {@link RedisConnectionAdapter} automatically or not.
+     *
+     * @since 3.6
+     */
+    private Boolean fillAdapter;
 
 }

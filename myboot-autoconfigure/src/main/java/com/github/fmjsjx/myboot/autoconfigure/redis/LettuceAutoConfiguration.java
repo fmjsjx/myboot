@@ -2,6 +2,8 @@ package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import java.util.Optional;
 
+import com.github.fmjsjx.libcommon.redis.core.RedisConnectionAdapter;
+import com.github.fmjsjx.libcommon.redis.core.RedisPubSubConnectionAdapter;
 import com.github.fmjsjx.libcommon.util.StringUtil;
 import io.lettuce.core.RedisCredentials;
 import io.lettuce.core.StaticCredentialsProvider;
@@ -84,20 +86,22 @@ public class LettuceAutoConfiguration {
             this.registry = registry;
             var bindResult = Binder.get(environment).bind(LettuceProperties.CONFIG_PREFIX, LettuceProperties.class);
             bindResult.ifBound(props -> {
+                var autoFillConnectionAdapters = props.isAutoFillConnectionAdapters();
                 if (props.getClient() != null) {
-                    registerClientBeans(props.getClient());
+                    registerClientBeans(props.getClient(), autoFillConnectionAdapters);
                 }
-                props.getClusterClients().forEach(this::registerClusterClientBeans);
+                props.getClusterClients().forEach(it -> registerClusterClientBeans(it, autoFillConnectionAdapters));
             });
         }
 
-        private void registerClientBeans(RedisClientProperties properties) throws BeansException {
+        private void registerClientBeans(RedisClientProperties properties,
+                                         boolean autoFillConnectionAdapters) throws BeansException {
             var client = registerClientBean(properties);
             if (properties.getConnections().size() == 1) {
                 properties.getConnections().get(0).setPrimary(true);
             }
             for (var connectionProperties : properties.getConnections()) {
-                registerConnectionBean(client, connectionProperties);
+                registerConnectionBean(client, connectionProperties, autoFillConnectionAdapters);
             }
             if (properties.getPools().size() == 1) {
                 properties.getPools().get(0).setPrimary(true);
@@ -129,7 +133,8 @@ public class LettuceAutoConfiguration {
             return client;
         }
 
-        private void registerConnectionBean(RedisClient client, RedisConnectionProperties properties)
+        private void registerConnectionBean(RedisClient client, RedisConnectionProperties properties,
+                                            boolean autoFillConnectionAdapters)
                 throws BeansException {
             var beanName = Optional.ofNullable(properties.getBeanName())
                     .orElseGet(() -> properties.getName() + "RedisConnection");
@@ -144,6 +149,7 @@ public class LettuceAutoConfiguration {
                             .genericBeanDefinition(StatefulRedisConnection.class, () -> client.connect(codec, uri))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
+                    registerAdapter(properties, autoFillConnectionAdapters, beanName, "ofDirect");
                 }
                 case PUBSUB -> {
                     var beanDefinition = BeanDefinitionBuilder
@@ -151,6 +157,7 @@ public class LettuceAutoConfiguration {
                                     () -> client.connectPubSub(codec, uri))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
+                    registerPubSubAdapter(properties, autoFillConnectionAdapters, beanName, "ofDirect");
                 }
                 case SENTINEL -> {
                     var beanDefinition = BeanDefinitionBuilder
@@ -206,7 +213,8 @@ public class LettuceAutoConfiguration {
             }
         }
 
-        private void registerClusterClientBeans(RedisClusterClientProperties properties) {
+        private void registerClusterClientBeans(RedisClusterClientProperties properties,
+                                                boolean autoFillConnectionAdapters) {
             ClientResources.Builder builder = ClientResources.builder();
             if (properties.getIoThreads() > 0) {
                 builder.ioThreadPoolSize(properties.getIoThreads());
@@ -268,7 +276,7 @@ public class LettuceAutoConfiguration {
                 properties.getConnections().get(0).setPrimary(true);
             }
             for (RedisConnectionProperties connectionProperties : properties.getConnections()) {
-                registerConnectionBean(beanName, client, connectionProperties);
+                registerConnectionBean(beanName, client, connectionProperties, autoFillConnectionAdapters);
             }
         }
 
@@ -284,7 +292,7 @@ public class LettuceAutoConfiguration {
         }
 
         private void registerConnectionBean(String clientBeanName, RedisClusterClient client,
-                                            RedisConnectionProperties properties) {
+                                            RedisConnectionProperties properties, boolean autoFillConnectionAdapters) {
             var beanName = Optional.ofNullable(properties.getBeanName())
                     .orElseGet(() -> properties.getName() + "RedisClusterConnection");
             var codec = getRedisCodec(properties.getCodec());
@@ -297,6 +305,7 @@ public class LettuceAutoConfiguration {
                             .genericBeanDefinition(StatefulRedisClusterConnection.class, () -> client.connect(codec))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
+                    registerAdapter(properties, autoFillConnectionAdapters, beanName, "ofCluster");
                 }
                 case PUBSUB -> {
                     var beanDefinition = BeanDefinitionBuilder
@@ -304,9 +313,34 @@ public class LettuceAutoConfiguration {
                                     () -> client.connectPubSub(codec))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
+                    registerPubSubAdapter(properties, autoFillConnectionAdapters, beanName, "ofCluster");
                 }
                 case SENTINEL, MASTER_REPLICA ->
-                    throw new IllegalArgumentException(properties.getType() + "is unsupported in RedisCluster");
+                        throw new IllegalArgumentException(properties.getType() + "is unsupported in RedisCluster");
+            }
+        }
+
+        private void registerAdapter(RedisConnectionProperties properties, boolean autoFillConnectionAdapters,
+                                     String beanName, String factoryMethod) {
+            if (autoFillConnectionAdapters && properties.getFillAdapter() != Boolean.FALSE) {
+                var adapterName = Optional.ofNullable(properties.getBeanName()).map(it -> it + "Adapter")
+                        .orElseGet(() -> properties.getName() + "RedisConnectionAdapter");
+                var adapterDefinition = BeanDefinitionBuilder
+                        .genericBeanDefinition(RedisConnectionAdapter.class)
+                        .setFactoryMethod(factoryMethod).addConstructorArgReference(beanName).getBeanDefinition();
+                registry.registerBeanDefinition(adapterName, adapterDefinition);
+            }
+        }
+
+        private void registerPubSubAdapter(RedisConnectionProperties properties, boolean autoFillConnectionAdapters,
+                                           String beanName, String factoryMethod) {
+            if (autoFillConnectionAdapters && properties.getFillAdapter() != Boolean.FALSE) {
+                var adapterBeanName = Optional.ofNullable(properties.getBeanName()).map(it -> it + "Adapter")
+                        .orElseGet(() -> properties.getName() + "RedisPubSubConnectionAdapter");
+                var adapterDefinition = BeanDefinitionBuilder
+                        .genericBeanDefinition(RedisPubSubConnectionAdapter.class)
+                        .setFactoryMethod(factoryMethod).addConstructorArgReference(beanName).getBeanDefinition();
+                registry.registerBeanDefinition(adapterBeanName, adapterDefinition);
             }
         }
 
