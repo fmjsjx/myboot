@@ -2,11 +2,11 @@ package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
+import com.github.fmjsjx.libcommon.redis.core.RedisConnectionAdapter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
@@ -30,5 +30,14 @@ public class LettuceProperties {
      * The cluster clients.
      */
     private List<RedisClusterClientProperties> clusterClients = List.of();
+
+    /**
+     * Weather fill {@link RedisConnectionAdapter}s automatically or not.
+     * <p>
+     * The default is {@code true}.
+     *
+     * @since 3.6
+     */
+    private boolean autoFillConnectionAdapters = true;
 
 }
