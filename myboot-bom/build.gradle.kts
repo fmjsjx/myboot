@@ -9,12 +9,10 @@ dependencies {
     constraints {
         api(project(":myboot-autoconfigure"))
         api(project(":myboot-starter-http-router"))
-        api(project(":myboot-starter-aliyunons"))
         api(project(":myboot-starter-kafka"))
         api(project(":myboot-starter-mongodb"))
         api(project(":myboot-starter-pulsar"))
         api(project(":myboot-starter-redis"))
-        api(project(":myboot-starter-rocketmq"))
     }
 }
 
