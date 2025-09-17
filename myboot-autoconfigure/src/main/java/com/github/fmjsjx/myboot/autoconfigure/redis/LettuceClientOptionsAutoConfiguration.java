@@ -1,7 +1,6 @@
 package com.github.fmjsjx.myboot.autoconfigure.redis;
 
 import io.lettuce.core.ClientOptions;
-import io.lettuce.core.cluster.ClusterClientOptions;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -19,14 +18,8 @@ public class LettuceClientOptionsAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ClientOptions clientOptions() {
-        return ClientOptions.create();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ClusterClientOptions clusterClientOptions() {
-        return ClusterClientOptions.create();
+    public RedisClientConfigurer redisClientConfigurer() {
+        return new RedisClientConfigurer() {};
     }
 
 }

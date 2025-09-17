@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
@@ -38,8 +38,6 @@ import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.sentinel.api.StatefulRedisSentinelConnection;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * Auto-Configuration class for {@code REDIS/Lettuce}.
@@ -55,32 +53,32 @@ public class LettuceAutoConfiguration {
     /**
      * Returns a new {@link LettuceRegistryProcessor} instance.
      *
+     * @param beanFactory the {@link BeanFactory}
      * @return a new {@code LettuceRegistryProcessor} instance
      */
     @Bean
-    public static final LettuceRegistryProcessor lettuceRegistryProcessor() {
-        return new LettuceRegistryProcessor();
+    public static final LettuceRegistryProcessor lettuceRegistryProcessor(BeanFactory beanFactory) {
+        return new LettuceRegistryProcessor(beanFactory);
     }
 
     /**
      * Registry processor for {@code REDIS/Lettuce}.
      */
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class LettuceRegistryProcessor
             implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
         private Environment environment;
         private BeanDefinitionRegistry registry;
-        private ConfigurableListableBeanFactory beanFactory;
+
+        private final BeanFactory beanFactory;
+
+        private LettuceRegistryProcessor(BeanFactory beanFactory) {
+            this.beanFactory = beanFactory;
+        }
 
         @Override
         public void setEnvironment(Environment environment) {
             this.environment = environment;
-        }
-
-        @Override
-        public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-            this.beanFactory = beanFactory;
         }
 
         @Override
@@ -124,14 +122,14 @@ public class LettuceAutoConfiguration {
                 builder.computationThreadPoolSize(properties.getComputationThreads());
             }
             var client = RedisClient.create(builder.build());
-            var clientOptions = beanFactory.getBean(ClientOptions.class);
-            logger.debug("Bean of clientOptions: {}", clientOptions);
-            client.setOptions(clientOptions);
+            var redisClientConfigurer = beanFactory.getBean(RedisClientConfigurer.class);
+            redisClientConfigurer.configureClientOptions(new ClientOptionsConfigurer(client));
             if (StringUtil.isBlank(properties.getBeanName())) {
                 clientBeanName = "redisClient";
             } else {
                 clientBeanName = properties.getBeanName();
             }
+            logger.debug("Created RedisClient with name {}: {}", clientBeanName, client);
             registry.registerBeanDefinition(clientBeanName,
                     BeanDefinitionBuilder.genericBeanDefinition(RedisClient.class, () -> client).setPrimary(true)
                             .setDestroyMethodName("shutdown").getBeanDefinition());
@@ -245,9 +243,8 @@ public class LettuceAutoConfiguration {
                 var uri = createUri(properties);
                 client = RedisClusterClient.create(builder.build(), uri);
             }
-            var clusterClientOptions = beanFactory.getBean(ClusterClientOptions.class);
-            logger.debug("Bean of clusterClientOptions: {}", clusterClientOptions);
-            client.setOptions(clusterClientOptions);
+            var redisClientConfigurer = beanFactory.getBean(RedisClientConfigurer.class);
+            redisClientConfigurer.configureClusterClientOptions(new ClusterClientOptionsConfigurer(client));
             if (properties.getTopologyRefresh() != null) {
                 var optionsBuilder = ClusterTopologyRefreshOptions.builder();
                 var topologyRefresh = properties.getTopologyRefresh();
@@ -277,6 +274,7 @@ public class LettuceAutoConfiguration {
                             .build());
                 }
             }
+            logger.debug("Created RedisClusterClient with name {}: {}", beanName, client);
             registry.registerBeanDefinition(beanName,
                     BeanDefinitionBuilder.genericBeanDefinition(RedisClusterClient.class, () -> client)
                             .setDestroyMethodName("shutdown").setPrimary(properties.isPrimary()).getBeanDefinition());

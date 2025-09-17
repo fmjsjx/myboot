@@ -23,18 +23,18 @@ myboot:
       client:
         connections:
         - name: test
-          uri: redis://localhost:6379/2
+          uri: redis://192.168.20.162:6379/2
         - name: hello
-          uri: redis://localhost:6379/3
+          uri: redis://192.168.20.162:6379/3
           type: pubsub
         pools:
         - name: blocking
-          uri: redis://localhost:6379/4
+          uri: redis://192.168.20.162:6379/4
           mode: sync
         - name: noblocking
-          uri: redis://localhost:6379/5
+          uri: redis://192.168.20.162:6379/5
           mode: async
         - name: noblockingPlus
-          uri: redis://localhost:6379/6
+          uri: redis://192.168.20.162:6379/6
           mode: async-plus
           wrap-connections: false
