@@ -29,13 +29,6 @@ dependencies {
 
     compileOnlyApi("org.apache.pulsar:pulsar-client")
 
-    compileOnlyApi("com.aliyun.openservices:ons-client")
-
-    compileOnlyApi("org.apache.rocketmq:rocketmq-client") {
-        exclude(group = "io.netty", module = "netty-all")
-        exclude(group = "io.netty", module = "netty-tcnative-boringssl-static")
-    }
-//    compileOnlyApi("org.apache.rocketmq:rocketmq-acl:5.3.2")
     compileOnlyApi("io.netty:netty-handler")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
