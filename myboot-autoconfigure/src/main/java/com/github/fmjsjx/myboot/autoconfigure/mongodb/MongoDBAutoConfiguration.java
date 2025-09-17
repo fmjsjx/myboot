@@ -10,12 +10,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.DriverType;
@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  * Auto Configuration for MongoDB.
  */
 @Slf4j
-@Configuration
+@AutoConfiguration
 @ConditionalOnClass(MongoClientSettings.class)
 @EnableConfigurationProperties(MongoDBProperties.class)
 public class MongoDBAutoConfiguration {

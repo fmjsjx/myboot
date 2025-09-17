@@ -5,30 +5,29 @@ import java.util.Optional;
 import com.github.fmjsjx.libcommon.redis.core.RedisConnectionAdapter;
 import com.github.fmjsjx.libcommon.redis.core.RedisPubSubConnectionAdapter;
 import com.github.fmjsjx.libcommon.util.StringUtil;
-import io.lettuce.core.RedisCredentials;
-import io.lettuce.core.StaticCredentialsProvider;
+import io.lettuce.core.*;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.cluster.RedisClusterURIUtil;
 import io.lettuce.core.masterreplica.MasterReplica;
 import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.cluster.RedisClusterClient;
 import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
@@ -45,11 +44,13 @@ import lombok.NoArgsConstructor;
 /**
  * Auto-Configuration class for {@code REDIS/Lettuce}.
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnClass(RedisClient.class)
-@ConditionalOnMissingBean(RedisClient.class)
+@AutoConfigureAfter(LettuceClientOptionsAutoConfiguration.class)
 @EnableConfigurationProperties(LettuceProperties.class)
 public class LettuceAutoConfiguration {
+
+    private static final Logger logger = LoggerFactory.getLogger(LettuceAutoConfiguration.class);
 
     /**
      * Returns a new {@link LettuceRegistryProcessor} instance.
@@ -70,6 +71,7 @@ public class LettuceAutoConfiguration {
 
         private Environment environment;
         private BeanDefinitionRegistry registry;
+        private ConfigurableListableBeanFactory beanFactory;
 
         @Override
         public void setEnvironment(Environment environment) {
@@ -78,7 +80,7 @@ public class LettuceAutoConfiguration {
 
         @Override
         public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-            // ignore
+            this.beanFactory = beanFactory;
         }
 
         @Override
@@ -122,6 +124,9 @@ public class LettuceAutoConfiguration {
                 builder.computationThreadPoolSize(properties.getComputationThreads());
             }
             var client = RedisClient.create(builder.build());
+            var clientOptions = beanFactory.getBean(ClientOptions.class);
+            logger.debug("Bean of clientOptions: {}", clientOptions);
+            client.setOptions(clientOptions);
             if (StringUtil.isBlank(properties.getBeanName())) {
                 clientBeanName = "redisClient";
             } else {
@@ -240,6 +245,9 @@ public class LettuceAutoConfiguration {
                 var uri = createUri(properties);
                 client = RedisClusterClient.create(builder.build(), uri);
             }
+            var clusterClientOptions = beanFactory.getBean(ClusterClientOptions.class);
+            logger.debug("Bean of clusterClientOptions: {}", clusterClientOptions);
+            client.setOptions(clusterClientOptions);
             if (properties.getTopologyRefresh() != null) {
                 var optionsBuilder = ClusterTopologyRefreshOptions.builder();
                 var topologyRefresh = properties.getTopologyRefresh();
