@@ -44,6 +44,8 @@ val javaVersion = 17
 java {
     withSourcesJar()
     withJavadocJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     toolchain {
         languageVersion = JavaLanguageVersion.of(javaVersion)
     }
@@ -52,11 +54,12 @@ java {
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.release = javaVersion
-    options.compilerArgs = listOf("-Xlint:deprecation")
+    options.compilerArgs = options.compilerArgs + listOf("-Xlint:deprecation")
 }
 
 tasks.withType<Javadoc> {
     if (JavaVersion.current().isJava9Compatible) {
         (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }
+    options.memberLevel = JavadocMemberLevel.PUBLIC
 }
