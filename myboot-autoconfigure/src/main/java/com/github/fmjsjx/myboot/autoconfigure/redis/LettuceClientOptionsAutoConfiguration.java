@@ -16,10 +16,17 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnClass(ClientOptions.class)
 public class LettuceClientOptionsAutoConfiguration {
 
+    /**
+     * Bean definition function for {@link RedisClientConfigurer}.
+     *
+     * @return the {@link RedisClientConfigurer} bean
+     */
     @Bean
     @ConditionalOnMissingBean
     public RedisClientConfigurer redisClientConfigurer() {
-        return new RedisClientConfigurer() {};
+        return new RedisClientConfigurer() {
+            // Anonymous inner class using only default methods.
+        };
     }
 
 }
