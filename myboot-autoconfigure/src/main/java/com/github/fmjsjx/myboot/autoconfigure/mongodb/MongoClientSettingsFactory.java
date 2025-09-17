@@ -36,8 +36,9 @@ class MongoClientSettingsFactory {
         var builder = MongoClientSettings.builder();
         // application name
         Optional.ofNullable(config.getApplicationName()).ifPresent(builder::applicationName);
+
         // compressor list
-        Optional.ofNullable(config.getCompressorList()).filter(l -> l.size() > 0).ifPresent(list -> {
+        Optional.ofNullable(config.getCompressorList()).filter(it -> !it.isEmpty()).ifPresent(list -> {
             var cl = list.stream().map(CompressorProperties::toMongoCompressor).collect(Collectors.toList());
             log.debug("Set compressor list >>> {}", cl);
             builder.compressorList(cl);
