@@ -21,13 +21,14 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-
     implementation("com.github.fmjsjx:libnetty-http-server")
     implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "linux-aarch_64")
     implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "linux-x86_64")
     implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "osx-x86_64")
     implementation(group = "io.netty", name = "netty-tcnative-boringssl-static", classifier = "windows-x86_64")
+    api("javax.annotation:javax.annotation-api:1.3.2")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 
 }
 
