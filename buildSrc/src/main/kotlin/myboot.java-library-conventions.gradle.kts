@@ -10,11 +10,12 @@ repositories {
 }
 
 configurations.all {
+    // Enforce version of SpringBoot
     resolutionStrategy.force("org.springframework.boot:spring-boot-dependencies:3.5.8")
 }
 
 dependencies {
-    // spring boot
+    // Spring Boot
     val springBootVersion = "3.5.8"
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
@@ -24,7 +25,9 @@ dependencies {
     api(platform("com.github.fmjsjx:libnetty-bom:3.10.0"))
 
     constraints {
+        // Apache Kafka
         api("org.apache.kafka:kafka-clients:4.1.1")
+        // Apache Pulsar
         api("org.apache.pulsar:pulsar-client:4.1.2")
         // MongoDB
         val mongodbVersion = "5.6.2"

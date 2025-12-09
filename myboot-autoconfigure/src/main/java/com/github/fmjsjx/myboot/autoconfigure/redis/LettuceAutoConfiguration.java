@@ -38,6 +38,7 @@ import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.sentinel.api.StatefulRedisSentinelConnection;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Auto-Configuration class for {@code REDIS/Lettuce}.
@@ -257,12 +258,14 @@ public class LettuceAutoConfiguration {
                         optionsBuilder.enablePeriodicRefresh();
                     }
                 }
-                if (topologyRefresh.isEnableAllAdaptiveRefreshTriggers()) {
+                if (topologyRefresh.isDisableAllAdaptiveRefreshTriggers()) {
                     anySetup = true;
-                    optionsBuilder.enableAllAdaptiveRefreshTriggers();
-                } else if (topologyRefresh.getAdaptiveRefreshTriggers() != null && topologyRefresh.getAdaptiveRefreshTriggers().length > 0) {
+                    optionsBuilder.disableAllAdaptiveRefreshTriggers();
+                } else if (!CollectionUtils.isEmpty(topologyRefresh.getDisabledAdaptiveRefreshTriggers())) {
                     anySetup = true;
-                    optionsBuilder.enableAdaptiveRefreshTrigger(topologyRefresh.getAdaptiveRefreshTriggers());
+                    var refreshTriggers = topologyRefresh.getDisabledAdaptiveRefreshTriggers()
+                            .toArray(ClusterTopologyRefreshOptions.RefreshTrigger[]::new);
+                    optionsBuilder.disableAdaptiveRefreshTrigger(refreshTriggers);
                 }
                 if (topologyRefresh.getAdaptiveRefreshTriggersTimeout() != null && topologyRefresh.getAdaptiveRefreshTriggersTimeout().toNanos() > 0) {
                     anySetup = true;

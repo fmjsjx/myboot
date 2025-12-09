@@ -98,14 +98,33 @@ public class RedisClusterClientProperties extends RedisClientProperties {
         private Duration refreshPeriod;
         /**
          * The array of the enabled adaptive topology refresh triggers.
+         *
+         * @deprecated Starting from 3.7.1, this configuration has no
+         * effect as all adaptive triggers are enabled by default
          */
+        @Deprecated
         private ClusterTopologyRefreshOptions.RefreshTrigger[] adaptiveRefreshTriggers;
         /**
-         * Weather enables all adaptive topology refresh triggers ot not.
+         * Weather to enable all adaptive topology refresh triggers or not.
+         * <p>
+         * The default is {@code false}
+         *
+         * @deprecated Starting from 3.7.1, this configuration has no
+         * effect as all adaptive triggers are enabled by default
+         */
+        @Deprecated
+        private boolean enableAllAdaptiveRefreshTriggers;
+        /**
+         * The list of the disabled adaptive topology refresh triggers.
+         */
+        private List<ClusterTopologyRefreshOptions.RefreshTrigger> disabledAdaptiveRefreshTriggers;
+        /**
+         * Weather to disable all adaptive topology refresh triggers or
+         * not.
          * <p>
          * The default is {@code false}
          */
-        private boolean enableAllAdaptiveRefreshTriggers;
+        private boolean disableAllAdaptiveRefreshTriggers;
         /**
          * Set the timeout for adaptive topology updates.
          */
