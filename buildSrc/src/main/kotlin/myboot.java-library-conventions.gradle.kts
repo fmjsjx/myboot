@@ -18,10 +18,6 @@ dependencies {
     api(platform("com.github.fmjsjx:libcommon-bom:3.16.1"))
     // libnetty
     api(platform("com.github.fmjsjx:libnetty-bom:3.9.1"))
-    // AliYun ONS
-    api(platform("com.aliyun.openservices:ons-client:2.0.8.Final"))
-    // rocketmq
-    api(platform("org.apache.rocketmq:rocketmq-all:5.3.3"))
 
     constraints {
         api("org.apache.kafka:kafka-clients:4.1.0")
