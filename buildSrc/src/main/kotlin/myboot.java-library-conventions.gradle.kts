@@ -12,15 +12,15 @@ repositories {
 dependencies {
     // spring boot
     val springBootVersion = "3.5.8"
-    api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+    api(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+    annotationProcessor(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
     api(platform("com.github.fmjsjx:libcommon-bom:3.17.0"))
     // libnetty
     api(platform("com.github.fmjsjx:libnetty-bom:3.10.0"))
 
     constraints {
-        api("org.apache.kafka:kafka-clients:4.1.0")
+        api("org.apache.kafka:kafka-clients:4.1.1")
         api("org.apache.pulsar:pulsar-client:4.1.0")
         // MongoDB
         val mongodbVersion = "5.6.0"
