@@ -61,8 +61,8 @@ class MongoClientSettingsFactory {
         Optional.ofNullable(config.getUri()).map(ConnectionString::new).ifPresent(builder::applyConnectionString);
         if (config.isUseNetty() && hasNetty()) {
             var library = MongoDBAutoConfiguration.getNettyLibrary();
-            var transportSettings = TransportSettings.nettyBuilder().eventLoopGroup(library.getEventLoopGroup())
-                    .socketChannelClass(library.getSocketChannelClass()).build();
+            var transportSettings = TransportSettings.nettyBuilder().eventLoopGroup(library.eventLoopGroup())
+                    .socketChannelClass(library.socketChannelClass()).build();
             log.debug("Set MongoClient NettyTransportSettings >>> {}", transportSettings);
             builder.transportSettings(transportSettings);
         }

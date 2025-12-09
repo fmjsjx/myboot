@@ -23,7 +23,7 @@ dependencies {
         api("org.apache.kafka:kafka-clients:4.1.1")
         api("org.apache.pulsar:pulsar-client:4.1.2")
         // MongoDB
-        val mongodbVersion = "5.6.0"
+        val mongodbVersion = "5.6.2"
         api("org.mongodb:bson:$mongodbVersion")
         api("org.mongodb:mongodb-driver-core:$mongodbVersion")
         api("org.mongodb:mongodb-driver-sync:$mongodbVersion")
