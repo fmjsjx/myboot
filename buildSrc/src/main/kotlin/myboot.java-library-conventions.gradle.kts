@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     // spring boot
-    val springBootVersion = "3.5.5"
+    val springBootVersion = "3.5.8"
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
