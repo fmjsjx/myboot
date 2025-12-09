@@ -6,6 +6,15 @@ import java.util.Optional;
 import java.util.concurrent.ThreadFactory;
 import java.util.stream.Collectors;
 
+import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.DriverType;
+import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.MongoClientProperties;
+import com.mongodb.MongoClientSettings;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.util.concurrent.DefaultThreadFactory;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -18,21 +27,6 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
-import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.DriverType;
-import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.MongoClientProperties;
-import com.mongodb.MongoClientSettings;
-
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.util.concurrent.DefaultThreadFactory;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Auto Configuration for MongoDB.
  */
@@ -44,11 +38,11 @@ public class MongoDBAutoConfiguration {
 
     /**
      * Returns new {@link MongoDBRegistryProcessor} instance.
-     * 
+     *
      * @return new {@code MongoDBRegisteryProcessor} instance
      */
     @Bean
-    public static MongoDBRegistryProcessor mongodbRegisteryProcessor() {
+    public static MongoDBRegistryProcessor mongodbRegistryProcessor() {
         return new MongoDBRegistryProcessor();
     }
 
@@ -80,7 +74,7 @@ public class MongoDBAutoConfiguration {
 
     @SuppressWarnings("unchecked")
     private static final <T extends EventLoopGroup> T nativeEventLoopGroup(String className,
-            ThreadFactory threadFactory) {
+                                                                           ThreadFactory threadFactory) {
         try {
             var clazz = (Class<T>) Class.forName(className);
             var constructor = clazz.getConstructor(ThreadFactory.class);
@@ -90,7 +84,7 @@ public class MongoDBAutoConfiguration {
         }
     }
 
-    @SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     private static <T extends EventLoopGroup> T ioEventLoopGroup(String handleClassName, ThreadFactory threadFactory) {
         try {
             var factoryClass = Class.forName("io.netty.channel.IoHandlerFactory");
@@ -153,15 +147,7 @@ public class MongoDBAutoConfiguration {
         return nettyLibrary;
     }
 
-    @Getter
-    @Setter
-    @ToString
-    @RequiredArgsConstructor
-    static class NettyLibrary {
-
-        private final EventLoopGroup eventLoopGroup;
-        private final Class<? extends SocketChannel> socketChannelClass;
-
+    record NettyLibrary(EventLoopGroup eventLoopGroup, Class<? extends SocketChannel> socketChannelClass) {
     }
 
     /**
