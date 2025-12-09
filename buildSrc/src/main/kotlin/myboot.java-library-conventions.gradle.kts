@@ -17,7 +17,7 @@ dependencies {
     // libcommon
     api(platform("com.github.fmjsjx:libcommon-bom:3.17.0"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:3.9.1"))
+    api(platform("com.github.fmjsjx:libnetty-bom:3.10.0"))
 
     constraints {
         api("org.apache.kafka:kafka-clients:4.1.0")
