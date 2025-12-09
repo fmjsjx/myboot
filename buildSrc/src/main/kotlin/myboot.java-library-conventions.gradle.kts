@@ -31,7 +31,7 @@ dependencies {
         api("org.mongodb:mongodb-driver-legacy:$mongodbVersion")
     }
     // log4j2
-    implementation(platform("org.apache.logging.log4j:log4j-bom:2.25.1"))
+    implementation(platform("org.apache.logging.log4j:log4j-bom:2.25.2"))
 
 }
 
