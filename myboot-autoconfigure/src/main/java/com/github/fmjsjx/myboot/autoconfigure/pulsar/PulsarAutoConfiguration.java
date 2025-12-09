@@ -35,7 +35,7 @@ public class PulsarAutoConfiguration {
 
     /**
      * Returns new {@link PulsarRegistryProcessor} instance.
-     * 
+     *
      * @return new {@code PulsarRegistryProcessor} instance
      */
     @Bean
@@ -113,29 +113,29 @@ public class PulsarAutoConfiguration {
             Optional.ofNullable(config.getNumIoThreads()).ifPresent(builder::ioThreads);
             Optional.ofNullable(config.getNumListenerThreads()).ifPresent(builder::listenerThreads);
             Optional.ofNullable(config.getConnectionsPerBroker()).ifPresent(builder::connectionsPerBroker);
-            Optional.of(config.getUseTcpNoDelay()).ifPresent(builder::enableTcpNoDelay);
-            Optional.of(config.getTlsTrustCertsFilePath()).ifPresent(builder::tlsTrustCertsFilePath);
-            Optional.of(config.getTlsAllowInsecureConnection()).ifPresent(builder::allowTlsInsecureConnection);
-            Optional.of(config.getTlsHostnameVerificationEnable()).ifPresent(builder::enableTlsHostnameVerification);
-            Optional.of(config.getUseKeyStoreTls()).ifPresent(builder::useKeyStoreTls);
-            Optional.of(config.getSslProvider()).ifPresent(builder::sslProvider);
-            Optional.of(config.getTlsTrustStoreType()).ifPresent(builder::tlsTrustStoreType);
-            Optional.of(config.getTlsTrustStorePath()).ifPresent(builder::tlsTrustStorePath);
-            Optional.of(config.getTlsTrustStorePassword()).ifPresent(builder::tlsTrustStorePassword);
-            Optional.of(config.getTlsCiphers()).filter(s -> !s.isEmpty()).ifPresent(builder::tlsCiphers);
-            Optional.of(config.getTlsProtocols()).filter(s -> !s.isEmpty()).ifPresent(builder::tlsProtocols);
-            Optional.of(config.getConcurrentLookupRequest()).ifPresent(builder::maxConcurrentLookupRequests);
-            Optional.of(config.getMaxLookupRequest()).ifPresent(builder::maxLookupRequests);
-            Optional.of(config.getMaxLookupRedirects()).ifPresent(builder::maxLookupRedirects);
-            Optional.of(config.getMaxNumberOfRejectedRequestPerConnection())
+            Optional.ofNullable(config.getUseTcpNoDelay()).ifPresent(builder::enableTcpNoDelay);
+            Optional.ofNullable(config.getTlsTrustCertsFilePath()).ifPresent(builder::tlsTrustCertsFilePath);
+            Optional.ofNullable(config.getTlsAllowInsecureConnection()).ifPresent(builder::allowTlsInsecureConnection);
+            Optional.ofNullable(config.getTlsHostnameVerificationEnable()).ifPresent(builder::enableTlsHostnameVerification);
+            Optional.ofNullable(config.getUseKeyStoreTls()).ifPresent(builder::useKeyStoreTls);
+            Optional.ofNullable(config.getSslProvider()).ifPresent(builder::sslProvider);
+            Optional.ofNullable(config.getTlsTrustStoreType()).ifPresent(builder::tlsTrustStoreType);
+            Optional.ofNullable(config.getTlsTrustStorePath()).ifPresent(builder::tlsTrustStorePath);
+            Optional.ofNullable(config.getTlsTrustStorePassword()).ifPresent(builder::tlsTrustStorePassword);
+            Optional.ofNullable(config.getTlsCiphers()).filter(s -> !s.isEmpty()).ifPresent(builder::tlsCiphers);
+            Optional.ofNullable(config.getTlsProtocols()).filter(s -> !s.isEmpty()).ifPresent(builder::tlsProtocols);
+            Optional.ofNullable(config.getConcurrentLookupRequest()).ifPresent(builder::maxConcurrentLookupRequests);
+            Optional.ofNullable(config.getMaxLookupRequest()).ifPresent(builder::maxLookupRequests);
+            Optional.ofNullable(config.getMaxLookupRedirects()).ifPresent(builder::maxLookupRedirects);
+            Optional.ofNullable(config.getMaxNumberOfRejectedRequestPerConnection())
                     .ifPresent(builder::maxNumberOfRejectedRequestPerConnection);
-            Optional.of(config.getKeepAliveInterval())
+            Optional.ofNullable(config.getKeepAliveInterval())
                     .ifPresent(kai -> builder.keepAliveInterval((int) kai.toSeconds(), TimeUnit.SECONDS));
-            Optional.of(config.getConnectionTimeout())
+            Optional.ofNullable(config.getConnectionTimeout())
                     .ifPresent(ct -> builder.connectionTimeout((int) ct.toMillis(), TimeUnit.MILLISECONDS));
-            Optional.of(config.getDefaultBackoffIntervalNanos())
+            Optional.ofNullable(config.getDefaultBackoffIntervalNanos())
                     .ifPresent(dbin -> builder.startingBackoffInterval(dbin.toNanos(), TimeUnit.NANOSECONDS));
-            Optional.of(config.getMaxBackoffIntervalNanos())
+            Optional.ofNullable(config.getMaxBackoffIntervalNanos())
                     .ifPresent(mbi -> builder.maxBackoffInterval(mbi.toNanos(), TimeUnit.NANOSECONDS));
         }
 

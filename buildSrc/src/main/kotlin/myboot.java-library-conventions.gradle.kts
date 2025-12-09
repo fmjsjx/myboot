@@ -21,7 +21,7 @@ dependencies {
 
     constraints {
         api("org.apache.kafka:kafka-clients:4.1.1")
-        api("org.apache.pulsar:pulsar-client:4.1.0")
+        api("org.apache.pulsar:pulsar-client:4.1.2")
         // MongoDB
         val mongodbVersion = "5.6.0"
         api("org.mongodb:bson:$mongodbVersion")

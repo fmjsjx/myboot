@@ -113,14 +113,15 @@ public class PulsarClientProperties {
      */
     private Boolean tlsHostnameVerificationEnable;
     /**
-     * If Tls is enabled, whether use KeyStore type as tls configuration parameter.
+     * If Tls is enabled, whether to use KeyStore type as tls configuration
+     * parameter.
      * <p>
      * The default is {@code false}.
      */
     private Boolean useKeyStoreTls;
     /**
-     * The name of the security provider used for SSL connections. Default value is
-     * the default security provider of the JVM.
+     * The name of the security provider used for SSL connections. Default
+     * value is the default security provider of the JVM.
      */
     private String sslProvider;
     /**
@@ -138,11 +139,11 @@ public class PulsarClientProperties {
     /**
      * A list of cipher suites.
      * <p>
-     * This is a named combination of authentication, encryption, MAC and key
-     * exchange algorithm used to negotiate the security settings for a network
-     * connection using TLS or SSL network protocol.
+     * This is a named combination of authentication, encryption, MAC and
+     * key exchange algorithm used to negotiate the security settings for
+     * a network connection using TLS or SSL network protocol.
      * <p>
-     * By default all the available cipher suites are supported.
+     * By default, all the available cipher suites are supported.
      */
     private Set<String> tlsCiphers;
     /**
@@ -150,37 +151,41 @@ public class PulsarClientProperties {
      * <p>
      * Default setting is TLS, which is fine for most cases.
      * </p>
-     * Allowed values in recent JVMs are TLS, TLSv1.1 and TLSv1.2. SSL, SSLv2.
+     * Allowed values in recent JVMs are TLS, TLSv1.1 and TLSv1.2. SSL,
+     * SSLv2.
      */
     private Set<String> tlsProtocols;
     /**
-     * The number of concurrent lookup requests allowed to send on each broker
-     * connection to prevent overload on broker.
+     * The number of concurrent lookup requests allowed to send on each
+     * broker connection to prevent overload on broker.
      * <p>
      * The default is {@code 5000}.
      */
     private Integer concurrentLookupRequest;
     /**
-     * The maximum number of lookup requests allowed on each broker connection to
-     * prevent overload on broker.
+     * The maximum number of lookup requests allowed on each broker
+     * connection to prevent overload on broker.
      * <p>
      * The default is {@code 50000}.
      */
     private Integer maxLookupRequest;
     /**
-     * The maximum number of times a lookup-request to a broker will be redirected.
+     * The maximum number of times a lookup-request to a broker will be
+     * redirected.
      */
     private Integer maxLookupRedirects;
     /**
-     * The maximum number of rejected requests of a broker in a certain time frame
-     * (30 seconds) after the current connection is closed and the client creates a
-     * new connection to connect to a different broker.
+     * The maximum number of rejected requests of a broker in a certain
+     * time frame (30 seconds) after the current connection is closed and
+     * the client creates a new connection to connect to a different
+     * broker.
      * <p>
      * The default is {@code 50}.
      */
     private Integer maxNumberOfRejectedRequestPerConnection;
     /**
-     * Duration of keeping alive interval for each client broker connection.
+     * Duration of keeping alive interval for each client broker
+     * connection.
      * <p>
      * The default is {@code 30s}.
      */
@@ -188,8 +193,8 @@ public class PulsarClientProperties {
     /**
      * Duration of waiting for a connection to a broker to be established.
      * <p>
-     * If the duration passes without a response from a broker, the connection
-     * attempt is dropped.
+     * If the duration passes without a response from a broker, the
+     * connection attempt is dropped.
      * <p>
      * The default is {@code 10s}.
      */
