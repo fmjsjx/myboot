@@ -99,8 +99,8 @@ public class RedisClusterClientProperties extends RedisClientProperties {
         /**
          * The array of the enabled adaptive topology refresh triggers.
          *
-         * @deprecated Starting from 3.7.1, this configuration has no
-         * effect as all adaptive triggers are enabled by default
+         * @deprecated Starting from 3.8, this configuration has no effect
+         * as all adaptive triggers are enabled by default
          */
         @Deprecated
         private ClusterTopologyRefreshOptions.RefreshTrigger[] adaptiveRefreshTriggers;
@@ -109,8 +109,8 @@ public class RedisClusterClientProperties extends RedisClientProperties {
          * <p>
          * The default is {@code false}
          *
-         * @deprecated Starting from 3.7.1, this configuration has no
-         * effect as all adaptive triggers are enabled by default
+         * @deprecated Starting from 3.8, this configuration has no effect
+         * as all adaptive triggers are enabled by default
          */
         @Deprecated
         private boolean enableAllAdaptiveRefreshTriggers;
