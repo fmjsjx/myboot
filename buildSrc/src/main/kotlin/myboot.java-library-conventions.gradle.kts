@@ -9,13 +9,17 @@ repositories {
     mavenCentral()
 }
 
+configurations.all {
+    resolutionStrategy.force("org.springframework.boot:spring-boot-dependencies:3.5.8")
+}
+
 dependencies {
     // spring boot
     val springBootVersion = "3.5.8"
-    api(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    annotationProcessor(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+    api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+    annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon
-    api(platform("com.github.fmjsjx:libcommon-bom:3.17.0"))
+    implementation(platform("com.github.fmjsjx:libcommon-bom:3.17.0"))
     // libnetty
     api(platform("com.github.fmjsjx:libnetty-bom:3.10.0"))
 
