@@ -32,11 +32,13 @@ dependencies {
 
 }
 
-val javaVersion = 17
+val javaVersion = 21
 
 java {
     withSourcesJar()
 	withJavadocJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 	toolchain {
         languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
