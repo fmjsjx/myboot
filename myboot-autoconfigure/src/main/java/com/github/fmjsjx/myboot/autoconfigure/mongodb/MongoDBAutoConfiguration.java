@@ -10,6 +10,7 @@ import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.DriverTy
 import com.github.fmjsjx.myboot.autoconfigure.mongodb.MongoDBProperties.MongoClientProperties;
 import com.mongodb.MongoClientSettings;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.IoHandlerFactory;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import lombok.AccessLevel;
@@ -89,7 +90,7 @@ public class MongoDBAutoConfiguration {
         try {
             var factoryClass = Class.forName("io.netty.channel.IoHandlerFactory");
             var clazz = Class.forName(handleClassName);
-            var factory = clazz.getMethod("newFactory").invoke(null);
+            var factory = (IoHandlerFactory) clazz.getMethod("newFactory").invoke(null);
             var eventLoopClass = (Class<T>) Class.forName("io.netty.channel.MultiThreadIoEventLoopGroup");
             var constructor = eventLoopClass.getConstructor(ThreadFactory.class, factoryClass);
             return constructor.newInstance(threadFactory, factory);
@@ -184,7 +185,7 @@ public class MongoDBAutoConfiguration {
             var syncGroup = groups.get(DriverType.SYNC);
             if (syncGroup != null) {
                 if (syncGroup.size() == 1) {
-                    syncGroup.get(0).setPrimary(true);
+                    syncGroup.getFirst().setPrimary(true);
                 }
                 syncGroup.forEach(config -> {
                     log.debug("Register sync client >>> {}", config);
@@ -194,7 +195,7 @@ public class MongoDBAutoConfiguration {
             var reactivestreamsGroup = groups.get(DriverType.REACTIVESTREAMS);
             if (reactivestreamsGroup != null) {
                 if (reactivestreamsGroup.size() == 1) {
-                    reactivestreamsGroup.get(0).setPrimary(true);
+                    reactivestreamsGroup.getFirst().setPrimary(true);
                 }
                 reactivestreamsGroup.forEach(config -> {
                     log.debug("Register reactivestreams client >>> {}", config);

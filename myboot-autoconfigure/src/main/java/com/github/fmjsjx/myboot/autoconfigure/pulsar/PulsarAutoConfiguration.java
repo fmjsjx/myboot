@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.pulsar.client.api.ClientBuilder;
 import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
@@ -21,9 +23,6 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * Auto-Configuration class for Pulsar.
