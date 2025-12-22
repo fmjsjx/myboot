@@ -11,12 +11,12 @@ repositories {
 
 configurations.all {
     // Enforce version of SpringBoot
-    resolutionStrategy.force("org.springframework.boot:spring-boot-dependencies:3.5.8")
+    resolutionStrategy.force("org.springframework.boot:spring-boot-dependencies:4.0.1")
 }
 
 dependencies {
     // Spring Boot
-    val springBootVersion = "3.5.8"
+    val springBootVersion = "4.0.1"
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // libcommon

@@ -3,21 +3,19 @@ package com.github.fmjsjx.myboot.autoconfigure.mongodb;
 import java.time.Duration;
 import java.util.List;
 
-import org.bson.UuidRepresentation;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.lang.NonNull;
-import org.springframework.util.unit.DataSize;
-
 import com.mongodb.AuthenticationMechanism;
 import com.mongodb.MongoCompressor;
 import com.mongodb.ServerAddress;
 import com.mongodb.connection.ClusterConnectionMode;
 import com.mongodb.connection.ClusterType;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.bson.UuidRepresentation;
+import org.jspecify.annotations.NonNull;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.util.unit.DataSize;
 
 /**
  * Properties class for MongoDB.
@@ -37,10 +35,9 @@ public class MongoDBProperties {
 
     /**
      * MongoDB driver type.
-     * 
-     * @since 0.1
      *
      * @author MJ Fang
+     * @since 0.1
      */
     public enum DriverType {
         /**
@@ -215,7 +212,7 @@ public class MongoDBProperties {
 
         /**
          * Return a new {@link ServerAddress} instance.
-         * 
+         *
          * @return a {@code ServerAddress}
          */
         ServerAddress toServerAddress() {
@@ -261,7 +258,7 @@ public class MongoDBProperties {
         /**
          * The period of time to wait before running the first maintenance job on the
          * connection pool.
-         * 
+         *
          */
         private Duration maintenanceInitialDelay;
         /**
@@ -342,7 +339,7 @@ public class MongoDBProperties {
 
         /**
          * Returns a new {@link MongoCompressor} instance.
-         * 
+         *
          * @return a {@code MongoCompressor}.
          */
         MongoCompressor toMongoCompressor() {

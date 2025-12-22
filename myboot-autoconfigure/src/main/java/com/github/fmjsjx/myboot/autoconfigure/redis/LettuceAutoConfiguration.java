@@ -99,13 +99,13 @@ public class LettuceAutoConfiguration {
                                          boolean autoFillConnectionAdapters) throws BeansException {
             var client = registerClientBean(properties);
             if (properties.getConnections().size() == 1) {
-                properties.getConnections().get(0).setPrimary(true);
+                properties.getConnections().getFirst().setPrimary(true);
             }
             for (var connectionProperties : properties.getConnections()) {
                 registerConnectionBean(client, connectionProperties, autoFillConnectionAdapters);
             }
             if (properties.getPools().size() == 1) {
-                properties.getPools().get(0).setPrimary(true);
+                properties.getPools().getFirst().setPrimary(true);
             }
             for (var poolProperties : properties.getPools()) {
                 registerPoolBean(client, poolProperties);
@@ -282,7 +282,7 @@ public class LettuceAutoConfiguration {
                     BeanDefinitionBuilder.genericBeanDefinition(RedisClusterClient.class, () -> client)
                             .setDestroyMethodName("shutdown").setPrimary(properties.isPrimary()).getBeanDefinition());
             if (properties.getConnections().size() == 1) {
-                properties.getConnections().get(0).setPrimary(true);
+                properties.getConnections().getFirst().setPrimary(true);
             }
             for (RedisConnectionProperties connectionProperties : properties.getConnections()) {
                 registerConnectionBean(beanName, client, connectionProperties, autoFillConnectionAdapters);

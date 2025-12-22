@@ -2,15 +2,15 @@ package com.github.fmjsjx.myboot.autoconfigure.kafka;
 
 import java.util.Properties;
 
-import org.apache.kafka.common.serialization.Serializer;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.lang.NonNull;
-import org.springframework.util.unit.DataSize;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.kafka.common.serialization.Serializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.jspecify.annotations.NonNull;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.util.unit.DataSize;
+
 
 /**
  * Properties class for producer.

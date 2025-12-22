@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Redis manager.
  */
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "SpringJavaAutowiredFieldsWarningInspection"})
 @Slf4j
 @Service
 public class RedisManager {

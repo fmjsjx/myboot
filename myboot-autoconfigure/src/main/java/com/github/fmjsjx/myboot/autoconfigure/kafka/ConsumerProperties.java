@@ -5,7 +5,7 @@ import java.util.Properties;
 
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.springframework.util.unit.DataSize;
 
 import lombok.Getter;

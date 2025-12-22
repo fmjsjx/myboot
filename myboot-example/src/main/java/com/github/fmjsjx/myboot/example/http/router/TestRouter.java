@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Test router.
  */
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Slf4j
 @Component
 public class TestRouter {

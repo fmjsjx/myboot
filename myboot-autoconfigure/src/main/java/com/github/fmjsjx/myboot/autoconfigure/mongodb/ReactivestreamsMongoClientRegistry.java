@@ -27,7 +27,7 @@ class ReactivestreamsMongoClientRegistry {
         Optional.ofNullable(config.getDatabases()).ifPresent(dbs -> {
             if (config.isPrimary()) {
                 if (dbs.size() == 1) {
-                    dbs.get(0).setPrimary(true);
+                    dbs.getFirst().setPrimary(true);
                 }
             } else {
                 dbs.forEach(db -> db.setPrimary(false));

@@ -4,12 +4,11 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.lang.NonNull;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.jspecify.annotations.NonNull;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Properties class for Pulsar Client.
