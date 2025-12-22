@@ -22,7 +22,7 @@ dependencies {
     // libcommon
     implementation(platform("com.github.fmjsjx:libcommon-bom:4.0.0-RC"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:3.10.0"))
+    api(platform("com.github.fmjsjx:libnetty-bom:4.0.0-RC"))
 
     constraints {
         // Apache Kafka
