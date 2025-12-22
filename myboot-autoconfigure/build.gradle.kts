@@ -25,10 +25,6 @@ dependencies {
     compileOnlyApi("org.mongodb:mongodb-driver-sync")
     compileOnlyApi("org.mongodb:mongodb-driver-reactivestreams")
 
-    compileOnlyApi("org.apache.kafka:kafka-clients")
-
-    compileOnlyApi("org.apache.pulsar:pulsar-client")
-
     compileOnlyApi("io.netty:netty-handler")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
