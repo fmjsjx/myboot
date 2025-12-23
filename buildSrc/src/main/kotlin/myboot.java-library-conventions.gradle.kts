@@ -24,22 +24,6 @@ dependencies {
     // libnetty
     api(platform("com.github.fmjsjx:libnetty-bom:4.0.0-RC"))
 
-    constraints {
-        // Apache Kafka
-        api("org.apache.kafka:kafka-clients:4.1.1")
-        // Apache Pulsar
-        api("org.apache.pulsar:pulsar-client:4.1.2")
-        // MongoDB
-        val mongodbVersion = "5.6.2"
-        api("org.mongodb:bson:$mongodbVersion")
-        api("org.mongodb:mongodb-driver-core:$mongodbVersion")
-        api("org.mongodb:mongodb-driver-sync:$mongodbVersion")
-        api("org.mongodb:mongodb-driver-reactivestreams:$mongodbVersion")
-        api("org.mongodb:mongodb-driver-legacy:$mongodbVersion")
-    }
-    // log4j2
-    implementation(platform("org.apache.logging.log4j:log4j-bom:2.25.2"))
-
 }
 
 val javaVersion = 21
