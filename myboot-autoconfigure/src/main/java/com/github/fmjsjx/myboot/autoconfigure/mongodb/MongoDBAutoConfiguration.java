@@ -13,8 +13,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.IoHandlerFactory;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -154,12 +152,16 @@ public class MongoDBAutoConfiguration {
     /**
      * Registry processor for MongoDB.
      */
-
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class MongoDBRegistryProcessor implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
 
         private Environment environment;
         private BeanDefinitionRegistry registry;
+
+        /**
+         * Constructs a new {@link MongoDBRegistryProcessor} instance.
+         */
+        public MongoDBRegistryProcessor() {
+        }
 
         @Override
         public void setEnvironment(Environment environment) {
@@ -203,6 +205,12 @@ public class MongoDBAutoConfiguration {
                 });
             }
         }
+    }
+
+    /**
+     * Constructs a new {@link MongoDBAutoConfiguration} instance.
+     */
+    public MongoDBAutoConfiguration() {
     }
 
 }

@@ -2,10 +2,9 @@ package com.github.fmjsjx.myboot.autoconfigure.mongodb;
 
 import java.util.Set;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigurationImportFilter;
 import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Exclusion filter for MongoDBAutoConfiguration.
@@ -21,6 +20,13 @@ public class MongoDBAutoConfigurationExclusionFilter implements AutoConfiguratio
             "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
             "org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration",
             "org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration");
+
+    /**
+     * Constructs a new {@link MongoDBAutoConfigurationExclusionFilter}
+     * instance.
+     */
+    public MongoDBAutoConfigurationExclusionFilter() {
+    }
 
     @Override
     public boolean[] match(String[] autoConfigurationClasses, AutoConfigurationMetadata autoConfigurationMetadata) {

@@ -17,6 +17,13 @@ public class LettuceAutoConfigurationExclusionFilter implements AutoConfiguratio
             "org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration",
             "org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration");
 
+    /**
+     * Constructs a new {@link LettuceAutoConfigurationExclusionFilter}
+     * instance.
+     */
+    public LettuceAutoConfigurationExclusionFilter() {
+    }
+
     @Override
     public boolean[] match(String[] autoConfigurationClasses, AutoConfigurationMetadata autoConfigurationMetadata) {
         boolean[] matches = new boolean[autoConfigurationClasses.length];

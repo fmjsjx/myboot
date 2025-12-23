@@ -3,38 +3,40 @@ package com.github.fmjsjx.myboot.example.mongodb;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mongodb.client.MongoDatabase;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import com.mongodb.client.MongoDatabase;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 /**
  * MongoDB manager.
  */
-@SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpringJavaInjectionPointsAutowiringInspection"})
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Slf4j
 @Service
-public class MongoDBManager {
+public class MongoDBManager implements InitializingBean {
 
-    @Autowired
-    @Qualifier("syncTestMongoDatabase")
-    private MongoDatabase syncTestMongoDatabase;
+    private final MongoDatabase syncTestMongoDatabase;
 
-    @Autowired
-    @Qualifier("reactivestreamsTestMongoDatabase")
-    private com.mongodb.reactivestreams.client.MongoDatabase reactivestreamsTestMongoDatabase;
+    private final com.mongodb.reactivestreams.client.MongoDatabase reactivestreamsTestMongoDatabase;
 
     /**
-     * Initialize method.
+     * Constructs {@link MongoDBManager}.
+     *
+     * @param syncTestMongoDatabase            the syncTestMongoDatabase
+     * @param reactivestreamsTestMongoDatabase the reactivestreamsTestMongoDatabase
      */
-    @PostConstruct
-    public void init() {
+    public MongoDBManager(@Qualifier("syncTestMongoDatabase") MongoDatabase syncTestMongoDatabase,
+                          @Qualifier("reactivestreamsTestMongoDatabase") com.mongodb.reactivestreams.client.MongoDatabase reactivestreamsTestMongoDatabase) {
+        this.syncTestMongoDatabase = syncTestMongoDatabase;
+        this.reactivestreamsTestMongoDatabase = reactivestreamsTestMongoDatabase;
+    }
+
+
+    @Override
+    public void afterPropertiesSet() {
         log.debug("Sync Test: {}", syncTestMongoDatabase);
         var names = StreamSupport.stream(syncTestMongoDatabase.listCollectionNames().spliterator(), false)
                 .collect(Collectors.toList());

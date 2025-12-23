@@ -17,6 +17,13 @@ import org.springframework.context.annotation.Bean;
 public class LettuceClientOptionsAutoConfiguration {
 
     /**
+     * Constructs a new {@link LettuceClientOptionsAutoConfiguration}
+     * instance.
+     */
+    public LettuceClientOptionsAutoConfiguration() {
+    }
+
+    /**
      * Bean definition function for {@link RedisClientConfigurer}.
      *
      * @return the {@link RedisClientConfigurer} bean

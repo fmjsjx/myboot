@@ -1,27 +1,30 @@
 package com.github.fmjsjx.myboot.example.http.router;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.github.fmjsjx.libnetty.http.server.middleware.Router;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 /**
  * Test router.
  */
-@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Slf4j
 @Component
-public class TestRouter {
+public class TestRouter implements InitializingBean {
 
-    @Autowired
-    private Router router;
+    private final Router router;
 
-    @PostConstruct
-    private void init() {
+    /**
+     * Constructs a new {@link TestRouter} instance
+     *
+     * @param router the router
+     */
+    public TestRouter(Router router) {
+        this.router = router;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
         log.debug("Router: {}", router);
     }
 

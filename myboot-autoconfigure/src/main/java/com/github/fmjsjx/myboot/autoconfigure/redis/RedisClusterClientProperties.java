@@ -74,6 +74,12 @@ public class RedisClusterClientProperties extends RedisClientProperties {
     private TopologyRefreshProperties topologyRefresh;
 
     /**
+     * Constructs a new {@link RedisClusterClientProperties} instance.
+     */
+    public RedisClusterClientProperties() {
+    }
+
+    /**
      * Properties class for topology refresh options of the redis cluster client.
      *
      * @author MJ Fang
@@ -102,7 +108,7 @@ public class RedisClusterClientProperties extends RedisClientProperties {
          * @deprecated Starting from 3.8, this configuration has no effect
          * as all adaptive triggers are enabled by default
          */
-        @Deprecated
+        @Deprecated(since = "3.8", forRemoval = true)
         private ClusterTopologyRefreshOptions.RefreshTrigger[] adaptiveRefreshTriggers;
         /**
          * Weather to enable all adaptive topology refresh triggers or not.
@@ -112,7 +118,7 @@ public class RedisClusterClientProperties extends RedisClientProperties {
          * @deprecated Starting from 3.8, this configuration has no effect
          * as all adaptive triggers are enabled by default
          */
-        @Deprecated
+        @Deprecated(since = "3.8", forRemoval = true)
         private boolean enableAllAdaptiveRefreshTriggers;
         /**
          * The list of the disabled adaptive topology refresh triggers.
@@ -129,6 +135,12 @@ public class RedisClusterClientProperties extends RedisClientProperties {
          * Set the timeout for adaptive topology updates.
          */
         private Duration adaptiveRefreshTriggersTimeout;
+
+        /**
+         * Constructs a new {@link TopologyRefreshProperties} instance.
+         */
+        public TopologyRefreshProperties() {
+        }
 
     }
 

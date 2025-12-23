@@ -6,7 +6,6 @@ import com.github.fmjsjx.libnetty.http.server.HttpRequestContext;
 import com.github.fmjsjx.libnetty.http.server.HttpResult;
 import com.github.fmjsjx.libnetty.http.server.annotation.HttpGet;
 import com.github.fmjsjx.myboot.http.route.annotation.RouteController;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.Unpooled;
@@ -20,6 +19,12 @@ public class TestController {
 
     private static final ByteBuf OK = Unpooled
             .unreleasableBuffer(ByteBufAllocator.DEFAULT.buffer(2, 2).writeBytes("ok".getBytes()).asReadOnly());
+
+    /**
+     * Constructs a new {@link TestController} instance.
+     */
+    public TestController() {
+    }
 
     /**
      * GET /api/test

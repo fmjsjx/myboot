@@ -37,4 +37,10 @@ public class RedisPoolProperties extends RedisConnectionProperties {
      */
     private boolean wrapConnections = true;
 
+    /**
+     * Constructs a new {@link RedisPoolProperties} instance.
+     */
+    public RedisPoolProperties() {
+    }
+
 }

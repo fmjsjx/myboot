@@ -87,4 +87,10 @@ public class RedisConnectionProperties {
      */
     private Boolean fillAdapter;
 
+    /**
+     * Constructs a new {@link RedisConnectionProperties} instance.
+     */
+    public RedisConnectionProperties() {
+    }
+
 }
