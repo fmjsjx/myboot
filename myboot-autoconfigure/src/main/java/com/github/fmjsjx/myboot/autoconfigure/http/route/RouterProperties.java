@@ -1,12 +1,10 @@
 package com.github.fmjsjx.myboot.autoconfigure.http.route;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import com.github.fmjsjx.libnetty.http.server.middleware.Router;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties class for Router.
@@ -36,6 +34,12 @@ public class RouterProperties {
      * @since 3.1
      */
     private RoutingPolicy routingPolicy;
+
+    /**
+     * Constructs a new {@link RouterProperties} instance.
+     */
+    public RouterProperties() {
+    }
 
     /**
      * Enumeration of routing policies.

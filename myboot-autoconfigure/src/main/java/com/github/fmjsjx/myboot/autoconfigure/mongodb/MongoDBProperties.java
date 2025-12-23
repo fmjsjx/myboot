@@ -34,6 +34,12 @@ public class MongoDBProperties {
     private List<MongoClientProperties> clients;
 
     /**
+     * Constructs a new {@link MongoDBProperties} instance.
+     */
+    public MongoDBProperties() {
+    }
+
+    /**
      * MongoDB driver type.
      *
      * @author MJ Fang
@@ -191,6 +197,12 @@ public class MongoDBProperties {
          */
         private List<DatabaseProperties> databases;
 
+        /**
+         * Constructs a new {@link MongoClientProperties} instance.
+         */
+        public MongoClientProperties() {
+        }
+
     }
 
     /**
@@ -209,6 +221,12 @@ public class MongoDBProperties {
          * The mongod port.
          */
         private Integer port;
+
+        /**
+         * Constructs a new {@link ServerHost} instance.
+         */
+        public ServerHost() {
+        }
 
         /**
          * Return a new {@link ServerAddress} instance.
@@ -268,6 +286,12 @@ public class MongoDBProperties {
          */
         private Duration maintenanceFrequency;
 
+        /**
+         * Constructs a new {@link PoolProperties} instance.
+         */
+        public PoolProperties() {
+        }
+
     }
 
     /**
@@ -295,6 +319,13 @@ public class MongoDBProperties {
          * The send buffer size.
          */
         private DataSize sendBufferSize;
+
+        /**
+         * Constructs a new {@link SocketProperties} instance.
+         */
+        public SocketProperties() {
+        }
+
     }
 
     /**
@@ -317,6 +348,13 @@ public class MongoDBProperties {
          * The default is {@code false}.
          */
         private Boolean invalidHostNameAllowed;
+
+        /**
+         * Constructs a new {@link SslProperties} instance.
+         */
+        public SslProperties() {
+        }
+
     }
 
     /**
@@ -336,6 +374,12 @@ public class MongoDBProperties {
          * The compression level.
          */
         private Integer level;
+
+        /**
+         * Constructs a new {@link CompressorProperties} instance.
+         */
+        public CompressorProperties() {
+        }
 
         /**
          * Returns a new {@link MongoCompressor} instance.
@@ -402,6 +446,12 @@ public class MongoDBProperties {
          * {@code MongoClient}.
          */
         private boolean primary;
+
+        /**
+         * Constructs a new {@link DatabaseProperties} instance.
+         */
+        public DatabaseProperties() {
+        }
 
     }
 

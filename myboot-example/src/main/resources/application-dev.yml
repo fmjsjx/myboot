@@ -31,10 +31,10 @@ myboot:
         - name: blocking
           uri: redis://192.168.20.162:6379/4
           mode: sync
-        - name: noblocking
+        - name: nonblocking
           uri: redis://192.168.20.162:6379/5
           mode: async
-        - name: noblockingPlus
+        - name: nonblockingPlus
           uri: redis://192.168.20.162:6379/6
           mode: async-plus
           wrap-connections: false

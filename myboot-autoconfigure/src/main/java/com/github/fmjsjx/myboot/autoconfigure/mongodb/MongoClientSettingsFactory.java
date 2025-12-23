@@ -15,7 +15,6 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.connection.*;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

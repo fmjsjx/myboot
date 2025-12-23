@@ -6,11 +6,21 @@ import com.github.fmjsjx.libcommon.redis.core.RedisConnectionAdapter;
 import com.github.fmjsjx.libcommon.redis.core.RedisPubSubConnectionAdapter;
 import com.github.fmjsjx.libcommon.util.StringUtil;
 import io.lettuce.core.*;
+import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
+import io.lettuce.core.cluster.RedisClusterClient;
 import io.lettuce.core.cluster.RedisClusterURIUtil;
+import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
+import io.lettuce.core.cluster.pubsub.StatefulRedisClusterPubSubConnection;
+import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.codec.RedisCodec;
+import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.masterreplica.MasterReplica;
 import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
+import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
+import io.lettuce.core.resource.ClientResources;
+import io.lettuce.core.sentinel.api.StatefulRedisSentinelConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -27,17 +37,6 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-
-import io.lettuce.core.api.StatefulRedisConnection;
-import io.lettuce.core.cluster.RedisClusterClient;
-import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
-import io.lettuce.core.cluster.pubsub.StatefulRedisClusterPubSubConnection;
-import io.lettuce.core.codec.ByteArrayCodec;
-import io.lettuce.core.codec.RedisCodec;
-import io.lettuce.core.codec.StringCodec;
-import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
-import io.lettuce.core.resource.ClientResources;
-import io.lettuce.core.sentinel.api.StatefulRedisSentinelConnection;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -353,6 +352,12 @@ public class LettuceAutoConfiguration {
             }
         }
 
+    }
+
+    /**
+     * Constructs a new {@link LettuceAutoConfiguration} instance.
+     */
+    public LettuceAutoConfiguration() {
     }
 
 }

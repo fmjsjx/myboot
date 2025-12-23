@@ -40,4 +40,10 @@ public class LettuceProperties {
      */
     private boolean autoFillConnectionAdapters = true;
 
+    /**
+     * Constructs a new {@link LettuceProperties} instance.
+     */
+    public LettuceProperties() {
+    }
+
 }

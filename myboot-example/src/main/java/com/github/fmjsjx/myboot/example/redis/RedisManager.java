@@ -1,54 +1,53 @@
 package com.github.fmjsjx.myboot.example.redis;
 
-import javax.annotation.PostConstruct;
-
-import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-
 import com.github.fmjsjx.myboot.autoconfigure.redis.AsyncPoolPlus;
-
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.support.AsyncPool;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 
 /**
  * Redis manager.
  */
-@SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "SpringJavaAutowiredFieldsWarningInspection"})
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Slf4j
 @Service
-public class RedisManager {
+public class RedisManager implements InitializingBean {
 
-    @Autowired
-    @Qualifier("testRedisConnection")
-    private StatefulRedisConnection<String, String> testRedisConnection;
-
-    @Autowired
-    @Qualifier("helloRedisConnection")
-    private StatefulRedisPubSubConnection<String, String> helloRedisConnection;
-
-    @Autowired
-    @Qualifier("blockingRedisPool")
-    private GenericObjectPool<StatefulRedisConnection<String, String>> blockingRedisPool;
-
-    @Autowired
-    @Qualifier("noblockingRedisPool")
-    private AsyncPool<StatefulRedisConnection<String, String>> noblockingRedisPool;
-
-    @Autowired
-    @Qualifier("noblockingPlusRedisPool")
-    private AsyncPoolPlus<String, String, StatefulRedisConnection<String, String>> noblockingPlusRedisPool;
+    private final StatefulRedisConnection<String, String> testRedisConnection;
+    private final StatefulRedisPubSubConnection<String, String> helloRedisConnection;
+    private final GenericObjectPool<StatefulRedisConnection<String, String>> blockingRedisPool;
+    private final AsyncPool<StatefulRedisConnection<String, String>> nonblockingRedisPool;
+    private final AsyncPoolPlus<String, String, StatefulRedisConnection<String, String>> nonblockingPlusRedisPool;
 
     /**
-     * Initialize method.
+     * Constructs a new {@link RedisManager} instance.
      *
-     * @throws Exception if any error occurs
+     * @param testRedisConnection      the testRedisConnection
+     * @param helloRedisConnection     the helloRedisConnection
+     * @param blockingRedisPool        the blockingRedisPool
+     * @param nonblockingRedisPool     the nonblockingRedisPool
+     * @param nonblockingPlusRedisPool the nonblockingPlusRedisPool
      */
-    @PostConstruct
-    public void init() throws Exception {
+    public RedisManager(@Qualifier("testRedisConnection") StatefulRedisConnection<String, String> testRedisConnection,
+                        @Qualifier("helloRedisConnection") StatefulRedisPubSubConnection<String, String> helloRedisConnection,
+                        @Qualifier("blockingRedisPool") GenericObjectPool<StatefulRedisConnection<String, String>> blockingRedisPool,
+                        @Qualifier("nonblockingRedisPool") AsyncPool<StatefulRedisConnection<String, String>> nonblockingRedisPool,
+                        @Qualifier("nonblockingPlusRedisPool") AsyncPoolPlus<String, String, StatefulRedisConnection<String, String>> nonblockingPlusRedisPool) {
+        this.testRedisConnection = testRedisConnection;
+        this.helloRedisConnection = helloRedisConnection;
+        this.blockingRedisPool = blockingRedisPool;
+        this.nonblockingRedisPool = nonblockingRedisPool;
+        this.nonblockingPlusRedisPool = nonblockingPlusRedisPool;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         log.debug("test connection: {}", testRedisConnection);
         log.debug("hello connection: {}", helloRedisConnection);
         log.debug("GET test: {}", testRedisConnection.sync().get("test"));
@@ -59,18 +58,18 @@ public class RedisManager {
             log.debug("DBSIZE blocking pool: {}", sync.dbsize());
             log.debug("BLPOP 1 nosucnkey blocking pool: {}", sync.blpop(1, "nosuchkey"));
         }
-        var noblockingRedisPool = this.noblockingRedisPool;
-        var time = noblockingRedisPool.acquire()
+        var nonblockingRedisPool = this.nonblockingRedisPool;
+        var time = nonblockingRedisPool.acquire()
                 .thenCompose(conn -> conn.async().time().whenComplete((nil, e) -> conn.close())).join();
-        log.debug("TIME noblocking pool: {}", time);
-        var dbsize = noblockingRedisPool.acquire()
+        log.debug("TIME nonblocking pool: {}", time);
+        var dbsize = nonblockingRedisPool.acquire()
                 .thenCompose(conn -> conn.async().dbsize().whenComplete((nil, e) -> conn.close())).join();
-        log.debug("DBSIZE noblocking pool: {}", dbsize);
-        var noblockingPlusRedisPool = this.noblockingPlusRedisPool;
-        time = noblockingPlusRedisPool.apply(conn -> conn.async().time()).join();
-        log.debug("TIME noblocking pool plus: {}", time);
-        dbsize = noblockingPlusRedisPool.apply(conn -> conn.async().dbsize()).join();
-        log.debug("DBSIZE noblocking pool plus: {}", dbsize);
+        log.debug("DBSIZE nonblocking pool: {}", dbsize);
+        var nonblockingPlusRedisPool = this.nonblockingPlusRedisPool;
+        time = nonblockingPlusRedisPool.apply(conn -> conn.async().time()).join();
+        log.debug("TIME nonblocking pool plus: {}", time);
+        dbsize = nonblockingPlusRedisPool.apply(conn -> conn.async().dbsize()).join();
+        log.debug("DBSIZE nonblocking pool plus: {}", dbsize);
     }
 
 }

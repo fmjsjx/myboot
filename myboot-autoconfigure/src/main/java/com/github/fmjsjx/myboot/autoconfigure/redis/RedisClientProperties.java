@@ -42,4 +42,10 @@ public class RedisClientProperties {
      */
     private List<RedisPoolProperties> pools = Collections.emptyList();
 
+    /**
+     * Constructs a new {@link RedisClientProperties} instance.
+     */
+    public RedisClientProperties() {
+    }
+
 }

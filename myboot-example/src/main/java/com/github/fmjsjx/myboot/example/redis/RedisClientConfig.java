@@ -1,12 +1,12 @@
 package com.github.fmjsjx.myboot.example.redis;
 
+import java.time.Duration;
+
 import com.github.fmjsjx.myboot.autoconfigure.redis.ClientOptionsConfigurer;
 import com.github.fmjsjx.myboot.autoconfigure.redis.RedisClientConfigurer;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.TimeoutOptions;
 import org.springframework.stereotype.Component;
-
-import java.time.Duration;
 
 /**
  * Configuration for redis client.
@@ -16,6 +16,12 @@ import java.time.Duration;
  */
 @Component
 public class RedisClientConfig implements RedisClientConfigurer {
+
+    /**
+     * Constructs a new {@link RedisClientConfig} instance.
+     */
+    public RedisClientConfig() {
+    }
 
     @Override
     public void configureClientOptions(ClientOptionsConfigurer configurer) {
