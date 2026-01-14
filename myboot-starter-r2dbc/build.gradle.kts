@@ -1,26 +1,32 @@
 plugins {
-    `java-platform`
+    id("myboot.starter-conventions")
     id("myboot.publish-conventions")
 }
 
-description = "MyBoot/BOM"
-
 dependencies {
-    constraints {
-        api(project(":myboot-autoconfigure"))
-        api(project(":myboot-starter-http-router"))
-        api(project(":myboot-starter-mongodb"))
-        api(project(":myboot-starter-redis"))
-        api(project(":myboot-starter-r2dbc"))
-    }
+
+    api("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    api("io.r2dbc:r2dbc-spi")
+    api("io.r2dbc:r2dbc-pool")
+
 }
+
+description = "MyBoot/Starter R2DBC"
 
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            from(components["javaPlatform"])
+            from(components["java"])
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
             pom {
-                name.set("MyBoot/BOM")
+                name.set("MyBoot/Starter R2DBC")
                 description.set("A boot library provides some additional extensions based on SpringBoot.")
                 url.set("https://github.com/fmjsjx/myboot")
                 licenses {
