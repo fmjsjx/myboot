@@ -27,6 +27,10 @@ dependencies {
 
     compileOnlyApi("io.netty:netty-handler")
 
+    compileOnlyApi("org.springframework.boot:spring-boot-r2dbc")
+    compileOnlyApi("io.r2dbc:r2dbc-spi")
+    compileOnlyApi("io.r2dbc:r2dbc-pool")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
