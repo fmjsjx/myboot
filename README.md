@@ -21,7 +21,7 @@ A boot library provides some additional extensions based on SpringBoot.
       <dependency>
         <groupId>com.github.fmjsjx</groupId>
         <artifactId>myboot-bom</artifactId>
-        <version>4.1.0-RC</version>
+        <version>4.1.0-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -57,7 +57,7 @@ repositories {
 
 dependencies {
     // 版本控制
-    implementation platform('com.github.fmjsjx:myboot-bom:4.1.0-RC')
+    implementation platform('com.github.fmjsjx:myboot-bom:4.1.0-SNAPSHOT')
     // REDIS
     implementation('com.github.fmjsjx:myboot-starter-redis') {
         // 移除同步连接池依赖
@@ -76,7 +76,7 @@ repositories {
 
 dependencies {
     // 版本控制
-    implementation(platform("com.github.fmjsjx:myboot-bom:4.1.0-RC"))
+    implementation(platform("com.github.fmjsjx:myboot-bom:4.1.0-SNAPSHOT"))
     // REDIS
     implementation("com.github.fmjsjx:myboot-starter-redis") {
         // 移除同步连接池依赖
