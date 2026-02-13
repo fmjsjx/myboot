@@ -7,8 +7,8 @@ dependencies {
 
     api("org.mongodb:mongodb-driver-sync")
     api("org.mongodb:mongodb-driver-reactivestreams")
-    implementation(group = "io.netty", name = "netty-transport-native-epoll", classifier = "linux-x86_64")
-    implementation(group = "io.netty", name = "netty-transport-native-kqueue", classifier = "osx-x86_64")
+    implementation("io.netty:netty-transport-native-epoll::linux-x86_64")
+    implementation("io.netty:netty-transport-native-kqueue::osx-x86_64")
 
 }
 
