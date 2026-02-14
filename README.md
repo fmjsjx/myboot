@@ -1,23 +1,23 @@
 # MyBoot
-A boot library provides some additional extensions based on SpringBoot.
+A boot library that provides additional extensions based on SpringBoot.
 
-## JDK 及 SpringBoot 版本兼容性列表
-| MyBoot 版本 | JDK 版本  | SpringBoot 版本  |
-|-----------|---------|----------------|
-| 4.x       | JDK 21+ | SpringBoot 4.x |
-| 3.x       | JDK 17+ | SpringBoot 3.x |
-| 2.x       | JDK 17+ | SpringBoot 2.x |
-| older     | JDK 11+ | SpringBoot 2.x |
+## JDK and SpringBoot Version Compatibility
+| MyBoot Version | JDK Version | SpringBoot Version |
+|----------------|-------------|--------------------|
+| 4.x            | JDK 21+     | SpringBoot 4.x     |
+| 3.x            | JDK 17+     | SpringBoot 3.x     |
+| 2.x            | JDK 17+     | SpringBoot 2.x     |
+| older          | JDK 11+     | SpringBoot 2.x     |
 
-## 添加依赖
-每个release版本都将发布至[Maven中央仓库](https://repo1.maven.org/maven2/)
-### 添加Maven依赖
+## Adding Dependencies
+Every release version is published to [Maven Central](https://repo1.maven.org/maven2/)
+### Adding Maven Dependencies
 `pom.xml`
 ```xml
 <pom>
   <dependencyManagement>
     <dependencies>
-      <!-- 版本控制 -->
+      <!-- Version management -->
       <dependency>
         <groupId>com.github.fmjsjx</groupId>
         <artifactId>myboot-bom</artifactId>
@@ -47,7 +47,7 @@ A boot library provides some additional extensions based on SpringBoot.
 </pom>
 ```
 
-### 添加Gradle依赖
+### Adding Gradle Dependencies
 
 #### Groovy DSL
 ```groovy
@@ -56,11 +56,11 @@ repositories {
 }
 
 dependencies {
-    // 版本控制
+    // Version management
     implementation platform('com.github.fmjsjx:myboot-bom:4.1.1-SNAPSHOT')
     // REDIS
     implementation('com.github.fmjsjx:myboot-starter-redis') {
-        // 移除同步连接池依赖
+        // Exclude synchronous connection pool dependency
         exclude group: 'org.apache.commons', module: 'commons-pool2'
     }
     // MongoDB
@@ -75,11 +75,11 @@ repositories {
 }
 
 dependencies {
-    // 版本控制
+    // Version management
     implementation(platform("com.github.fmjsjx:myboot-bom:4.1.1-SNAPSHOT"))
     // REDIS
     implementation("com.github.fmjsjx:myboot-starter-redis") {
-        // 移除同步连接池依赖
+        // Exclude synchronous connection pool dependency
         exclude(group = "org.apache.commons", module = "commons-pool2")
     }
     // MongoDB
