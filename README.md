@@ -21,7 +21,7 @@ Every release version is published to [Maven Central](https://repo1.maven.org/ma
       <dependency>
         <groupId>com.github.fmjsjx</groupId>
         <artifactId>myboot-bom</artifactId>
-        <version>4.1.2-SNAPSHOT</version>
+        <version>4.1.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -57,7 +57,7 @@ repositories {
 
 dependencies {
     // Version management
-    implementation platform('com.github.fmjsjx:myboot-bom:4.1.2-SNAPSHOT')
+    implementation platform('com.github.fmjsjx:myboot-bom:4.1.2')
     // REDIS
     implementation('com.github.fmjsjx:myboot-starter-redis') {
         // Exclude synchronous connection pool dependency
@@ -76,7 +76,7 @@ repositories {
 
 dependencies {
     // Version management
-    implementation(platform("com.github.fmjsjx:myboot-bom:4.1.2-SNAPSHOT"))
+    implementation(platform("com.github.fmjsjx:myboot-bom:4.1.2"))
     // REDIS
     implementation("com.github.fmjsjx:myboot-starter-redis") {
         // Exclude synchronous connection pool dependency
