@@ -17,7 +17,7 @@ dependencies {
     // libcommon
     implementation(platform("com.github.fmjsjx:libcommon-bom:4.1.6"))
     // libnetty
-    api(platform("com.github.fmjsjx:libnetty-bom:4.1.3"))
+    api(platform("com.github.fmjsjx:libnetty-bom:4.1.5"))
 
 }
 
