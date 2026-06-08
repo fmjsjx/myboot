@@ -10,12 +10,12 @@ repositories {
 }
 
 dependencies {
-    // Spring Boot
+    // SpringBoot
     val springBootVersion = "4.0.6"
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
-    // libcommon
-    implementation(platform("com.github.fmjsjx:libcommon-bom:4.1.6"))
+    // LibCommon
+    implementation(platform("com.github.fmjsjx:libcommon-bom:4.2.0"))
     // libnetty
     api(platform("com.github.fmjsjx:libnetty-bom:4.1.5"))
 
