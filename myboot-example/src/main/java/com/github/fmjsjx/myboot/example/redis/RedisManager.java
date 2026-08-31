@@ -28,6 +28,8 @@ public class RedisManager implements InitializingBean {
      *
      * @param testRedisConnection        the testRedisConnection
      * @param helloRedisPubSubConnection the helloRedisPubSubConnection
+     * @param testRedisConnectionAdapter        the testRedisConnectionAdapter
+     * @param helloRedisPubSubConnectionAdapter the helloRedisPubSubConnectionAdapter
      */
     public RedisManager(@Qualifier("testRedisConnection") StatefulRedisConnection<String, String> testRedisConnection,
                         @Qualifier("helloRedisPubSubConnection") StatefulRedisPubSubConnection<String, String> helloRedisPubSubConnection,
