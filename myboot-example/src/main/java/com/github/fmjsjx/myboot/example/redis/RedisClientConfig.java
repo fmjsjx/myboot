@@ -6,6 +6,8 @@ import com.github.fmjsjx.myboot.autoconfigure.redis.ClientOptionsConfigurer;
 import com.github.fmjsjx.myboot.autoconfigure.redis.RedisClientConfigurer;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.TimeoutOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RedisClientConfig implements RedisClientConfigurer {
+
+    private static final Logger logger = LoggerFactory.getLogger(RedisClientConfig.class);
 
     /**
      * Constructs a new {@link RedisClientConfig} instance.
@@ -28,7 +32,7 @@ public class RedisClientConfig implements RedisClientConfigurer {
         var options = ClientOptions.builder()
                 .timeoutOptions(TimeoutOptions.builder().fixedTimeout(Duration.ofSeconds(30)).build())
                 .build();
-        System.err.println("redis configuration client options: " + options);
+        logger.debug("redis configuration client options: {}", options);
         configurer.setOptions(options);
     }
 

@@ -21,6 +21,7 @@ import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.sentinel.api.StatefulRedisSentinelConnection;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -57,7 +58,7 @@ public class LettuceAutoConfiguration {
      * @return a new {@code LettuceRegistryProcessor} instance
      */
     @Bean
-    public static final LettuceRegistryProcessor lettuceRegistryProcessor(BeanFactory beanFactory) {
+    public static LettuceRegistryProcessor lettuceRegistryProcessor(BeanFactory beanFactory) {
         return new LettuceRegistryProcessor(beanFactory);
     }
 
@@ -77,12 +78,12 @@ public class LettuceAutoConfiguration {
         }
 
         @Override
-        public void setEnvironment(Environment environment) {
+        public void setEnvironment(@NonNull Environment environment) {
             this.environment = environment;
         }
 
         @Override
-        public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        public void postProcessBeanDefinitionRegistry(@NonNull BeanDefinitionRegistry registry) throws BeansException {
             this.registry = registry;
             var bindResult = Binder.get(environment).bind(LettuceProperties.CONFIG_PREFIX, LettuceProperties.class);
             bindResult.ifBound(props -> {
@@ -137,10 +138,7 @@ public class LettuceAutoConfiguration {
         }
 
         private void registerConnectionBean(RedisClient client, RedisConnectionProperties properties,
-                                            boolean autoFillConnectionAdapters)
-                throws BeansException {
-            var beanName = Optional.ofNullable(properties.getBeanName())
-                    .orElseGet(() -> properties.getName() + "RedisConnection");
+                                            boolean autoFillConnectionAdapters) throws BeansException {
             var uri = createUri(properties);
             var codec = getRedisCodec(properties.getCodec());
             if (properties.getType() == null) {
@@ -148,21 +146,27 @@ public class LettuceAutoConfiguration {
             }
             switch (properties.getType()) {
                 case NORMAL -> {
+                    var beanName = Optional.ofNullable(properties.getBeanName())
+                            .orElseGet(() -> properties.getName() + "RedisConnection");
                     var beanDefinition = BeanDefinitionBuilder
                             .genericBeanDefinition(StatefulRedisConnection.class, () -> client.connect(codec, uri))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
-                    registerAdapter(properties, autoFillConnectionAdapters, beanName, "ofDirect");
+                    registerAdapter(properties, autoFillConnectionAdapters, beanName, false);
                 }
                 case PUBSUB -> {
+                    var beanName = Optional.ofNullable(properties.getBeanName())
+                            .orElseGet(() -> properties.getName() + "RedisPubSubConnection");
                     var beanDefinition = BeanDefinitionBuilder
                             .genericBeanDefinition(StatefulRedisPubSubConnection.class,
                                     () -> client.connectPubSub(codec, uri))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
-                    registerPubSubAdapter(properties, autoFillConnectionAdapters, beanName, "ofDirect");
+                    registerPubSubAdapter(properties, autoFillConnectionAdapters, beanName, false);
                 }
                 case SENTINEL -> {
+                    var beanName = Optional.ofNullable(properties.getBeanName())
+                            .orElseGet(() -> properties.getName() + "RedisSentinelConnection");
                     var beanDefinition = BeanDefinitionBuilder
                             .genericBeanDefinition(StatefulRedisSentinelConnection.class,
                                     () -> client.connectSentinel(codec, uri))
@@ -170,6 +174,8 @@ public class LettuceAutoConfiguration {
                     registry.registerBeanDefinition(beanName, beanDefinition);
                 }
                 case MASTER_REPLICA -> {
+                    var beanName = Optional.ofNullable(properties.getBeanName())
+                            .orElseGet(() -> properties.getName() + "RedisMasterReplicaConnection");
                     var beanDefinition = BeanDefinitionBuilder
                             .genericBeanDefinition(StatefulRedisMasterReplicaConnection.class,
                                     () -> MasterReplica.connect(client, codec, uri))
@@ -179,7 +185,7 @@ public class LettuceAutoConfiguration {
             }
         }
 
-        private static final RedisURI createUri(RedisConnectionProperties properties) {
+        private static RedisURI createUri(RedisConnectionProperties properties) {
             var uri = properties.getUri();
             if (uri != null) {
                 return RedisURI.create(uri);
@@ -191,7 +197,7 @@ public class LettuceAutoConfiguration {
             return redisUri;
         }
 
-        private static final RedisCodec<?, ?> getRedisCodec(RedisConnectionCodec codec) {
+        private static RedisCodec<?, ?> getRedisCodec(RedisConnectionCodec codec) {
             return switch (codec) {
                 case ASCII -> StringCodec.ASCII;
                 case BYTE_ARRAY -> ByteArrayCodec.INSTANCE;
@@ -288,7 +294,7 @@ public class LettuceAutoConfiguration {
             }
         }
 
-        private static final RedisURI createUri(RedisClusterClientProperties properties) {
+        private static RedisURI createUri(RedisClusterClientProperties properties) {
             var uri = properties.getUri();
             if (uri != null) {
                 return RedisURI.create(uri);
@@ -301,27 +307,29 @@ public class LettuceAutoConfiguration {
 
         private void registerConnectionBean(String clientBeanName, RedisClusterClient client,
                                             RedisConnectionProperties properties, boolean autoFillConnectionAdapters) {
-            var beanName = Optional.ofNullable(properties.getBeanName())
-                    .orElseGet(() -> properties.getName() + "RedisClusterConnection");
             var codec = getRedisCodec(properties.getCodec());
             if (properties.getType() == null) {
                 properties.setType(RedisConnectionType.NORMAL);
             }
             switch (properties.getType()) {
                 case NORMAL -> {
+                    var beanName = Optional.ofNullable(properties.getBeanName())
+                            .orElseGet(() -> properties.getName() + "RedisClusterConnection");
                     var beanDefinition = BeanDefinitionBuilder
                             .genericBeanDefinition(StatefulRedisClusterConnection.class, () -> client.connect(codec))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
-                    registerAdapter(properties, autoFillConnectionAdapters, beanName, "ofCluster");
+                    registerAdapter(properties, autoFillConnectionAdapters, beanName, true);
                 }
                 case PUBSUB -> {
+                    var beanName = Optional.ofNullable(properties.getBeanName())
+                            .orElseGet(() -> properties.getName() + "RedisClusterPubSubConnection");
                     var beanDefinition = BeanDefinitionBuilder
                             .genericBeanDefinition(StatefulRedisClusterPubSubConnection.class,
                                     () -> client.connectPubSub(codec))
                             .addDependsOn(clientBeanName).setPrimary(properties.isPrimary()).getBeanDefinition();
                     registry.registerBeanDefinition(beanName, beanDefinition);
-                    registerPubSubAdapter(properties, autoFillConnectionAdapters, beanName, "ofCluster");
+                    registerPubSubAdapter(properties, autoFillConnectionAdapters, beanName, true);
                 }
                 case SENTINEL, MASTER_REPLICA ->
                         throw new IllegalArgumentException(properties.getType() + "is unsupported in RedisCluster");
@@ -329,10 +337,11 @@ public class LettuceAutoConfiguration {
         }
 
         private void registerAdapter(RedisConnectionProperties properties, boolean autoFillConnectionAdapters,
-                                     String beanName, String factoryMethod) {
+                                     String beanName, boolean isCluster) {
             if (autoFillConnectionAdapters && properties.getFillAdapter() != Boolean.FALSE) {
                 var adapterName = Optional.ofNullable(properties.getBeanName()).map(it -> it + "Adapter")
                         .orElseGet(() -> properties.getName() + "RedisConnectionAdapter");
+                var factoryMethod = isCluster ? "ofCluster" : "ofDirect";
                 var adapterDefinition = BeanDefinitionBuilder
                         .genericBeanDefinition(RedisConnectionAdapter.class)
                         .setFactoryMethod(factoryMethod).addConstructorArgReference(beanName).getBeanDefinition();
@@ -341,10 +350,11 @@ public class LettuceAutoConfiguration {
         }
 
         private void registerPubSubAdapter(RedisConnectionProperties properties, boolean autoFillConnectionAdapters,
-                                           String beanName, String factoryMethod) {
+                                           String beanName, boolean isCluster) {
             if (autoFillConnectionAdapters && properties.getFillAdapter() != Boolean.FALSE) {
                 var adapterBeanName = Optional.ofNullable(properties.getBeanName()).map(it -> it + "Adapter")
                         .orElseGet(() -> properties.getName() + "RedisPubSubConnectionAdapter");
+                var factoryMethod = isCluster ? "ofClusterPubSub" : "ofDirectPubSub";
                 var adapterDefinition = BeanDefinitionBuilder
                         .genericBeanDefinition(RedisPubSubConnectionAdapter.class)
                         .setFactoryMethod(factoryMethod).addConstructorArgReference(beanName).getBeanDefinition();

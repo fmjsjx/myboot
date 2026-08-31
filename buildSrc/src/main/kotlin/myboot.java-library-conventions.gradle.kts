@@ -20,9 +20,9 @@ dependencies {
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // LibCommon
-    implementation(platform("com.github.fmjsjx:libcommon-bom:4.2.0"))
+    implementation(platform("com.github.fmjsjx:libcommon-bom:4.3.0-beta1"))
     // LibNetty
-    api(platform("com.github.fmjsjx:libnetty-bom:4.2.0"))
+    api(platform("com.github.fmjsjx:libnetty-bom:4.3.0-alpha1"))
 
 }
 
@@ -35,6 +35,16 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
     toolchain {
         languageVersion = JavaLanguageVersion.of(javaVersion)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
+    testImplementation {
+        extendsFrom(configurations.compileOnly.get())
+        extendsFrom(configurations.compileOnlyApi.get())
     }
 }
 

@@ -25,6 +25,12 @@ public class RedisConnectionProperties {
     /**
      * The default is <code>"${name}RedisConnection"</code>,
      * <p>
+     * or <code>"${name}RedisPubSubConnection"</code> (since 4.2),
+     * <p>
+     * or <code>"${name}RedisSentinelConnection"</code> (since 4.2),
+     * <p>
+     * or <code>"${name}RedisMasterReplicaConnection"</code> (since 4.2),
+     * <p>
      * or <code>"${name}RedisPool"</code> for pool,
      * <p>
      * or <code>"${name}RedisClusterConnection"</code> for cluster connection.
@@ -57,7 +63,7 @@ public class RedisConnectionProperties {
      */
     private int db;
     /**
-     * The user name to AUTH.
+     * The username to AUTH.
      * <p>
      * Can't be set with {@code uri}.
      * <p>

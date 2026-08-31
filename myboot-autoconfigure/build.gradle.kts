@@ -7,11 +7,9 @@ dependencies {
 
     implementation("org.slf4j:slf4j-api")
 
-    compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
     api("org.springframework.boot:spring-boot-autoconfigure")
-    compileOnly("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("com.github.fmjsjx:libcommon-util")
@@ -42,7 +40,7 @@ dependencies {
 description = "MyBoot/AutoConfigure"
 
 tasks.withType<Test> {
-    // Use junit platform for unit tests.
+    // Use JUnit platform for unit tests.
     useJUnitPlatform()
 }
 
