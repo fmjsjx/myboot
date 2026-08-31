@@ -1,3 +1,9 @@
+# yaml-language-server: $schema=https://json.schemastore.org/spring-boot-application.json
+spring:
+  main:
+    web-application-type: none
+    keep-alive: true
+
 myboot:
   http:
     router:
@@ -23,18 +29,18 @@ myboot:
       client:
         connections:
         - name: test
-          uri: redis://192.168.20.162:6379/2
+          uri: redis://192.168.1.171:6379/2
         - name: hello
-          uri: redis://192.168.20.162:6379/3
+          uri: redis://192.168.1.171:6379/3
           type: pubsub
-        pools:
-        - name: blocking
-          uri: redis://192.168.20.162:6379/4
-          mode: sync
-        - name: nonblocking
-          uri: redis://192.168.20.162:6379/5
-          mode: async
-        - name: nonblockingPlus
-          uri: redis://192.168.20.162:6379/6
-          mode: async-plus
-          wrap-connections: false
+#        pools:
+#        - name: blocking
+#          uri: redis://192.168.20.162:6379/4
+#          mode: sync
+#        - name: nonblocking
+#          uri: redis://192.168.20.162:6379/5
+#          mode: async
+#        - name: nonblockingPlus
+#          uri: redis://192.168.20.162:6379/6
+#          mode: async-plus
+#          wrap-connections: false

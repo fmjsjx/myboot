@@ -5,8 +5,18 @@ plugins {
 
 description = "MyBoot/Example"
 
+configurations {
+    all {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+        exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
+        exclude(group = "io.r2dbc", module = "r2dbc-pool")
+        exclude(group = "io.r2dbc", module = "r2dbc-spi")
+        exclude(group = "org.springframework.boot", module = "spring-boot-r2dbc")
+    }
+}
+
 dependencies {
-	
+
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     implementation("org.slf4j:slf4j-api")
@@ -54,6 +64,6 @@ tasks.javadoc {
 }
 
 tasks.test {
-    // Use junit platform for unit tests.
+    // Use JUnit platform for unit tests.
     useJUnitPlatform()
 }
