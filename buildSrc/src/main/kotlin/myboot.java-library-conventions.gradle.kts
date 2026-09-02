@@ -20,7 +20,7 @@ dependencies {
     api(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     annotationProcessor(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
     // LibCommon
-    implementation(platform("com.github.fmjsjx:libcommon-bom:4.3.0-beta1"))
+    implementation(platform("com.github.fmjsjx:libcommon-bom:4.3.0-RC2"))
     // LibNetty
     api(platform("com.github.fmjsjx:libnetty-bom:4.3.0-alpha1"))
 
