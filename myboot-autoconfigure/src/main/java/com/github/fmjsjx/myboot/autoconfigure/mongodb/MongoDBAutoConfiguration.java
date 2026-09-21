@@ -14,6 +14,7 @@ import io.netty.channel.IoHandlerFactory;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -48,7 +49,7 @@ public class MongoDBAutoConfiguration {
     private static final Object NETTY_LIBRARY_LOCK = new Object();
     private static volatile NettyLibrary nettyLibrary;
 
-    private static final boolean isNettyNativeAvailable(String className) {
+    private static boolean isNettyNativeAvailable(String className) {
         try {
             Class<?> clazz = Class.forName(className);
             return isNettyNativeAvailable(clazz);
@@ -57,13 +58,13 @@ public class MongoDBAutoConfiguration {
         }
     }
 
-    private static final boolean isNettyNativeAvailable(Class<?> clazz)
+    private static boolean isNettyNativeAvailable(Class<?> clazz)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         return (Boolean) clazz.getDeclaredMethod("isAvailable").invoke(null);
     }
 
     @SuppressWarnings("unchecked")
-    private static final <T extends SocketChannel> Class<T> socketChannelClass(String className) {
+    private static <T extends SocketChannel> Class<T> socketChannelClass(String className) {
         try {
             return (Class<T>) Class.forName(className);
         } catch (ClassNotFoundException e) {
@@ -72,8 +73,8 @@ public class MongoDBAutoConfiguration {
     }
 
     @SuppressWarnings("unchecked")
-    private static final <T extends EventLoopGroup> T nativeEventLoopGroup(String className,
-                                                                           ThreadFactory threadFactory) {
+    private static <T extends EventLoopGroup> T nativeEventLoopGroup(String className,
+                                                                     ThreadFactory threadFactory) {
         try {
             var clazz = (Class<T>) Class.forName(className);
             var constructor = clazz.getConstructor(ThreadFactory.class);
@@ -164,17 +165,17 @@ public class MongoDBAutoConfiguration {
         }
 
         @Override
-        public void setEnvironment(Environment environment) {
+        public void setEnvironment(@NonNull Environment environment) {
             this.environment = environment;
         }
 
         @Override
-        public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) throws BeansException {
             // ignore
         }
 
         @Override
-        public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        public void postProcessBeanDefinitionRegistry(@NonNull BeanDefinitionRegistry registry) throws BeansException {
             this.registry = registry;
             var bindResult = Binder.get(environment).bind(MongoDBProperties.CONFIG_PREFIX, MongoDBProperties.class);
             if (bindResult.isBound()) {

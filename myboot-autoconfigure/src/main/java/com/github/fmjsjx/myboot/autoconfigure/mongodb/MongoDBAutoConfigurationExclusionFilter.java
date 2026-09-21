@@ -3,6 +3,7 @@ package com.github.fmjsjx.myboot.autoconfigure.mongodb;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.autoconfigure.AutoConfigurationImportFilter;
 import org.springframework.boot.autoconfigure.AutoConfigurationMetadata;
 
@@ -29,7 +30,7 @@ public class MongoDBAutoConfigurationExclusionFilter implements AutoConfiguratio
     }
 
     @Override
-    public boolean[] match(String[] autoConfigurationClasses, AutoConfigurationMetadata autoConfigurationMetadata) {
+    public boolean @NonNull [] match(String[] autoConfigurationClasses, @NonNull AutoConfigurationMetadata autoConfigurationMetadata) {
         boolean[] matches = new boolean[autoConfigurationClasses.length];
         for (int i = 0; i < matches.length; i++) {
             var className = autoConfigurationClasses[i];
