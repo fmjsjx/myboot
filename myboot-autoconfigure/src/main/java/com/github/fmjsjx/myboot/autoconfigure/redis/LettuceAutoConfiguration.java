@@ -49,6 +49,7 @@ import org.springframework.util.CollectionUtils;
 @EnableConfigurationProperties(LettuceProperties.class)
 public class LettuceAutoConfiguration {
 
+    @SuppressWarnings("RedundantSlf4jDefinition")
     private static final Logger logger = LoggerFactory.getLogger(LettuceAutoConfiguration.class);
 
     /**
@@ -193,7 +194,7 @@ public class LettuceAutoConfiguration {
             var redisUri = RedisURI.create(properties.getHost(), properties.getPort());
             redisUri.setDatabase(properties.getDb());
             var credentials = RedisCredentials.just(properties.getUsername(), properties.getPassword());
-            redisUri.setCredentialsProvider(new StaticCredentialsProvider(credentials));
+            redisUri.setCredentialsProvider(CredentialsProvider.from(() -> credentials));
             return redisUri;
         }
 
@@ -301,7 +302,7 @@ public class LettuceAutoConfiguration {
             }
             var redisUri = RedisURI.create(properties.getHost(), properties.getPort());
             var credentials = RedisCredentials.just(properties.getUsername(), properties.getPassword());
-            redisUri.setCredentialsProvider(new StaticCredentialsProvider(credentials));
+            redisUri.setCredentialsProvider(CredentialsProvider.from(() -> credentials));
             return redisUri;
         }
 
